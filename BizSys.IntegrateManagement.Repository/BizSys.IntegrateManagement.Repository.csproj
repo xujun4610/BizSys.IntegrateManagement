@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1B0EAE49-1B29-4819-BA99-0BA6664A32E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BizSys.IntegrateManagement.Repository</RootNamespace>
+    <AssemblyName>BizSys.IntegrateManagement.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.SAPbobsCOM">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\Dll\Interop.SAPbobsCOM.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MagicBox.Log, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\DLL\MagicBox.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BOneCommon\SAP.cs" />
+    <Compile Include="MasterDataManagement\EmployeeRep.cs" />
+    <Compile Include="MasterDataManagement\MaterialsCategoryRep.cs" />
+    <Compile Include="MasterDataManagement\MaterialsGroupRep.cs" />
+    <Compile Include="MasterDataManagement\MaterialsRep.cs" />
+    <Compile Include="MasterDataManagement\OrganizationRep.cs" />
+    <Compile Include="MasterDataManagement\WarehouseRep.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseManagement\PurchaseDeliveryRep.cs" />
+    <Compile Include="PurchaseManagement\PurchaseInvoiceRep.cs" />
+    <Compile Include="ReceiptPaymentService\PaymentRep.cs" />
+    <Compile Include="ReceiptPaymentService\ReceiptsRep.cs" />
+    <Compile Include="SalesManagementService\InvoiceOrderRep.cs" />
+    <Compile Include="SalesManagementService\SalesDeliveryOrderRep.cs" />
+    <Compile Include="StockManagementService\MaterialsInventoryRep.cs" />
+    <Compile Include="Task\ErrorRecordRep.cs" />
+    <Compile Include="Task\TaskRep.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.Common\BizSys.IntegrateManagement.Common.csproj">
+      <Project>{4d274d71-f4a6-44fc-91ce-7a05c7b7501d}</Project>
+      <Name>BizSys.IntegrateManagement.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.Entiry\BizSys.IntegrateManagement.Entity.csproj">
+      <Project>{b2cea16f-4691-4bf0-be3c-ca568cf2f41d}</Project>
+      <Name>BizSys.IntegrateManagement.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.IRepository\BizSys.IntegrateManagement.IRepository.csproj">
+      <Project>{bde0d9a7-cfb2-4dc2-8aad-e9e34e0b2749}</Project>
+      <Name>BizSys.IntegrateManagement.IRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

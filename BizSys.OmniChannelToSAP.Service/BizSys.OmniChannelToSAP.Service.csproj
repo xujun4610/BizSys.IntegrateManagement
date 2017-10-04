@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{347C8521-63DA-48A2-826E-1E04E58177D6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BizSys.OmniChannelToSAP.Service</RootNamespace>
+    <AssemblyName>BizSys.OmniChannelToSAP.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.SAPbobsCOM">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\DLL\Interop.SAPbobsCOM.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MagicBox.Common">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\DLL\MagicBox.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MagicBox.Log">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\Dll\MagicBox.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="MagicBox.WindowsServices.Common">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\DLL\MagicBox.WindowsServices.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\Dll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="B1Common\BOneCommon.cs" />
+    <Compile Include="B1Common\ServiceCommon.cs" />
+    <Compile Include="B1UDO\B1ChildTable.cs" />
+    <Compile Include="B1UDO\B1Field.cs" />
+    <Compile Include="B1UDO\B1Fields.cs" />
+    <Compile Include="B1UDO\B1MainUDO.cs" />
+    <Compile Include="B1UDO\B1UDOConcreteProcesser.cs" />
+    <Compile Include="B1UDO\B1UDOProcesser.cs" />
+    <Compile Include="B1UDO\BoEnumerator.cs" />
+    <Compile Include="B1UDO\IB1ChildTable.cs" />
+    <Compile Include="B1UDO\IB1Field.cs" />
+    <Compile Include="B1UDO\IB1Fields.cs" />
+    <Compile Include="B1UDO\IB1MainUDO.cs" />
+    <Compile Include="Document\CustomerService\CustomerServiceApply.cs" />
+    <Compile Include="Document\MasterDataManagement\CapitalPlan.cs" />
+    <Compile Include="Document\MasterDataManagement\CostBudget.cs" />
+    <Compile Include="Document\MasterDataManagement\Customer.cs" />
+    <Compile Include="Document\MasterDataManagement\IncomeBudget.cs" />
+    <Compile Include="Document\MasterDataManagement\SalesPomotion.cs" />
+    <Compile Include="Document\MasterDataManagement\Supplier.cs" />
+    <Compile Include="Document\PurchaseManagement\CancelOrClosePurchaseOrder.cs" />
+    <Compile Include="Document\ReceiptPayment\CostReimbursement.cs" />
+    <Compile Include="Document\ReceiptPayment\ReceiptVerification.cs" />
+    <Compile Include="Document\ReceiptPayment\Reconciliation.cs" />
+    <Compile Include="Document\ReceiptPayment\Record.cs" />
+    <Compile Include="Document\SalesManagement\CancelOrCloseSalesOrder.cs" />
+    <Compile Include="Document\SalesManagement\SalesOrderByNiko.cs" />
+    <Compile Include="Document\StockManagement\GoodsIssue.cs" />
+    <Compile Include="Document\StockManagement\GoodsReceipt.cs" />
+    <Compile Include="Document\PurchaseManagement\PurchaseOrder.cs" />
+    <Compile Include="Document\PurchaseManagement\PurchaseReturn.cs" />
+    <Compile Include="Document\ReceiptPayment\Payment.cs" />
+    <Compile Include="Document\ReceiptPayment\Receipt.cs" />
+    <Compile Include="Document\SalesManagement\SalesOrder.cs" />
+    <Compile Include="Document\SalesManagement\SalesDeliveryOrder.cs" />
+    <Compile Include="Document\SalesManagement\SalesReturnOrder.cs" />
+    <Compile Include="Document\StockManagement\InventoryCounteOrder.cs" />
+    <Compile Include="Document\StockManagement\InventoryTransferApply.cs" />
+    <Compile Include="Document\StockManagement\InventoryUpdateOrder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="B1Common\SAP.cs" />
+    <Compile Include="Service\CustomerService\GetCustomerServiceApplyService.cs" />
+    <Compile Include="Service\MasterDataManagementService\GetCapitalPlanService.cs" />
+    <Compile Include="Service\MasterDataManagementService\GetCostBudgetService.cs" />
+    <Compile Include="Service\MasterDataManagementService\GetCustormerService.cs" />
+    <Compile Include="Service\MasterDataManagementService\GetIncomeBudgetService.cs" />
+    <Compile Include="Service\MasterDataManagementService\GetSalesPomotionService.cs" />
+    <Compile Include="Service\MasterDataManagementService\GetSupplierService.cs" />
+    <Compile Include="Service\PurchaseManagementServcie\GetCancelOrClosePurchaseOrderService.cs" />
+    <Compile Include="Service\PurchaseManagementServcie\GetPurchaseOrderService.cs" />
+    <Compile Include="Service\PurchaseManagementServcie\GetPurchaseReturnService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\GetCostReimbursementService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\GetPaymentApplyService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\GetReceiptService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\GetReceiptVerificationService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\GetReconciliationService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\GetRecordService.cs" />
+    <Compile Include="Service\SalesManagementServcie\CreatePaymentByB1Invoice.cs" />
+    <Compile Include="Service\SalesManagementServcie\GetCancelOrCloseSalesOrderService.cs" />
+    <Compile Include="Service\SalesManagementServcie\GetSalesDeliveryByB1Service.cs" />
+    <Compile Include="Service\SalesManagementServcie\GetSalesDeliveryOrderService.cs" />
+    <Compile Include="Service\SalesManagementServcie\GetSalesOrderByB1Service.cs" />
+    <Compile Include="Service\SalesManagementServcie\GetSalesOrderService.cs" />
+    <Compile Include="Service\SalesManagementServcie\GetSalesReturnOderService.cs" />
+    <Compile Include="Service\SalesOrderServiceByNiko\GetMaterialMasterDatasService.cs" />
+    <Compile Include="Service\SalesOrderServiceByNiko\GetSalesOrderByNikoService.cs" />
+    <Compile Include="Service\StockManagementServcie\GetGoodsIssueService.cs" />
+    <Compile Include="Service\StockManagementServcie\GetGoodsReceiptService.cs" />
+    <Compile Include="Service\StockManagementServcie\GetInventoryCountingService.cs" />
+    <Compile Include="Service\StockManagementServcie\GetInventoryTransferApplyService.cs" />
+    <Compile Include="Service\StockManagementServcie\GetInventoryUpdateService.cs" />
+    <Compile Include="Task\CustomerService\CustomerService.cs" />
+    <Compile Include="Task\SalesOrderByNiko\SalesOrderByNikoService.cs" />
+    <Compile Include="Task\StockManagement\StockManagementService.cs" />
+    <Compile Include="Task\MasterDataManagement\MasterDataService.cs" />
+    <Compile Include="Task\PurchaseManagement\PurchaseOrderService.cs" />
+    <Compile Include="Task\ReceiptPayment\PaymentService.cs" />
+    <Compile Include="Task\SalesManagement\SalesOrderService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.Common\BizSys.IntegrateManagement.Common.csproj">
+      <Project>{4d274d71-f4a6-44fc-91ce-7a05c7b7501d}</Project>
+      <Name>BizSys.IntegrateManagement.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.Entiry\BizSys.IntegrateManagement.Entity.csproj">
+      <Project>{b2cea16f-4691-4bf0-be3c-ca568cf2f41d}</Project>
+      <Name>BizSys.IntegrateManagement.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WindowsServicePlatform\MagicBox.WindowsServices.Performer.exe.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WindowsServicePlatform\ServiceConfig.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

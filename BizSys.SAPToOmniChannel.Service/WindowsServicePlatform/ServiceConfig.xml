@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<WindowsServices>
+  <Setting>
+    <ServiceName Name="SAPToOmniChannel"/>
+    <DisplayName Name="SAPToOmniChannel"/>
+    <Description Name="SAP从B1获取数据并生成单据"/>
+  </Setting>
+  <Services>
+    <Service UniqueID="0" Name="主数据" Assembly="BizSys.SAPToOmniChannel.Service.dll" Object="BizSys.SAPToOmniChannel.Service.Task.MasterDataManagement.MasterDataService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="1" Name="采购"   Assembly="BizSys.SAPToOmniChannel.Service.dll" Object="BizSys.SAPToOmniChannel.Service.Task.PurchaseManagement.PurchaseService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="2" Name="库存"   Assembly="BizSys.SAPToOmniChannel.Service.dll" Object="BizSys.SAPToOmniChannel.Service.Task.StockManagement.StockService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="3" Name="销售"   Assembly="BizSys.SAPToOmniChannel.Service.dll" Object="BizSys.SAPToOmniChannel.Service.Task.SalesManagement.SalesService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="4" Name="收付款" Assembly="BizSys.SAPToOmniChannel.Service.dll" Object="BizSys.SAPToOmniChannel.Service.Task.ReceiptPayment.ReceiptsPaymentService" FrequencyType="Second" Frequency="300"/>
+  </Services>
+</WindowsServices>

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5BB8F37E-1416-46A8-9EA8-9453488024DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BizSys.SAPToOmniChannel.Service</RootNamespace>
+    <AssemblyName>BizSys.SAPToOmniChannel.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.SAPbobsCOM">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\Dll\Interop.SAPbobsCOM.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MagicBox.Log">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\Dll\MagicBox.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="MagicBox.WindowsServices.Common">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\Dll\MagicBox.WindowsServices.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\Dll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="B1Common\IServiceCommon.cs" />
+    <Compile Include="B1Common\OrderCopy.cs" />
+    <Compile Include="B1Common\ServiceCommon.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ErrorRecordManagementService\PostErrorRecordService.cs" />
+    <Compile Include="Service\MasterDataManagementService\PostEmployeesService.cs" />
+    <Compile Include="Service\MasterDataManagementService\PostMaterialsCategoryService.cs" />
+    <Compile Include="Service\MasterDataManagementService\PostMaterialsGroupServcie.cs" />
+    <Compile Include="Service\MasterDataManagementService\PostMaterialsService.cs" />
+    <Compile Include="Service\MasterDataManagementService\PostOrganizationService.cs" />
+    <Compile Include="Service\MasterDataManagementService\PostWarehouseService.cs" />
+    <Compile Include="Service\PurchaseManagementService\PostPurchaseDeliveryService.cs" />
+    <Compile Include="Service\PurchaseManagementService\PostPurchaseInvoiceService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\PostPaymentService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\PostReceiptService.cs" />
+    <Compile Include="Service\ReceiptPaymentService\PostRecordService.cs" />
+    <Compile Include="Service\SalesManagementService\PostInvoiceService.cs" />
+    <Compile Include="Service\SalesManagementService\PostSalesDeliveryOrderService.cs" />
+    <Compile Include="Service\StockManagementService\PostGoodsIssueService.cs" />
+    <Compile Include="Service\StockManagementService\PostGoodsReceiptService.cs" />
+    <Compile Include="Service\StockManagementService\PostMaterialsInventoryService.cs" />
+    <Compile Include="Task\ErrorRecordManagement\ErrorRecordService.cs" />
+    <Compile Include="Task\MasterDataManagement\MasterDataService.cs" />
+    <Compile Include="Task\PurchaseManagement\PurchaseService.cs" />
+    <Compile Include="Task\ReceiptPayment\ReceiptsPaymentService.cs" />
+    <Compile Include="Task\SalesManagement\SalesService.cs" />
+    <Compile Include="Task\StockManagement\StockService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="WindowsServicePlatform\MagicBox.WindowsServices.Performer.exe.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sql\AVA_VIEW_CZ_ODLN.sql" />
+    <Content Include="Sql\AVA_VIEW_CZ_ORDR.sql" />
+    <Content Include="Sql\tasklist.sql" />
+    <Content Include="Sql\Tasks.sql" />
+    <Content Include="WindowsServicePlatform\ServiceConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.Common\BizSys.IntegrateManagement.Common.csproj">
+      <Project>{4d274d71-f4a6-44fc-91ce-7a05c7b7501d}</Project>
+      <Name>BizSys.IntegrateManagement.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.Entiry\BizSys.IntegrateManagement.Entity.csproj">
+      <Project>{b2cea16f-4691-4bf0-be3c-ca568cf2f41d}</Project>
+      <Name>BizSys.IntegrateManagement.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.IRepository\BizSys.IntegrateManagement.IRepository.csproj">
+      <Project>{bde0d9a7-cfb2-4dc2-8aad-e9e34e0b2749}</Project>
+      <Name>BizSys.IntegrateManagement.IRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BizSys.IntegrateManagement.Repository\BizSys.IntegrateManagement.Repository.csproj">
+      <Project>{1b0eae49-1b29-4819-ba99-0ba6664a32e5}</Project>
+      <Name>BizSys.IntegrateManagement.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

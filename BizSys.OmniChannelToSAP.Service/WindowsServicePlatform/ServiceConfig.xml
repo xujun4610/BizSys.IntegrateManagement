@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<WindowsServices>
+  <Setting>
+    <ServiceName Name="OmniChannelToSAP"/>
+    <DisplayName Name="OmniChannelToSAP"/>
+    <Description Name="SAP从全渠道获取数据并生成单据"/>
+  </Setting>
+  <Services>
+    <Service UniqueID="0" Name="主数据" Assembly="BizSys.OmniChannelToSAP.Service.dll" Object="BizSys.OmniChannelToSAP.Service.Task.MaterialsManagement.MasterDataService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="1" Name="采购"   Assembly="BizSys.OmniChannelToSAP.Service.dll" Object="BizSys.OmniChannelToSAP.Service.Task.PurchaseManagement.PurchaseOrderService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="2" Name="库存"   Assembly="BizSys.OmniChannelToSAP.Service.dll" Object="BizSys.OmniChannelToSAP.Service.Task.StockManagement.StockManagementService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="3" Name="销售"   Assembly="BizSys.OmniChannelToSAP.Service.dll" Object="BizSys.OmniChannelToSAP.Service.Task.SalesManagement.SalesOrderService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="4" Name="收付款" Assembly="BizSys.OmniChannelToSAP.Service.dll" Object="BizSys.OmniChannelToSAP.Service.Task.ReceiptPayment.PaymentService" FrequencyType="Second" Frequency="300"/>
+    <Service UniqueID="5" Name="客户服务" Assembly="BizSys.OmniChannelToSAP.Service.dll" Object="BizSys.OmniChannelToSAP.Service.Task.CustomerService.CustomerService" FrequencyType="Second" Frequency="300"/>
+
+  </Services>
+</WindowsServices>

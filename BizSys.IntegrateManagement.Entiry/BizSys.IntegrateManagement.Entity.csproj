@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BizSys.IntegrateManagement.Entiry</RootNamespace>
+    <AssemblyName>BizSys.IntegrateManagement.Entiry</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MagicBox.Log">
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\Dll\MagicBox.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\IBaseResultObjects.cs" />
+    <Compile Include="Base\IBaseRootObjects.cs" />
+    <Compile Include="Base\UserFields.cs" />
+    <Compile Include="BatchNumber\BatchNumber.cs" />
+    <Compile Include="BatchNumber\DistributionRule.cs" />
+    <Compile Include="CallBack\CallBackResult.cs" />
+    <Compile Include="CallBack\CallBackRootObject.cs" />
+    <Compile Include="Criteria\Criteria.cs" />
+    <Compile Include="CustomerService\CustomerServiceApply\CustomerServiceApplyRootObject.cs" />
+    <Compile Include="CustomerService\CustomerServiceApply\Informations.cs" />
+    <Compile Include="CustomerService\CustomerServiceApply\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\AccountReceivable\AccountReceivableRootObject.cs" />
+    <Compile Include="MasterDataManagement\AccountReceivable\Informations.cs" />
+    <Compile Include="MasterDataManagement\AccountReceivable\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\CapitalPlan\CapitalPlanItems.cs" />
+    <Compile Include="MasterDataManagement\CapitalPlan\CapitalPlanRootObject.cs" />
+    <Compile Include="MasterDataManagement\CapitalPlan\Informations.cs" />
+    <Compile Include="MasterDataManagement\CapitalPlan\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\CostBudget\CostBudgetItems.cs" />
+    <Compile Include="MasterDataManagement\CostBudget\CostBudgetRootObject.cs" />
+    <Compile Include="MasterDataManagement\CostBudget\Informations.cs" />
+    <Compile Include="MasterDataManagement\CostBudget\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\Customer\CustomerItems.cs" />
+    <Compile Include="MasterDataManagement\Customer\CustomerRootObject.cs" />
+    <Compile Include="MasterDataManagement\Customer\Informations.cs" />
+    <Compile Include="MasterDataManagement\Customer\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\DepositReceived\DepositReceivedRootObject.cs" />
+    <Compile Include="MasterDataManagement\DepositReceived\Informations.cs" />
+    <Compile Include="MasterDataManagement\DepositReceived\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\Employee\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\Employee\Informations.cs" />
+    <Compile Include="MasterDataManagement\Employee\EmployeeRootObject.cs" />
+    <Compile Include="MasterDataManagement\IncomeBudget\InComeBudgetItems.cs" />
+    <Compile Include="MasterDataManagement\IncomeBudget\IncomeBudgetRootObject.cs" />
+    <Compile Include="MasterDataManagement\IncomeBudget\Informations.cs" />
+    <Compile Include="MasterDataManagement\IncomeBudget\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\MaterialsCategory\Informations.cs" />
+    <Compile Include="MasterDataManagement\MaterialsCategory\MaterialsCategoryRootObject.cs" />
+    <Compile Include="MasterDataManagement\MaterialsCategory\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\MaterialsGroup\Informations.cs" />
+    <Compile Include="MasterDataManagement\MaterialsGroup\MaterialsGroupRootObject.cs" />
+    <Compile Include="MasterDataManagement\MaterialsGroup\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\OrganizationDepartments\Informations.cs" />
+    <Compile Include="MasterDataManagement\OrganizationDepartments\OrganizationDepartmentsRootObject.cs" />
+    <Compile Include="MasterDataManagement\OrganizationDepartments\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\SalesPomotion\Informations.cs" />
+    <Compile Include="MasterDataManagement\SalesPomotion\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\SalesPomotion\SalesPomotionByBoRootObject.cs" />
+    <Compile Include="MasterDataManagement\SalesPomotion\SalesPromotionJoinConditions.cs" />
+    <Compile Include="MasterDataManagement\SalesPomotion\SalesPromotionRegulationss.cs" />
+    <Compile Include="MasterDataManagement\Supplier\Informations.cs" />
+    <Compile Include="MasterDataManagement\Supplier\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\Supplier\SupplierRootObject.cs" />
+    <Compile Include="MasterDataManagement\Warehouse\Informations.cs" />
+    <Compile Include="MasterDataManagement\Warehouse\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\Warehouse\WarehouseRootObject.cs" />
+    <Compile Include="PurchaseManagement\PurchaseInvoice\Informations.cs" />
+    <Compile Include="PurchaseManagement\PurchaseInvoice\PayableItems .cs" />
+    <Compile Include="PurchaseManagement\PurchaseInvoice\PurchaseInvoiceRootObject.cs" />
+    <Compile Include="PurchaseManagement\PurchaseInvoice\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\CostReimbursement\CostReimbursementLines.cs" />
+    <Compile Include="ReceiptPayment\CostReimbursement\CostReimbursementRootObject.cs" />
+    <Compile Include="ReceiptPayment\CostReimbursement\Informations.cs" />
+    <Compile Include="ReceiptPayment\CostReimbursement\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\InvoiceIssuable\Informations.cs" />
+    <Compile Include="ReceiptPayment\InvoiceIssuable\InvoiceIssuableRootObject.cs" />
+    <Compile Include="ReceiptPayment\InvoiceIssuable\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\InvoiceReceivable\Informations.cs" />
+    <Compile Include="ReceiptPayment\InvoiceReceivable\InvoiceReceivableRootObject.cs" />
+    <Compile Include="ReceiptPayment\InvoiceReceivable\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\PaymentApply\Informations.cs" />
+    <Compile Include="ReceiptPayment\PaymentApply\PaymentApplyItems.cs" />
+    <Compile Include="ReceiptPayment\PaymentApply\PaymentApplyRootObject.cs" />
+    <Compile Include="ReceiptPayment\PaymentApply\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\ReceiptVerification\Informations.cs" />
+    <Compile Include="ReceiptPayment\ReceiptVerification\ReceiptVerificationRootObject.cs" />
+    <Compile Include="ReceiptPayment\ReceiptVerification\ReceiptVItems.cs" />
+    <Compile Include="ReceiptPayment\ReceiptVerification\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\Reconciliation\Informations.cs" />
+    <Compile Include="ReceiptPayment\Reconciliation\ReconciliationLine1s.cs" />
+    <Compile Include="ReceiptPayment\Reconciliation\ReconciliationLine2s.cs" />
+    <Compile Include="ReceiptPayment\Reconciliation\ReconciliationRootObject.cs" />
+    <Compile Include="ReceiptPayment\Reconciliation\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\Record\Informations.cs" />
+    <Compile Include="ReceiptPayment\Record\RecordRootObject.cs" />
+    <Compile Include="ReceiptPayment\Record\ResultObjects.cs" />
+    <Compile Include="SalesManagement\InvoiceOrder\Informations.cs" />
+    <Compile Include="SalesManagement\InvoiceOrder\InvoiceOrderRootObject.cs" />
+    <Compile Include="SalesManagement\InvoiceOrder\ReceivableItems.cs" />
+    <Compile Include="SalesManagement\InvoiceOrder\ResultObjects.cs" />
+    <Compile Include="SalesManagement\SalesOrderByNiko\Informations.cs" />
+    <Compile Include="SalesManagement\SalesOrderByNiko\ResultObjects.cs" />
+    <Compile Include="SalesManagement\SalesOrderByNiko\SalesOrderItems.cs" />
+    <Compile Include="SalesManagement\SalesOrderByNiko\SalesOrderRootObject.cs" />
+    <Compile Include="SalesManagement\SalesOrderByNiko\UserFieldsItem.cs" />
+    <Compile Include="SalesManagement\SalesOrder\UserFieldsItem.cs" />
+    <Compile Include="StockManagement\GoodsIssue\GoodsIssueLines.cs" />
+    <Compile Include="StockManagement\GoodsIssue\GoodsIssueRootObject.cs" />
+    <Compile Include="StockManagement\GoodsIssue\Informations.cs" />
+    <Compile Include="StockManagement\GoodsIssue\ResultObjects.cs" />
+    <Compile Include="StockManagement\GoodsReceipt\GoodsReceiptLines.cs" />
+    <Compile Include="StockManagement\GoodsReceipt\GoodsReceiptRootObject.cs" />
+    <Compile Include="StockManagement\GoodsReceipt\Informations.cs" />
+    <Compile Include="StockManagement\GoodsReceipt\ResultObjects.cs" />
+    <Compile Include="StockManagement\InventoryCounting\Informations.cs" />
+    <Compile Include="StockManagement\InventoryCounting\InventoryCounteRootObject.cs" />
+    <Compile Include="StockManagement\InventoryCounting\InventoryCountingLines.cs" />
+    <Compile Include="StockManagement\InventoryCounting\ResultObjects.cs" />
+    <Compile Include="MasterDataManagement\Materials\Informations.cs" />
+    <Compile Include="MasterDataManagement\Materials\MaterialsRootObject.cs" />
+    <Compile Include="MasterDataManagement\Materials\ResultObjects.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseManagement\PurchaseApplyOrder\RootObject.cs" />
+    <Compile Include="PurchaseManagement\PurchaseDeliveryOrder\Informations.cs" />
+    <Compile Include="PurchaseManagement\PurchaseDeliveryOrder\PurchaseDeliveryItems .cs" />
+    <Compile Include="PurchaseManagement\PurchaseDeliveryOrder\PurchaseDeliveryOrderRootObject.cs" />
+    <Compile Include="PurchaseManagement\PurchaseDeliveryOrder\ResultObjects.cs" />
+    <Compile Include="PurchaseManagement\PurchaseOrder\Informations.cs" />
+    <Compile Include="PurchaseManagement\PurchaseOrder\PurchaseOrderItems.cs" />
+    <Compile Include="PurchaseManagement\PurchaseOrder\PurchaseOrderRootObject.cs" />
+    <Compile Include="PurchaseManagement\PurchaseOrder\ResultObjects.cs" />
+    <Compile Include="PurchaseManagement\PurchaseReturnOrder\Informations.cs" />
+    <Compile Include="PurchaseManagement\PurchaseReturnOrder\PurchaseReturnItems.cs" />
+    <Compile Include="PurchaseManagement\PurchaseReturnOrder\PurchaseReturnRootObject.cs" />
+    <Compile Include="PurchaseManagement\PurchaseReturnOrder\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\Payment\Informations.cs" />
+    <Compile Include="ReceiptPayment\Payment\PaymentItems.cs" />
+    <Compile Include="ReceiptPayment\Payment\PaymentRootObject.cs" />
+    <Compile Include="ReceiptPayment\Payment\ResultObjects.cs" />
+    <Compile Include="ReceiptPayment\Receipt\Informations.cs" />
+    <Compile Include="ReceiptPayment\Receipt\ReceiptItems.cs" />
+    <Compile Include="ReceiptPayment\Receipt\ReceiptRootObject.cs" />
+    <Compile Include="ReceiptPayment\Receipt\ResultObjects.cs" />
+    <Compile Include="Result\Enumerator.cs" />
+    <Compile Include="Result\ErrorOrder.cs" />
+    <Compile Include="Result\ErrorOrderList.cs" />
+    <Compile Include="Result\Result.cs" />
+    <Compile Include="SalesManagement\SalesDeliveryOrder\Informations.cs" />
+    <Compile Include="SalesManagement\SalesDeliveryOrder\ResultObjects.cs" />
+    <Compile Include="SalesManagement\SalesDeliveryOrder\SalesDeliveryItems.cs" />
+    <Compile Include="SalesManagement\SalesDeliveryOrder\SalesDeliveryOrderRootObject.cs" />
+    <Compile Include="SalesManagement\SalesOrder\Informations.cs" />
+    <Compile Include="SalesManagement\SalesOrder\ResultObjects.cs" />
+    <Compile Include="SalesManagement\SalesOrder\SalesOrderItems.cs" />
+    <Compile Include="SalesManagement\SalesOrder\SalesOrderRootObject.cs" />
+    <Compile Include="SalesManagement\SalesReturnOrder\Informations.cs" />
+    <Compile Include="SalesManagement\SalesReturnOrder\ResultObjects.cs" />
+    <Compile Include="SalesManagement\SalesReturnOrder\SalesReturnItems.cs" />
+    <Compile Include="SalesManagement\SalesReturnOrder\SalesReturnOrderRootObject.cs" />
+    <Compile Include="StockManagement\InventoryTransferApply\Informations.cs" />
+    <Compile Include="StockManagement\InventoryTransferApply\InventoryTransferApplyRootObject.cs" />
+    <Compile Include="StockManagement\InventoryTransferApply\InventoryTransferLines.cs" />
+    <Compile Include="StockManagement\InventoryTransferApply\ResultObjects.cs" />
+    <Compile Include="StockManagement\InventoryUpdate\Informations.cs" />
+    <Compile Include="StockManagement\InventoryUpdate\InventoryUpdateLines.cs" />
+    <Compile Include="StockManagement\InventoryUpdate\InventoryUpdateRootObject.cs" />
+    <Compile Include="StockManagement\InventoryUpdate\ResultObjects.cs" />
+    <Compile Include="StockManagement\MaterialsInventory\Informations.cs" />
+    <Compile Include="StockManagement\MaterialsInventory\MaterialsInventoryRootObject.cs" />
+    <Compile Include="StockManagement\MaterialsInventory\ResultObjects.cs" />
+    <Compile Include="Task\ErrorRecord.cs" />
+    <Compile Include="Task\Informations.cs" />
+    <Compile Include="Task\ResultObjects.cs" />
+    <Compile Include="Task\TaskRootObjects.cs" />
+    <Compile Include="Token\ResultObjects.cs" />
+    <Compile Include="Token\TokenRootObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

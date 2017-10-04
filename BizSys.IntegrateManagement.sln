@@ -1,0 +1,102 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.IntegrateManagement.Entity", "BizSys.IntegrateManagement.Entiry\BizSys.IntegrateManagement.Entity.csproj", "{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{03CA1DF2-9E8F-4F99-AB27-9AAF8B87EEDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.OmniChannelToSAP.Service", "BizSys.OmniChannelToSAP.Service\BizSys.OmniChannelToSAP.Service.csproj", "{347C8521-63DA-48A2-826E-1E04E58177D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.IntegrateManagement.ServiceTest", "BizSys.IntegrateManagement.ServiceTest\BizSys.IntegrateManagement.ServiceTest.csproj", "{BE415590-E916-4DC9-9111-FE4A030D89A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.IntegrateManagement.Common", "BizSys.IntegrateManagement.Common\BizSys.IntegrateManagement.Common.csproj", "{4D274D71-F4A6-44FC-91CE-7A05C7B7501D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.SAPToOmniChannel.Service", "BizSys.SAPToOmniChannel.Service\BizSys.SAPToOmniChannel.Service.csproj", "{5BB8F37E-1416-46A8-9EA8-9453488024DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.IntegrateManagement.ServiceUnitTest", "BizSys.IntegrateManagement.UServiceTest\BizSys.IntegrateManagement.ServiceUnitTest.csproj", "{B247E4CE-1C17-4877-AC69-21F9ABA23EEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.IntegrateManagement.IRepository", "BizSys.IntegrateManagement.IRepository\BizSys.IntegrateManagement.IRepository.csproj", "{BDE0D9A7-CFB2-4DC2-8AAD-E9E34E0B2749}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.IntegrateManagement.Repository", "BizSys.IntegrateManagement.Repository\BizSys.IntegrateManagement.Repository.csproj", "{1B0EAE49-1B29-4819-BA99-0BA6664A32E5}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 9
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfs.avatech.com.cn:8080/tfs/sbo_project
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = BizSys.OmniChannelToSAP.Service\\BizSys.OmniChannelToSAP.Service.csproj
+		SccProjectTopLevelParentUniqueName1 = BizSys.IntegrateManagement.sln
+		SccProjectName1 = BizSys.OmniChannelToSAP.Service
+		SccLocalPath1 = BizSys.OmniChannelToSAP.Service
+		SccProjectUniqueName2 = BizSys.IntegrateManagement.ServiceTest\\BizSys.IntegrateManagement.ServiceTest.csproj
+		SccProjectName2 = BizSys.IntegrateManagement.ServiceTest
+		SccLocalPath2 = BizSys.IntegrateManagement.ServiceTest
+		SccProjectUniqueName3 = BizSys.IntegrateManagement.Common\\BizSys.IntegrateManagement.Common.csproj
+		SccProjectName3 = BizSys.IntegrateManagement.Common
+		SccLocalPath3 = BizSys.IntegrateManagement.Common
+		SccProjectUniqueName4 = BizSys.SAPToOmniChannel.Service\\BizSys.SAPToOmniChannel.Service.csproj
+		SccProjectTopLevelParentUniqueName4 = BizSys.IntegrateManagement.sln
+		SccProjectName4 = BizSys.SAPToOmniChannel.Service
+		SccLocalPath4 = BizSys.SAPToOmniChannel.Service
+		SccProjectUniqueName5 = BizSys.IntegrateManagement.Entiry\\BizSys.IntegrateManagement.Entity.csproj
+		SccProjectName5 = BizSys.IntegrateManagement.Entiry
+		SccLocalPath5 = BizSys.IntegrateManagement.Entiry
+		SccProjectUniqueName6 = BizSys.IntegrateManagement.UServiceTest\\BizSys.IntegrateManagement.ServiceUnitTest.csproj
+		SccProjectName6 = BizSys.IntegrateManagement.UServiceTest
+		SccLocalPath6 = BizSys.IntegrateManagement.UServiceTest
+		SccProjectUniqueName7 = BizSys.IntegrateManagement.IRepository\\BizSys.IntegrateManagement.IRepository.csproj
+		SccProjectName7 = BizSys.IntegrateManagement.IRepository
+		SccLocalPath7 = BizSys.IntegrateManagement.IRepository
+		SccProjectUniqueName8 = BizSys.IntegrateManagement.Repository\\BizSys.IntegrateManagement.Repository.csproj
+		SccProjectName8 = BizSys.IntegrateManagement.Repository
+		SccLocalPath8 = BizSys.IntegrateManagement.Repository
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{347C8521-63DA-48A2-826E-1E04E58177D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{347C8521-63DA-48A2-826E-1E04E58177D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{347C8521-63DA-48A2-826E-1E04E58177D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{347C8521-63DA-48A2-826E-1E04E58177D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE415590-E916-4DC9-9111-FE4A030D89A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE415590-E916-4DC9-9111-FE4A030D89A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE415590-E916-4DC9-9111-FE4A030D89A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE415590-E916-4DC9-9111-FE4A030D89A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D274D71-F4A6-44FC-91CE-7A05C7B7501D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D274D71-F4A6-44FC-91CE-7A05C7B7501D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D274D71-F4A6-44FC-91CE-7A05C7B7501D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D274D71-F4A6-44FC-91CE-7A05C7B7501D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB8F37E-1416-46A8-9EA8-9453488024DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB8F37E-1416-46A8-9EA8-9453488024DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB8F37E-1416-46A8-9EA8-9453488024DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB8F37E-1416-46A8-9EA8-9453488024DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B247E4CE-1C17-4877-AC69-21F9ABA23EEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B247E4CE-1C17-4877-AC69-21F9ABA23EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B247E4CE-1C17-4877-AC69-21F9ABA23EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B247E4CE-1C17-4877-AC69-21F9ABA23EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDE0D9A7-CFB2-4DC2-8AAD-E9E34E0B2749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDE0D9A7-CFB2-4DC2-8AAD-E9E34E0B2749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDE0D9A7-CFB2-4DC2-8AAD-E9E34E0B2749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDE0D9A7-CFB2-4DC2-8AAD-E9E34E0B2749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B0EAE49-1B29-4819-BA99-0BA6664A32E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B0EAE49-1B29-4819-BA99-0BA6664A32E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B0EAE49-1B29-4819-BA99-0BA6664A32E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B0EAE49-1B29-4819-BA99-0BA6664A32E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{347C8521-63DA-48A2-826E-1E04E58177D6} = {03CA1DF2-9E8F-4F99-AB27-9AAF8B87EEDA}
+		{5BB8F37E-1416-46A8-9EA8-9453488024DC} = {03CA1DF2-9E8F-4F99-AB27-9AAF8B87EEDA}
+	EndGlobalSection
+EndGlobal
