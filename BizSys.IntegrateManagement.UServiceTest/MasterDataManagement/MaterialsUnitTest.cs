@@ -21,7 +21,7 @@ namespace BizSys.IntegrateManagement.UServiceTest.MasterDataManagement
         [TestMethod]
         public async System.Threading.Tasks.Task TestGetToken()
         {
-            string token = await BaseHttpClient.GetToken();
+            string token = await BaseHttpClient.GetTokenAsync();
         }
 
         [TestMethod]

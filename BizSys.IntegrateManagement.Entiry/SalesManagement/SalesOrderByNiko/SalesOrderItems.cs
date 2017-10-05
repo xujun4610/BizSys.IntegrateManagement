@@ -33,7 +33,7 @@ namespace BizSys.IntegrateManagement.Entiry.SalesManagement.SalesOrderByNiko
         public string Deleted { get; set; }
         public string DeliveredQuantity { get; set; }
         public string DeliveryDate { get; set; }
-        public int DiscountPerLine { get; set; }
+        public string DiscountPerLine { get; set; }
         public string DistributionRule1 { get; set; }
         public string DistributionRule2 { get; set; }
         public string DistributionRule3 { get; set; }

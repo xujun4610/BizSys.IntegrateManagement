@@ -23,7 +23,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             rs.DoQuery(string.Format(sql, OwnerCode));
             if (rs.RecordCount < 1) throw new ArgumentNullException("根据提供数据所有者无法找到B1中对应的员工主数据代码。");
             if (rs.RecordCount > 1) throw new ArgumentException("根据提供的数据所有者在B1找到多条员工主数据代码。");
-            while(!rs.EoF)
+            while (!rs.EoF)
             {
                 BOneOwnerCode = rs.Fields.Item("EmpId").Value;
                 rs.MoveNext();
@@ -74,7 +74,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 }
                 return BOneSlpCode;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -146,7 +146,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         /// <param name="fromWhs"></param>
         /// <param name="toWhs"></param>
         /// <returns></returns>
-        public static bool IsTheSameBranch(string fromWhs,string toWhs)
+        public static bool IsTheSameBranch(string fromWhs, string toWhs)
         {
             if (string.IsNullOrEmpty(fromWhs))
                 throw new ArgumentNullException("发出仓库为空，无法确定分支.");
@@ -171,7 +171,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                     return true;
                 return false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -198,7 +198,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                     return true;
                 return false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -214,7 +214,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         /// <param name="tableName">单据表名称（主表）</param>
         /// <param name="DocEntry">全渠道单据号</param>
         /// <returns></returns>
-        public static bool IsExistDocument(string tableName,string DocEntry,out string B1DocEntry)
+        public static bool IsExistDocument(string tableName, string DocEntry, out string B1DocEntry)
         {
             bool IsExistDocument = false;
             B1DocEntry = default(String);
@@ -231,9 +231,9 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 }
                 return IsExistDocument;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw ex.InnerException; 
+                throw ex.InnerException;
             }
             finally
             {
@@ -258,11 +258,11 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             {
                 string sql = string.Format(@"select DocEntry,DocStatus from {0} where  U_IM_DocEntry='{1}'", tableName, DocEntry);
                 res.DoQuery(sql);
-                if (res.RecordCount >= 1 )
+                if (res.RecordCount >= 1)
                 {
                     DocStatus = res.Fields.Item("DocStatus").Value;
                     B1DocEntry = res.Fields.Item("DocEntry").Value;
-                    if(DocStatus == "C")
+                    if (DocStatus == "C")
                         IsExistDocument = true;
                 }
                 return IsExistDocument;
@@ -278,7 +278,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         }
 
 
-        public static bool IsExistOJDT(string DocEntry,string DocType, out string B1DocEntry)
+        public static bool IsExistOJDT(string DocEntry, string DocType, out string B1DocEntry)
         {
             bool IsExistDocument = false;
             B1DocEntry = default(String);
@@ -313,7 +313,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry from {0} where U_IM_DocEntry = '{1}' and U_ChannalDocType = '{2}'", tableName, DocEntry,DocType);
+                string sql = string.Format(@"select DocEntry from {0} where U_IM_DocEntry = '{1}' and U_ChannalDocType = '{2}'", tableName, DocEntry, DocType);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {
@@ -335,7 +335,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         }
 
 
-        public static bool IsExistDraft(string objType,string OMNIDocEntry, out string B1DocEntry)
+        public static bool IsExistDraft(string objType, string OMNIDocEntry, out string B1DocEntry)
         {
             bool IsExistDocument = false;
             B1DocEntry = default(String);
@@ -376,7 +376,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry from OPDF where U_IM_DocEntry = '{0}'",  OMNIDocEntry);
+                string sql = string.Format(@"select DocEntry from OPDF where U_IM_DocEntry = '{0}'", OMNIDocEntry);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {
@@ -420,7 +420,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             }
 
 
-            
+
         }
 
         public static string GetAddressCode(string ProviceName)
@@ -429,7 +429,8 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             SAPbobsCOM.IRecordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
             try
             {
-                string sql = $@"select Code from OCST where Name = '{ProviceName}' ";
+                var newProvinceName = ProviceName.Replace("省", "").Replace("特别行政区", "").Replace("自治区", "");
+                string sql = $@"select Code from OCST where Name like '%{newProvinceName}%' ";
                 res.DoQuery(sql);
                 return res.Fields.Item("Code").Value.ToString();
             }
@@ -449,7 +450,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         /// <param name="itemCode"></param>
         /// <param name="whsCode"></param>
         /// <returns></returns>
-        public static List<BatchNumber> GetBatchByItemAndWhsCode(string itemCode,string whsCode)
+        public static List<BatchNumber> GetBatchByItemAndWhsCode(string itemCode, string whsCode)
         {
             SAPbobsCOM.IRecordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
             try
@@ -462,7 +463,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                                 WHERE T1.ITEMCODE = '{itemCode}' AND T1.WHSCODE = '{whsCode}'
                                 ORDER BY T1.SysNumber";
                 res.DoQuery(sql);
-                while(!res.EoF)
+                while (!res.EoF)
                 {
                     BatchNumber batch = new BatchNumber();
                     batch.BatchID = res.Fields.Item("DistNumber").Value;
@@ -472,7 +473,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 }
                 return batchList;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -482,7 +483,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             }
         }
 
-        public static DistributionRule GetDistributionRule(string itemCode,string userObjKey)
+        public static DistributionRule GetDistributionRule(string itemCode, string userObjKey)
         {
             SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
             try
@@ -503,12 +504,12 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 dbRule.OcrCode2 = res.Fields.Item("Member").Value;
                 sql = $"select U_CateCode from OITM where ItemCode = '{itemCode}'";
                 res.DoQuery(sql);
-                if(res.RecordCount != 1)
+                if (res.RecordCount != 1)
                     throw new Exception("根据物料信息不能找到唯一品类信息");
                 dbRule.OcrCode3 = res.Fields.Item("U_CateCode").Value;
                 return dbRule;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -518,7 +519,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             }
         }
 
-      
+
         /// <summary>
         /// 根据usercode获取分支
         /// </summary>
@@ -588,13 +589,14 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         /// 根据税率获取税码 
         /// </summary>
         /// <param name="rate"></param>
+        /// <param name="TaxType">I/O</param>
         /// <returns></returns>
-        public static string GetTaxByRate(double rate,string TaxType)
+        public static string GetTaxByRate(double rate, string TaxType)
         {
             SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
             try
             {
-                string sql = $" select Code from AVTG where Category = '{TaxType}' and Rate = {rate}";
+                string sql = $" select Code from OVTG where Category = '{TaxType}' and Rate = {rate}";
                 res.DoQuery(sql);
                 if (res.RecordCount != 1)
                     throw new Exception("根据税率无法找到税码，请检查。");
@@ -689,6 +691,213 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             }
         }
 
-       
+
+        /// <summary>
+        /// 获取联系人编号
+        /// </summary>
+        /// <param name="CardCode"></param>
+        /// <param name="ContractName"></param>
+        /// <returns></returns>
+        public static string GetBPContractCode(string CardCode, string ContractName)
+        {
+            SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"select CntctCode from OCPR where CardCode = '{CardCode}' and Name = '{ContractName}' ";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    throw new Exception($"未能找到[{CardCode}]下[{ContractName}]的信息。");
+                return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+        /// <summary>
+        /// B1单据序列号
+        /// </summary>
+        /// <param name="B1ObjectCode"></param>
+        /// <returns></returns>
+        public static int GetB1DocEntrySeries(string B1ObjectCode)
+        {
+            SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"select Top 1 DfltSeries from ONNM where ObjectCode = '{B1ObjectCode}'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    return 0;
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+        /// <summary>
+        /// 获取业务伙伴组
+        /// </summary>
+        /// <param name="BusinessPartenerGroupName"></param>
+        /// <returns></returns>
+        public static int GetBusinessPartnerGroupObjectKey(string BusinessPartenerGroupName)
+        {
+            SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"SELECT TOP 1 GroupCode FROM OCRG WHERE GroupName = '{BusinessPartenerGroupName}'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    throw new Exception($"未能找到[{BusinessPartenerGroupName}]业务伙伴组编号");
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+        /// <summary>
+        /// 获取过账期间状态
+        /// </summary>
+        /// <param name="EntryFieldName">B1单据日期字段</param>
+        /// <param name="EntryDate">B1单据日期</param>
+        /// <returns></returns>
+        public static string GetCurrentPeriodStatus(string EntryFieldName, DateTime EntryDate)
+        {
+            string FormatEntryDate = EntryDate.ToShortDateString();
+            string str = "F_";
+            string str2 = "T_";
+            SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                switch (EntryFieldName)
+                {
+                    case "TaxDate":
+                        str = str + "TaxDate";
+                        str2 = str2 + "TaxDate";
+                        break;
+
+                    case "DocDueDate":
+                        str = str + "DueDate";
+                        str2 = str2 + "DueDate";
+                        break;
+
+                    case "DocDate":
+                        str = str + "RefDate";
+                        str2 = str2 + "RefDate";
+                        break;
+
+                    default:
+                        str = str + "TaxDate";
+                        str2 = str2 + "TaxDate";
+                        break;
+                }
+                string queryStr = $"select Top 1 PeriodStat from [dbo].[OFPR] where  {str}  <= '{FormatEntryDate}' and  {str2}  >= '{FormatEntryDate}' ";
+                res.DoQuery(queryStr);
+                if (res.RecordCount == 0)
+                {
+                    throw new Exception($"没有该过账期间，请在B1中维护[{EntryDate}]。");
+                }
+                else
+                {
+                    return res.Fields.Item(0).Value;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+        /// <summary>
+        /// 根据税率找到客户关税
+        /// </summary>
+        /// <param name="CustomDutyName"></param>
+        /// <returns></returns>
+        public static string GetCustomDutyByRate(string CustomDutyName)
+        {
+            SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $" select Top 1 CstGrpCode from OARG where CstGrpName = '{CustomDutyName}'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    throw new Exception("根据名称无法找到关税号码，请检查。");
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+        /// <summary>
+        /// 获取 业务伙伴区域编号
+        /// </summary>
+        /// <param name="AreaDescription">地区描述</param>
+        /// <returns></returns>
+        public static int GetTerritoryId(string AreaDescription)
+        {
+            SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"SELECT TOP 1 territryID FROM [OTER] WHERE descript = '{AreaDescription}'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    throw new Exception($"未能找到[{AreaDescription}]区域的编号");
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+        public static bool IsExistWarehouse(string WhsCode)
+        {
+            SAPbobsCOM.Warehouses whs = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oWarehouses);
+            try
+            {
+                return whs.GetByKey(WhsCode);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(whs);
+            }
+        }
     }
 }

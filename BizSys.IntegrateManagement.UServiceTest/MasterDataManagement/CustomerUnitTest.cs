@@ -17,7 +17,7 @@ namespace BizSys.IntegrateManagement.ServiceUnitTest.MasterDataManagement
         [TestMethod]
         public void TestToken()
         {
-            string resultJson = BaseHttpClient.GetToken().Result;
+            string resultJson = BaseHttpClient.GetToken();
             TokenRootObject token = JsonConvert.DeserializeObject<TokenRootObject>(resultJson);
             Assert.IsNotNull(token.UserSign);
         }
