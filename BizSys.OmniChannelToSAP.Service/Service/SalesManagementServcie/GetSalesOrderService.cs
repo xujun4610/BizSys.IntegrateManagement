@@ -27,40 +27,39 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 BusinessObjectCode = null,
                 Conditions = new List<Conditions>()
                 {
-                     new Conditions()
-                     {
-                         Alias="U_SBOSynchronization",
-                         Operation = "co_IS_NULL",
-                         BracketOpenNum = 1
-                     },
-                     new Conditions()
-                     {
-                         Alias="U_SBOSynchronization",
-                         CondVal="",
+                    new Conditions {
+                        Alias = "ApprovalStatus",
+                        Operation = "co_EQUAL",
+                        Relationship = "",
+                        CondVal = "U",
+                        BracketOpenNum = 1
+                    },
+                    new Conditions {
+                        Alias = "ApprovalStatus",
                         Operation = "co_EQUAL",
                         Relationship = "cr_OR",
-                         BracketCloseNum = 1
-                     },
-                     new Conditions(){
-                         Alias="Canceled",
-                         Operation = "co_EQUAL",
-                         CondVal = "N",
-                        Relationship = "cr_AND" },
-                     new Conditions()
-                     {
-                        Alias="DocumentStatus",
-                        CondVal = "R",
+                        CondVal = "A",
+                        BracketCloseNum = 1
+                    },
+                    new Conditions {
+                        Alias = "DocumentStatus",
                         Operation = "co_EQUAL",
-                         Relationship="cr_AND"
-
-                     },
-                      new Conditions()
-                     {
-                        Alias="DataSource",
-                        CondVal="",
-                        Operation = "co_EQUAL",
+                        Relationship = "cr_AND",
+                        CondVal = "R"
+                    },
+                    new Conditions {
+                        Alias = "U_SBOSynchronization",
+                        Operation = "co_IS_NULL",
+                        BracketOpenNum = 1,
                         Relationship = "cr_AND"
-                     }
+                    },
+                    new Conditions {
+                        Alias = "U_SBOSynchronization",
+                        CondVal = "",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_OR",
+                        BracketCloseNum = 1
+                    }
                 },
                 Sorts = new List<Sorts>(){
                     new Sorts(){

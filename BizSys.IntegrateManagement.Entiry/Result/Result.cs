@@ -14,7 +14,7 @@ namespace BizSys.IntegrateManagement.Entity.Result
         }
         public ResultType ResultValue { get; set; }
 
-        public int DocEntry { get; set; }
+        public string DocEntry { get; set; }
         public string ResultMessage { get; set; }
         private ErrorOrderList _ErrorList;
         public ErrorOrderList ErrorList

@@ -8,10 +8,9 @@ namespace BizSys.IntegrateManagement.Entity.SalesOrder
 {
     public class SalesOrderItems
     {
-        public string userObjKey;
 
-        public string isDirty { get; set; }
         public string isDeleted { get; set; }
+        public string isDirty { get; set; }
         public string isNew { get; set; }
         public string AccountCode { get; set; }
         public string Activities { get; set; }
@@ -19,7 +18,7 @@ namespace BizSys.IntegrateManagement.Entity.SalesOrder
         public string BaseDocumentEntry { get; set; }
         public string BaseDocumentLineId { get; set; }
         public string BaseDocumentType { get; set; }
-        public string BasePriceforGrossProfit { get; set; }
+        public double BasePriceforGrossProfit { get; set; }
         public string BaseReference { get; set; }
         public string BatchNumberManagement { get; set; }
         public string Canceled { get; set; }
@@ -40,8 +39,9 @@ namespace BizSys.IntegrateManagement.Entity.SalesOrder
         public string DistributionRule4 { get; set; }
         public string DistributionRule5 { get; set; }
         public string DocEntry { get; set; }
-        public string GrossPrice { get; set; }
-        public string GrossTotal { get; set; }
+        public string GoodsType { get; set; }
+        public double GrossPrice { get; set; }
+        public double GrossTotal { get; set; }
         public string InventoryUoM { get; set; }
         public string ItemCode { get; set; }
         public string ItemDescription { get; set; }
@@ -62,7 +62,6 @@ namespace BizSys.IntegrateManagement.Entity.SalesOrder
         public string OriginalDocumentType { get; set; }
         public string ParentLineSign { get; set; }
         public string ParticipateOtherPromotion { get; set; }
-       
         public double Price { get; set; }
         public string PriceCurrency { get; set; }
         public string PriceListforGrossProfit { get; set; }

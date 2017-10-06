@@ -1,4 +1,4 @@
-﻿using BizSys.OmniChannelToSAP.Service.Service.SalesOrderServiceByNiko;
+﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
@@ -18,7 +18,7 @@ namespace BizSys.IntegrateManagement.UServiceTest.SalesManagement
 
             try
             {
-                await GetSalesOrderByNikoService.GetSalesOrderByNiko(); 
+                //await GetSalesOrderByNikoService.GetSalesOrderByNiko(); 
             }
             catch (System.Exception ex)
             {

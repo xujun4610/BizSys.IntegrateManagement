@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace BizSys.IntegrateManagement.Entity.SalesOrder
 {
-    public class ResultObjects: IBaseResultObjects
+    public class ResultObjects : IBaseResultObjects
     {
-      
-        public string BPReferenceNumber { get; set; }
+
         public string ApprovalStatus { get; set; }
         public string ArrivalDate { get; set; }
-        public DateTime ExpectedArrivalDate { get; set; }
-
         public string BillTo { get; set; }
+        public string BillType { get; set; }
+        public string BPReferenceNumber { get; set; }
         public string BusinessPartnerCode { get; set; }
         public string BusinessPartnerName { get; set; }
         public string Canceled { get; set; }
@@ -37,17 +36,13 @@ namespace BizSys.IntegrateManagement.Entity.SalesOrder
         public DateTime DeliveryDate { get; set; }
         public string DetailedAddress { get; set; }
         public string DiscountForDocument { get; set; }
-        
-        public string PickingWay { get; set; }
-
-        public string BillType { get; set; }
-        public string U_ResourceType { get; set; }
         public string DocNum { get; set; }
         public string DocumentCurrency { get; set; }
         public DateTime DocumentDate { get; set; }
         public string DocumentRate { get; set; }
         public string DocumentStatus { get; set; }
         public double DocumentTotal { get; set; }
+        public DateTime ExpectedArrivalDate { get; set; }
         public string GrossCommission { get; set; }
         public string GrossProfit { get; set; }
         public string Handwritten { get; set; }
@@ -56,12 +51,13 @@ namespace BizSys.IntegrateManagement.Entity.SalesOrder
         public string LogisticsCompany { get; set; }
         public string LogisticsNumber { get; set; }
         public string LogisticsStatus { get; set; }
-       
         public string OpenRecSum { get; set; }
         public string Organization { get; set; }
         public string PaidToDate { get; set; }
         public string PaymentTermsCode { get; set; }
         public string Period { get; set; }
+        public string PickingWay { get; set; }
+        public string Postcodes { get; set; }
         public DateTime PostingDate { get; set; }
         public string PriceListforGrossProfit { get; set; }
         public string Printed { get; set; }
@@ -87,14 +83,13 @@ namespace BizSys.IntegrateManagement.Entity.SalesOrder
         public string TotalDiscount { get; set; }
         public string TotalPaidSum { get; set; }
         public string TotalTax { get; set; }
+        public string Town { get; set; }
         public string Transfered { get; set; }
         public string UpdateActionId { get; set; }
         public string UpdateDate { get; set; }
         public string UpdateTime { get; set; }
         public string UpdateUserSign { get; set; }
-        public int UserSign { get; set; }
-
         public List<UserFieldsItem> UserFields { get; set; }
-
+        public int UserSign { get; set; }
     }
 }

@@ -136,11 +136,6 @@
     <Compile Include="SalesManagement\InvoiceOrder\InvoiceOrderRootObject.cs" />
     <Compile Include="SalesManagement\InvoiceOrder\ReceivableItems.cs" />
     <Compile Include="SalesManagement\InvoiceOrder\ResultObjects.cs" />
-    <Compile Include="SalesManagement\SalesOrderByNiko\Informations.cs" />
-    <Compile Include="SalesManagement\SalesOrderByNiko\ResultObjects.cs" />
-    <Compile Include="SalesManagement\SalesOrderByNiko\SalesOrderItems.cs" />
-    <Compile Include="SalesManagement\SalesOrderByNiko\SalesOrderRootObject.cs" />
-    <Compile Include="SalesManagement\SalesOrderByNiko\UserFieldsItem.cs" />
     <Compile Include="SalesManagement\SalesOrder\UserFieldsItem.cs" />
     <Compile Include="StockManagement\GoodsIssue\GoodsIssueLines.cs" />
     <Compile Include="StockManagement\GoodsIssue\GoodsIssueRootObject.cs" />

@@ -88,7 +88,6 @@
     <Compile Include="Document\ReceiptPayment\Reconciliation.cs" />
     <Compile Include="Document\ReceiptPayment\Record.cs" />
     <Compile Include="Document\SalesManagement\CancelOrCloseSalesOrder.cs" />
-    <Compile Include="Document\SalesManagement\SalesOrderByNiko.cs" />
     <Compile Include="Document\StockManagement\GoodsIssue.cs" />
     <Compile Include="Document\StockManagement\GoodsReceipt.cs" />
     <Compile Include="Document\PurchaseManagement\PurchaseOrder.cs" />
@@ -126,8 +125,6 @@
     <Compile Include="Service\SalesManagementServcie\GetSalesOrderByB1Service.cs" />
     <Compile Include="Service\SalesManagementServcie\GetSalesOrderService.cs" />
     <Compile Include="Service\SalesManagementServcie\GetSalesReturnOderService.cs" />
-    <Compile Include="Service\SalesOrderServiceByNiko\GetMaterialMasterDatasService.cs" />
-    <Compile Include="Service\SalesOrderServiceByNiko\GetSalesOrderByNikoService.cs" />
     <Compile Include="Service\StockManagementServcie\GetGoodsIssueService.cs" />
     <Compile Include="Service\StockManagementServcie\GetGoodsReceiptService.cs" />
     <Compile Include="Service\StockManagementServcie\GetInventoryCountingService.cs" />
