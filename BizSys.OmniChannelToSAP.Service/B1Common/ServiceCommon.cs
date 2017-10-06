@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BizSys.IntegrateManagement.Entity.Result;
-using BizSys.IntegrateManagement.Entiry.Base;
+using BizSys.IntegrateManagement.Entity.Base;
 
 namespace BizSys.OmniChannelToSAP.Service.B1Common
 {

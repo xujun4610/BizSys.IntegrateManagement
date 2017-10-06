@@ -80,6 +80,7 @@
     <Compile Include="Document\MasterDataManagement\CostBudget.cs" />
     <Compile Include="Document\MasterDataManagement\Customer.cs" />
     <Compile Include="Document\MasterDataManagement\IncomeBudget.cs" />
+    <Compile Include="Document\MasterDataManagement\Material.cs" />
     <Compile Include="Document\MasterDataManagement\SalesPomotion.cs" />
     <Compile Include="Document\MasterDataManagement\Supplier.cs" />
     <Compile Include="Document\PurchaseManagement\CancelOrClosePurchaseOrder.cs" />
@@ -144,7 +145,7 @@
       <Project>{4d274d71-f4a6-44fc-91ce-7a05c7b7501d}</Project>
       <Name>BizSys.IntegrateManagement.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BizSys.IntegrateManagement.Entiry\BizSys.IntegrateManagement.Entity.csproj">
+    <ProjectReference Include="..\BizSys.IntegrateManagement.Entity\BizSys.IntegrateManagement.Entity.csproj">
       <Project>{b2cea16f-4691-4bf0-be3c-ca568cf2f41d}</Project>
       <Name>BizSys.IntegrateManagement.Entity</Name>
     </ProjectReference>

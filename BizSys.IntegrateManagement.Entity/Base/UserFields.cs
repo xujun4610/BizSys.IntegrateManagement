@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BizSys.IntegrateManagement.Entiry.Base
+namespace BizSys.IntegrateManagement.Entity.Base
 {
     public class UserFields
     {

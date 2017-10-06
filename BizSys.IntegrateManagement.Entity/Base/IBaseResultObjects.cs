@@ -1,4 +1,4 @@
-﻿using BizSys.IntegrateManagement.Entiry.Base;
+﻿using BizSys.IntegrateManagement.Entity.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

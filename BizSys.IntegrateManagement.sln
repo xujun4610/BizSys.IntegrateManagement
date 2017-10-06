@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.IntegrateManagement.Entity", "BizSys.IntegrateManagement.Entiry\BizSys.IntegrateManagement.Entity.csproj", "{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizSys.IntegrateManagement.Entity", "BizSys.IntegrateManagement.Entity\BizSys.IntegrateManagement.Entity.csproj", "{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{03CA1DF2-9E8F-4F99-AB27-9AAF8B87EEDA}"
 EndProject
@@ -41,9 +41,9 @@ Global
 		SccProjectTopLevelParentUniqueName4 = BizSys.IntegrateManagement.sln
 		SccProjectName4 = BizSys.SAPToOmniChannel.Service
 		SccLocalPath4 = BizSys.SAPToOmniChannel.Service
-		SccProjectUniqueName5 = BizSys.IntegrateManagement.Entiry\\BizSys.IntegrateManagement.Entity.csproj
-		SccProjectName5 = BizSys.IntegrateManagement.Entiry
-		SccLocalPath5 = BizSys.IntegrateManagement.Entiry
+		SccProjectUniqueName5 = BizSys.IntegrateManagement.Entity\\BizSys.IntegrateManagement.Entity.csproj
+		SccProjectName5 = BizSys.IntegrateManagement.Entity
+		SccLocalPath5 = BizSys.IntegrateManagement.Entity
 		SccProjectUniqueName6 = BizSys.IntegrateManagement.UServiceTest\\BizSys.IntegrateManagement.ServiceUnitTest.csproj
 		SccProjectName6 = BizSys.IntegrateManagement.UServiceTest
 		SccLocalPath6 = BizSys.IntegrateManagement.UServiceTest

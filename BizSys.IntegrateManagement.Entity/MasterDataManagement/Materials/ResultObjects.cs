@@ -14,7 +14,6 @@ namespace BizSys.IntegrateManagement.Entity.MasterDataManagement.Materials
         public bool isDirty { get; set; }
         public bool isDeleted { get; set; }
         public bool isNew { get; set; }
-       
         public string QCTemplateCode { get; set; }
         public string Active { get; set; }
         public string ActiveFrom { get; set; }

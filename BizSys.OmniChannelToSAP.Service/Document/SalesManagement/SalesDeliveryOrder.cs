@@ -1,4 +1,4 @@
-﻿using BizSys.IntegrateManagement.Entiry.BatchNumber;
+﻿using BizSys.IntegrateManagement.Entity.BatchNumber;
 using BizSys.IntegrateManagement.Entity.Result;
 using BizSys.IntegrateManagement.Entity.SalesManagement.SalesDeliveryOrder;
 using BizSys.OmniChannelToSAP.Service.B1Common;

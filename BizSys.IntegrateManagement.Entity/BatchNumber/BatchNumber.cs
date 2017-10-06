@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BizSys.IntegrateManagement.Entiry.BatchNumber
+namespace BizSys.IntegrateManagement.Entity.BatchNumber
 {
     public class BatchNumber
     {

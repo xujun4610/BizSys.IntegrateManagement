@@ -7,8 +7,8 @@
     <ProjectGuid>{B2CEA16F-4691-4BF0-BE3C-CA568CF2F41D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BizSys.IntegrateManagement.Entiry</RootNamespace>
-    <AssemblyName>BizSys.IntegrateManagement.Entiry</AssemblyName>
+    <RootNamespace>BizSys.IntegrateManagement.Entity</RootNamespace>
+    <AssemblyName>BizSys.IntegrateManagement.Entity</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MagicBox.Log">

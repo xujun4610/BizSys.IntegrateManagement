@@ -22,12 +22,19 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.CardType = SAPbobsCOM.BoCardTypes.cCustomer;
             myBP.CardCode = customer.CustomerCode;
             myBP.CardName = customer.CustomerName;
+            myBP.GroupCode = Convert.ToInt32(customer.GroupCode);
+            myBP.CompanyPrivate = BoCardCompanyTypes.cCompany;
 
-            //myBP.GroupCode = customer.GroupCode;
+
             myBP.ZipCode = customer.BillToZipCode;
             myBP.EmailAddress = customer.Email;
             myBP.CreditLimit = customer.PaidToCredit;
-            myBP.UserFields.Fields.Item("U_SysGen").Value = "01";
+            myBP.SalesPersonCode = -1; //销售员修改；
+            myBP.Territory = -2; //区域修改，默认值
+
+            myBP.PayTermsGrpCode = -1; //付款条件修改
+            myBP.PriceListNum = 1; //默认价格清单修改
+
             myBP.Valid = customer.Activation == "Yes" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
             myBP.ValidFrom = Convert.ToDateTime(customer.ActiveFrom);
             myBP.ValidTo = Convert.ToDateTime(customer.ActiveTo);
@@ -40,16 +47,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.Currency = customer.BPCurrency;
             myBP.FreeText = customer.Remarks;
 
-            if (!string.IsNullOrEmpty(customer.InvoiceRecipient))
-                myBP.UserFields.Fields.Item("U_InvoiceRecipient").Value = customer.InvoiceRecipient;
-            if (!string.IsNullOrEmpty(customer.BusinessPartnerNature))
-                myBP.UserFields.Fields.Item("U_CustomerType").Value = customer.BusinessPartnerNature;
-            if (!string.IsNullOrEmpty(customer.CustomerLevel))
-                myBP.UserFields.Fields.Item("U_CustLevel").Value = customer.CustomerLevel;
-            if(!string.IsNullOrEmpty(customer.TaxNumber))
-                myBP.GTSRegNo = customer.TaxNumber;
-            myBP.GTSBillingAddrTel =  customer.BillingAddress + '-' + customer.BillingTelephone;
-            myBP.GTSBankAccountNo =  customer.HouseBank + '-' + customer.Account;
+            //if(!string.IsNullOrEmpty(customer.TaxNumber))
+                //myBP.GTSRegNo = customer.TaxNumber;
+            //myBP.GTSBillingAddrTel =  customer.BillingAddress + '-' + customer.BillingTelephone;
+            //myBP.GTSBankAccountNo =  customer.HouseBank + '-' + customer.Account;
             foreach (var item in customer.CustomerItems)
             {
                 string addressName = item.City+item.County+ item.BillToStreet;
@@ -62,9 +63,6 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                     myBP.Addresses.City = item.City;
                     myBP.Addresses.County = item.County;
                     myBP.Addresses.Street = item.BillToStreet;
-                    myBP.Addresses.UserFields.Fields.Item("U_Phone1").Value = item.Telephone1;
-                    myBP.Addresses.UserFields.Fields.Item("U_Cellular").Value = item.MobilePhone;
-                    myBP.Addresses.UserFields.Fields.Item("U_CntctPrsn").Value = item.ContactPerson;
                     myBP.Addresses.ZipCode = item.BillToZipCode;
                     myBP.Addresses.State = B1Common.BOneCommon.GetAddressCode(item.Province);
 
@@ -80,12 +78,8 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.ContactEmployees.MobilePhone = customer.MobilePhone;
             myBP.ContactEmployees.Phone1 = customer.Telephone1;
             myBP.ContactEmployees.Phone2 = customer.Telephone2;
-            myBP.ContactEmployees.UserFields.Fields.Item("U_ZipCode").Value = customer.BillToZipCode;
             myBP.ContactEmployees.E_Mail = customer.Email;
-            myBP.ContactEmployees.UserFields.Fields.Item("U_Website").Value = customer.Website;
-            myBP.ContactEmployees.UserFields.Fields.Item("U_Province").Value = customer.Province;
             myBP.ContactEmployees.CityOfBirth = customer.City;
-            myBP.ContactEmployees.UserFields.Fields.Item("U_County").Value = customer.County;
 
             myBP.ContactEmployees.Add();
 

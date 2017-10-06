@@ -1,4 +1,4 @@
-﻿using BizSys.IntegrateManagement.Entiry.BatchNumber;
+﻿using BizSys.IntegrateManagement.Entity.BatchNumber;
 using BizSys.IntegrateManagement.Entity.Task;
 using System;
 using System.Collections.Generic;
@@ -882,7 +882,11 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
             }
         }
-
+        /// <summary>
+        /// 查询仓库是否存在
+        /// </summary>
+        /// <param name="WhsCode"></param>
+        /// <returns></returns>
         public static bool IsExistWarehouse(string WhsCode)
         {
             SAPbobsCOM.Warehouses whs = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oWarehouses);
