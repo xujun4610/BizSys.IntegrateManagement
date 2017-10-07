@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BizSys.IntegrateManagement.Entity.SalesOrder
+namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder
 {
     public class SalesOrderRootObject: IBaseRootObjects<ResultObjects>
     {

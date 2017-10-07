@@ -1,7 +1,7 @@
 ﻿using BizSys.IntegrateManagement.Common;
 using BizSys.IntegrateManagement.Entity;
 using BizSys.IntegrateManagement.Entity.Result;
-using BizSys.IntegrateManagement.Entity.SalesOrder;
+using BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder;
 using MagicBox.Log;
 using Newtonsoft.Json;
 using System;

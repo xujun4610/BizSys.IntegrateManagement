@@ -39,7 +39,7 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesDeliveryOrder
         public string DistributionRule4 { get; set; }
         public string DistributionRule5 { get; set; }
         public int DocEntry { get; set; }
-        public string GrossPrice { get; set; }
+        public double GrossPrice { get; set; }
         public double GrossTotal { get; set; }
         public string InventoryUoM { get; set; }
         public string ItemCode { get; set; }

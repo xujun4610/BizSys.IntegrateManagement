@@ -1,6 +1,6 @@
 ﻿using BizSys.IntegrateManagement.Common;
 using BizSys.IntegrateManagement.Entity.Result;
-using BizSys.IntegrateManagement.Entity.SalesOrder;
+using BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder;
 using BizSys.OmniChannelToSAP.Service.B1Common;
 using SAPbobsCOM;
 using System;

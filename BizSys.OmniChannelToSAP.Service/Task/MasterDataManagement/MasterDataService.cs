@@ -4,7 +4,7 @@ using BizSys.IntegrateManagement.Entity.MasterDataManagement.Supplier;
 using BizSys.IntegrateManagement.Entity.MasterDataManagement.Materials;
 using BizSys.IntegrateManagement.Entity.PurchaseOrder;
 using BizSys.IntegrateManagement.Entity.Result;
-using BizSys.IntegrateManagement.Entity.SalesOrder;
+using BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder;
 using BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService;
 using MagicBox.Log;
 using MagicBox.WindowsServices.Common;

@@ -13,7 +13,6 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesDeliveryOrder
         public string BPReferenceNumber { get; set; }
         public string ApprovalStatus { get; set; }
         public string ArrivalDate { get; set; }
-
         public string BillTo { get; set; }
         public string BusinessPartnerCode { get; set; }
         public string BusinessPartnerName { get; set; }
@@ -34,7 +33,6 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesDeliveryOrder
         public DateTime DeliveryDate { get; set; }
         public string DetailedAddress { get; set; }
         public string DiscountForDocument { get; set; }
-
         public string DocNum { get; set; }
         public string DocumentCurrency { get; set; }
         public DateTime DocumentDate { get; set; }
@@ -63,7 +61,6 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesDeliveryOrder
         public string ProductDiscountRate { get; set; }
         public string ProjectCode { get; set; }
         public string Province { get; set; }
-        public string U_ResouceType { get;set;}
         public string BillType { get; set; }
         public string Reference1 { get; set; }
         public string Reference2 { get; set; }
@@ -81,6 +78,7 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesDeliveryOrder
         public string TotalDiscount { get; set; }
         public string TotalPaidSum { get; set; }
         public double TotalTax { get; set; }
+        public string Town { get; set; }
         public string Transfered { get; set; }
         public string UpdateActionId { get; set; }
         public DateTime UpdateDate { get; set; }

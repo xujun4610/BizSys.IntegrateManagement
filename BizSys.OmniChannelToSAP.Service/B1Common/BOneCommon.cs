@@ -698,16 +698,19 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         /// <param name="CardCode"></param>
         /// <param name="ContractName"></param>
         /// <returns></returns>
-        public static string GetBPContractCode(string CardCode, string ContractName)
+        public static int GetBPContractCode(string CardCode, string ContractName)
         {
             SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
             try
             {
-                string sql = $"select CntctCode from OCPR where CardCode = '{CardCode}' and Name = '{ContractName}' ";
+                string sql = $"select Top 1 CntctCode from OCPR where CardCode = '{CardCode}' and Name = '{ContractName}' ";
                 res.DoQuery(sql);
                 if (res.RecordCount == 0)
-                    throw new Exception($"未能找到[{CardCode}]下[{ContractName}]的信息。");
-                return res.Fields.Item(0).Value;
+                    return 0;
+                else
+                {
+                    return res.Fields.Item(0).Value;
+                }
             }
             catch (Exception ex)
             {

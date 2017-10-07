@@ -4,7 +4,7 @@ using BizSys.IntegrateManagement.Entity;
 using BizSys.IntegrateManagement.Entity.ReceiptPayment;
 using BizSys.IntegrateManagement.Entity.ReceiptPayment.Receipt;
 using BizSys.IntegrateManagement.Entity.Result;
-using BizSys.IntegrateManagement.Entity.SalesOrder;
+using BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder;
 using MagicBox.Log;
 using MagicBox.WindowsServices.Common;
 using Newtonsoft.Json;

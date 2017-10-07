@@ -1,4 +1,4 @@
-﻿using BizSys.IntegrateManagement.Entity.SalesOrder;
+﻿using BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder;
 using BizSys.IntegrateManagement.Entity.Result;
 using System;
 using System.Collections.Generic;
