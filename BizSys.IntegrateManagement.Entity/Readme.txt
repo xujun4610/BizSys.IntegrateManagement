@@ -43,3 +43,11 @@ StockManagement
 	InventoryCounting			库存盘点
 	InventoryTransferApply		库存转储
 	MaterialsInventory			库存
+
+	=============================================================
+	请用有优雅的方式，修改代码！
+	请注意查询条件和http web api 调用
+
+	b1账套中，请注意添加如下字段：(B1 U开头字段不用管)
+	U_IM_DocEntry
+	U_ChannelDocType

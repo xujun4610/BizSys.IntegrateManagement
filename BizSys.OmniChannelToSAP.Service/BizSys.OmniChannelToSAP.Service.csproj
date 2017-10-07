@@ -108,6 +108,7 @@
     <Compile Include="Service\MasterDataManagementService\GetCostBudgetService.cs" />
     <Compile Include="Service\MasterDataManagementService\GetCustormerService.cs" />
     <Compile Include="Service\MasterDataManagementService\GetIncomeBudgetService.cs" />
+    <Compile Include="Service\MasterDataManagementService\GetMatarialService.cs" />
     <Compile Include="Service\MasterDataManagementService\GetSalesPomotionService.cs" />
     <Compile Include="Service\MasterDataManagementService\GetSupplierService.cs" />
     <Compile Include="Service\PurchaseManagementServcie\GetCancelOrClosePurchaseOrderService.cs" />

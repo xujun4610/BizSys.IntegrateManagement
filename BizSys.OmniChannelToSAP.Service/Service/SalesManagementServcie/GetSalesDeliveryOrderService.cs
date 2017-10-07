@@ -44,19 +44,19 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_OR",
                          BracketCloseNum = 1
                      },
-                      new Conditions()
-                     {
-                        Alias="DataSource",
-                        CondVal = "13",
-                        Operation = "co_EQUAL",
-                        Relationship="cr_AND"
-                     }
+                     // new Conditions()
+                     //{
+                     //   Alias="DataSource",
+                     //   CondVal = "13",
+                     //   Operation = "co_EQUAL",
+                     //   Relationship="cr_AND"
+                     //}
                 },
                 Sorts = new List<Sorts>(){
                     new Sorts(){
                          __type="Sort",
                          Alias="DocEntry",
-                         SortType="st_Asccending"
+                         SortType="st_Descending"
                     }
                 },
                 ChildCriterias = new List<ChildCriterias>()

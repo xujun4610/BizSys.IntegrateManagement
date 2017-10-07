@@ -210,4 +210,15 @@ namespace BizSys.IntegrateManagement.Common
 
 
     }
+
+    /// <summary>
+    /// 业务对象结构类型
+    /// </summary>
+    public enum BizObjectStructureType
+    {
+        MASTERDATA = 1,
+        SIMPLEOBJECT = 2,
+        DOCUMENT = 3,
+        OTHER = 0
+    }
 }

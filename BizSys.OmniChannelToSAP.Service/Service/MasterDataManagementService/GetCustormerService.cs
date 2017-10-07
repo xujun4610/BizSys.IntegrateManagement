@@ -14,71 +14,100 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
 {
     public class GetCustormerService
     {
-        
+
         public async static void GetCustomer(string CardCode = null)
         {
-            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 10);
+            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 20);
             string guid = "Customer-" + Guid.NewGuid();
             string resultJson = string.Empty;
             #region 查找条件
-            Criteria cri = new Criteria()
+            Criteria cri = null;
+            if (string.IsNullOrWhiteSpace(CardCode))
             {
-                __type = "Criteria",
-                ResultCount = resultCount,
-                isDbFieldName = false,
-                BusinessObjectCode = null,
-                Conditions = new List<Conditions>()
+                cri = new Criteria()
                 {
-                    new Conditions()
-                     {
-                         Alias="U_SBOSynchronization",
-                         Operation = "co_IS_NULL",
-                         BracketOpenNum = 1
-                     },
-                     new Conditions()
-                     {
-                         Alias="U_SBOSynchronization",
-                         CondVal="",
-                        Operation = "co_EQUAL",
-                        Relationship = "cr_OR",
-                         BracketCloseNum = 1
-                     },
-                     new Conditions(){
-                         Alias="U_SBOCallbackDate",
-                         Operation = "co_LESS_THAN",
-                         ComparedAlias = "UpdateDate",
-                         Relationship="cr_OR",
-                         BracketOpenNum = 1
+                    __type = "Criteria",
+                    ResultCount = resultCount,
+                    isDbFieldName = false,
+                    BusinessObjectCode = null,
+                    Conditions = new List<Conditions>()
+                    {
+                        new Conditions()
+                         {
+                             Alias="U_SBOSynchronization",
+                             Operation = "co_IS_NULL",
+                             BracketOpenNum = 1
+                         },
+                         new Conditions()
+                         {
+                             Alias="U_SBOSynchronization",
+                             CondVal="",
+                            Operation = "co_EQUAL",
+                            Relationship = "cr_OR",
+                             BracketCloseNum = 1
+                         },
+                         new Conditions(){
+                             Alias="U_SBOCallbackDate",
+                             Operation = "co_LESS_THAN",
+                             ComparedAlias = "UpdateDate",
+                             Relationship="cr_OR",
+                             BracketOpenNum = 1
+                        },
+                        new Conditions(){
+                             Alias="UpdateDate",
+                             Operation = "co_EQUAL",
+                             ComparedAlias = "U_SBOCallbackDate",
+                             Relationship="cr_OR",
+                              BracketOpenNum = 1
+                        },
+                        new Conditions(){
+                             Alias="U_SBOCallbackTime",
+                             Operation = "co_LESS_EQUAL",
+                             ComparedAlias = "UpdateTime",
+                             Relationship="cr_AND",
+                             BracketCloseNum = 2
+                        }
                     },
-                    new Conditions(){
-                         Alias="UpdateDate",
-                         Operation = "co_EQUAL",
-                         ComparedAlias = "U_SBOCallbackDate",
-                         Relationship="cr_OR",
-                          BracketOpenNum = 1
+                    Sorts = new List<Sorts>(){
+                        new Sorts(){
+                             __type="Sort",
+                             Alias="CustomerCode",
+                             SortType="st_Descending"
+                        }
                     },
-                    new Conditions(){
-                         Alias="U_SBOCallbackTime",
-                         Operation = "co_LESS_EQUAL",
-                         ComparedAlias = "UpdateTime",
-                         Relationship="cr_AND",
-                         BracketCloseNum = 2
-                    }
-                },
-                Sorts = new List<Sorts>(){
-                    new Sorts(){
-                         __type="Sort",
-                         Alias="CustomerCode",
-                         SortType="st_Ascending"
-                    }
-                },
-                ChildCriterias = new List<ChildCriterias>()
-                {
+                    ChildCriterias = new List<ChildCriterias>()
+                    {
 
-                },
-                NotLoadedChildren = false,
-                Remarks = null
-            };
+                    },
+                    NotLoadedChildren = false,
+                    Remarks = null
+                };
+            }
+            else
+            {
+                cri = new Criteria()
+                {
+                    __type = "Criteria",
+                    ResultCount = resultCount,
+                    isDbFieldName = false,
+                    BusinessObjectCode = null,
+                    Conditions = new List<Conditions>()
+                    {
+                        new Conditions()
+                        {
+                            Alias = "CustomerCode",
+                                CondVal = CardCode,
+                                Operation = "co_EQUAL",
+                                Relationship = "cr_AND"
+                        }
+                    },
+                    ChildCriterias = new List<ChildCriterias>()
+                    {
+
+                    }
+                };
+            }
+
             //序列化json对象
             string requestJson = await JsonConvert.SerializeObjectAsync(cri);
             #endregion
@@ -126,6 +155,6 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
             Logger.Writer(guid, QueueStatus.Close, "[" + mSuccessCount + "]条客户主数据处理成功。");
             #endregion
         }
-        
+
     }
 }

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BizSys.IntegrateManagement.Entity.Result;
 using BizSys.IntegrateManagement.Entity.Base;
+using BizSys.IntegrateManagement.Entity;
 
 namespace BizSys.OmniChannelToSAP.Service.B1Common
 {
@@ -25,7 +26,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         /// <param name="guid"></param>
         /// <param name="Order"></param>
         /// <returns></returns>
-        public async static Task<bool> CallBack<T>(string callBackJsonString,string guid,T Order) where T : IBaseResultObjects
+        public async static Task<bool> CallBack<T>(string callBackJsonString, string guid, T Order) where T : IBaseResultObjects
         {
             bool isCallBackSuccessful = false;
 
@@ -36,15 +37,15 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             }
             catch (Exception ex)
             {
-                Logger.Writer(guid, QueueStatus.Open, $"{guid.Substring(0,guid.IndexOf('-'))}【{Order.DocEntry}】已处理成功，在回调发生错误：{ex.Message}");
+                Logger.Writer(guid, QueueStatus.Open, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】已处理成功，在回调发生错误：{ex.Message}");
                 throw ex;
             }
             var callBackResult = await JsonConvert.DeserializeObjectAsync<CallBackResult>(callBackResultStr);
             if (callBackResult.ResultCode == 0)
                 isCallBackSuccessful = true;
             else
-               // Logger.Writer(guid, QueueStatus.Open, "【" + Order.DocEntry + "】回传错误:" + callBackResult.Message + "\r\n 回传内容为：" + callBackJsonString);
-               Logger.Writer(guid, QueueStatus.Open, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】回传错误：{callBackResult.Message},回传内容为{callBackJsonString}");
+                // Logger.Writer(guid, QueueStatus.Open, "【" + Order.DocEntry + "】回传错误:" + callBackResult.Message + "\r\n 回传内容为：" + callBackJsonString);
+                Logger.Writer(guid, QueueStatus.Open, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】回传错误：{callBackResult.Message},回传内容为{callBackJsonString}");
             return isCallBackSuccessful;
         }
 
@@ -63,7 +64,71 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 break;
             }
             return userfieldValue;
-            
+
         }
+
+
+        /*
+        public static Criteria CommonCris(BizObjectStructureType bizType)
+        {
+            switch (bizType)
+            {
+                case BizObjectStructureType.MASTERDATA:
+                    return new Criteria()
+                    {
+                        __type = "Criteria",
+                        ResultCount = resultCount,
+                        isDbFieldName = false,
+                        BusinessObjectCode = null,
+                        Conditions = new List<Conditions>()
+                        {
+                            new Conditions {
+                                Alias = "ApprovalStatus",
+                                Operation = "co_EQUAL",
+                                Relationship = "",
+                                CondVal = "U",
+                                BracketOpenNum = 1
+                            },
+                            new Conditions {
+                                Alias = "ApprovalStatus",
+                                Operation = "co_EQUAL",
+                                Relationship = "cr_OR",
+                                CondVal = "A",
+                                BracketCloseNum = 1
+                            },
+                            new Conditions {
+                                Alias = "DocumentStatus",
+                                Operation = "co_EQUAL",
+                                Relationship = "cr_AND",
+                                CondVal = "R"
+                            },
+                            new Conditions {
+                                Alias = "U_SBOSynchronization",
+                                Operation = "co_IS_NULL",
+                                BracketOpenNum = 1,
+                                Relationship = "cr_AND"
+                            },
+                            new Conditions {
+                                Alias = "U_SBOSynchronization",
+                                CondVal = "",
+                                Operation = "co_EQUAL",
+                                Relationship = "cr_OR",
+                                BracketCloseNum = 1
+                            }
+                        }
+                    break;
+                case BizObjectStructureType.SIMPLEOBJECT:
+                    break;
+                case BizObjectStructureType.DOCUMENT:
+                    break;
+                case BizObjectStructureType.OTHER:
+                    return new Criteria();
+                    break;
+                default:
+                    return new Criteria();
+                    break;
+            }
+        }
+        */
     }
 }
