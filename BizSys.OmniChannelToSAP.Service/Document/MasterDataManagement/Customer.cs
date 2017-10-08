@@ -25,7 +25,6 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.GroupCode = Convert.ToInt32(customer.GroupCode);
             myBP.CompanyPrivate = BoCardCompanyTypes.cCompany;
 
-
             myBP.ZipCode = customer.BillToZipCode;
             myBP.EmailAddress = customer.Email;
             myBP.CreditLimit = customer.PaidToCredit;
