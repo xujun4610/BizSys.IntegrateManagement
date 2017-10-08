@@ -24,7 +24,8 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.CardName = customer.CustomerName;
             myBP.GroupCode = 100; //曼恩-用户组固定值 Convert.ToInt32(customer.GroupCode); 
             myBP.CompanyPrivate = BoCardCompanyTypes.cCompany;
-            
+            myBP.SalesPersonCode = B1Common.BOneCommon.GetSalesPersonCode(customer.Channel);
+
             myBP.ZipCode = customer.BillToZipCode;
             myBP.EmailAddress = customer.Email;
             myBP.CreditLimit = customer.PaidToCredit;
