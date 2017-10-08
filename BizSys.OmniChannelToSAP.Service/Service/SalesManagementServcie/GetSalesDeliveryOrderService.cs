@@ -17,7 +17,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
     {
         public async static void GetSalesDeliveryOrder()
         {
-            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["GetSalesDeliveryOrderCount"], 30);
+            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 30);
             string guid = "SalesDeliveryOrder-" + Guid.NewGuid();
 
             string resultJson = string.Empty;
@@ -30,20 +30,39 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 BusinessObjectCode = null,
                 Conditions = new List<Conditions>()
                 {
-                     new Conditions()
-                     {
-                         Alias="U_SBOSynchronization",
-                         Operation = "co_IS_NULL",
-                         BracketOpenNum = 1
-                     },
-                     new Conditions()
-                     {
-                         Alias="U_SBOSynchronization",
-                         CondVal="",
+                    new Conditions {
+                        Alias = "ApprovalStatus",
+                        Operation = "co_EQUAL",
+                        Relationship = "",
+                        CondVal = "U",
+                        BracketOpenNum = 1
+                    },
+                    new Conditions {
+                        Alias = "ApprovalStatus",
                         Operation = "co_EQUAL",
                         Relationship = "cr_OR",
-                         BracketCloseNum = 1
-                     },
+                        CondVal = "A",
+                        BracketCloseNum = 1
+                    },
+                    new Conditions {
+                        Alias = "DocumentStatus",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_AND",
+                        CondVal = "R"
+                    },
+                    new Conditions {
+                        Alias = "U_SBOSynchronization",
+                        Operation = "co_IS_NULL",
+                        BracketOpenNum = 1,
+                        Relationship = "cr_AND"
+                    },
+                    new Conditions {
+                        Alias = "U_SBOSynchronization",
+                        CondVal = "",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_OR",
+                        BracketCloseNum = 1
+                    }
                      // new Conditions()
                      //{
                      //   Alias="DataSource",
@@ -94,23 +113,23 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
             {
                 try
                 {
-                    var documentResult = Document.SalesManagement.SalesDeliveryOrder.CreateSalesOrder(item);
+                    //var documentResult = Document.SalesManagement.SalesDeliveryOrder.CreateSalesOrder(item);
 
-                    if (documentResult.ResultValue == ResultType.True)
-                    {
+                    //if (documentResult.ResultValue == ResultType.True)
+                    //{
                         //成功生成销售订单后 生成销售交货单
                         var rt = Document.SalesManagement.SalesDeliveryOrder.CreateSalesDeliveryOrder(item);
                         if(rt.ResultValue == ResultType.True)
                         {
-                            string callBackJsonString = JsonObject.GetCallBackJsonString(item.ObjectCode, item.DocEntry.ToString(), item.B1DocEntry, syncDateTime);
+                            string callBackJsonString = JsonObject.GetCallBackJsonString(item.ObjectCode, item.DocEntry.ToString(), rt.DocEntry, syncDateTime);
                             string callBackResultStr = await BaseHttpClient.HttpCallBackAsync(callBackJsonString);
                             var callBackResult = await JsonConvert.DeserializeObjectAsync<CallBackResult>(callBackResultStr);
                             if (callBackResult.ResultCode == 0)
                                 mSuccessCount++;
                         }
                         Logger.Writer(guid, QueueStatus.Open, rt.ResultMessage);
-                    }
-                    Logger.Writer(guid, QueueStatus.Open, documentResult.ResultMessage);
+                    //}
+                   // Logger.Writer(guid, QueueStatus.Open, documentResult.ResultMessage);
                 }
                 catch (Exception ex)
                 {

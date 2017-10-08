@@ -22,10 +22,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.CardType = SAPbobsCOM.BoCardTypes.cCustomer;
             myBP.CardCode = customer.CustomerCode;
             myBP.CardName = customer.CustomerName;
-            myBP.GroupCode = Convert.ToInt32(customer.GroupCode);
+            myBP.GroupCode = 100; //曼恩-用户组固定值 Convert.ToInt32(customer.GroupCode); 
             myBP.CompanyPrivate = BoCardCompanyTypes.cCompany;
-
-
+            
             myBP.ZipCode = customer.BillToZipCode;
             myBP.EmailAddress = customer.Email;
             myBP.CreditLimit = customer.PaidToCredit;
@@ -34,13 +33,16 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
 
             myBP.PayTermsGrpCode = -1; //付款条件修改
             myBP.PriceListNum = 1; //默认价格清单修改
+            myBP.DebitorAccount = "113101"; //曼恩-总账科目固定
 
             myBP.Valid = customer.Activation == "Yes" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
             myBP.ValidFrom = Convert.ToDateTime(customer.ActiveFrom);
             myBP.ValidTo = Convert.ToDateTime(customer.ActiveTo);
-            myBP.Frozen = customer.Inactive == "No" ? BoYesNoEnum.tNO : BoYesNoEnum.tYES;
-            myBP.FrozenFrom = Convert.ToDateTime(customer.InactiveFrom);
-            myBP.FrozenTo = Convert.ToDateTime(customer.InactiveTo);
+            //myBP.Frozen = customer.Inactive == "No" ? BoYesNoEnum.tNO : BoYesNoEnum.tYES;
+            //myBP.FrozenFrom = Convert.ToDateTime(customer.InactiveFrom);
+            //myBP.FrozenTo = Convert.ToDateTime(customer.InactiveTo);
+            myBP.Website = customer.Website;
+            myBP.EmailAddress = customer.Email;
             myBP.Cellular = customer.MobilePhone;
             myBP.Phone1 = customer.Telephone1;
             myBP.Phone2 = customer.Telephone2;
@@ -100,8 +102,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             }
             else
             {
+                 
                 result.ResultValue = ResultType.True;
-                result.ResultMessage = "【" + customer.CustomerCode + "】客户处理成功，系统数据：" + SAP.SAPCompany.GetNewObjectKey();
+                result.DocEntry = SAP.SAPCompany.GetNewObjectKey();
+                result.ResultMessage = "【" + customer.CustomerCode + "】客户处理成功，系统数据：" + result.DocEntry;
             }
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(myBP);
             return result;

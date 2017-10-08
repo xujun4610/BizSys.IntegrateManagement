@@ -14,6 +14,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
 {
     public class SalesDeliveryOrder
     {
+        #region 前奏：销售订单
         /// <summary>
         /// 来源于Anywhere的交货单  先生成销售订单，基于销售订单生成销售交货单
         /// </summary>
@@ -23,8 +24,8 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
         {
             string B1DocEntry;
             string B1DlftWhsCode = "01";
-            string B1DlftSaleCostCode = "";
-            string B1DlftFIAccount = "";
+            string B1DlftSaleCostCode = string.Empty;
+            string B1DlftFIAccount = string.Empty;
             if (B1Common.BOneCommon.IsExistDocument("ORDR", order.DocEntry.ToString(), out B1DocEntry))
             {
                 order.B1DocEntry = B1DocEntry;
@@ -66,7 +67,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 myDocuments.Lines.Quantity = Convert.ToDouble(item.Quantity);
                 myDocuments.Lines.UnitPrice = item.UnitPrice;
                 myDocuments.Lines.DiscountPercent = Convert.ToDouble(item.DiscountPerLine);
-                myDocuments.Lines.WarehouseCode = item.Warehouse;
+                myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse(item.Warehouse) == true ? item.Warehouse : B1DlftWhsCode;
                 var dbRule = BOneCommon.GetDistributionRule(item.ItemCode, order.DataOwner.ToString());
                 myDocuments.Lines.CostingCode = dbRule.OcrCode;
                 myDocuments.Lines.CostingCode2 = dbRule.OcrCode2;
@@ -93,7 +94,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
 
             return result;
         }
+        #endregion
 
+        #region 交货单 本体
         /// <summary>
         /// 生成交货单
         /// </summary>
@@ -101,10 +104,11 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
         /// <returns></returns>
         public static Result CreateSalesDeliveryOrder(ResultObjects order)
         {
-            string B1DocEntry = string.Empty;
+            string B1DocEntry;
             string B1DlftWhsCode = "01";
             string B1DlftSaleCostCode = string.Empty;
             string B1DlftFIAccount = string.Empty;
+            /*
             if (B1Common.BOneCommon.IsExistDocument("ODLN", order.DocEntry.ToString(), out B1DocEntry))
             {
                 order.B1DocEntry = B1DocEntry;
@@ -114,10 +118,11 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                     ResultMessage = "该订单已生成到B1"
                 };
             }
+            */
             Result result = new Result();
             SAPbobsCOM.Documents myDocuments = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes);
 
-            myDocuments.Series = Convert.ToInt32(order.Series);
+            myDocuments.Series = B1Common.BOneCommon.GetB1DocEntrySeries("15");
             //myDocuments.HandWritten = order.Handwritten == "Yes" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
 
             //myDocuments.Reference1 = order.Reference1;
@@ -148,39 +153,20 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 //if (res.RecordCount != 1)
                 //    throw new Exception("基于Anywhere销售订单生成交货单无法确定唯一的销售订单行，请检查");
                 myDocuments.Lines.ItemCode = item.ItemCode;
-                myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse(item.Warehouse) == true ? item.Warehouse : B1DlftWhsCode; 
+                myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse(item.Warehouse) == true ? item.Warehouse : B1DlftWhsCode;
                 myDocuments.Lines.Quantity = Convert.ToDouble(item.Quantity);
+                myDocuments.Lines.DiscountPercent = item.DiscountPerLine;
                 myDocuments.Lines.PriceAfterVAT = item.GrossPrice;
                 myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate(item.TaxRatePerLine, "O");
-                myDocuments.Lines.UnitPrice = item.UnitPrice;
+                //myDocuments.Lines.UnitPrice = item.UnitPrice;
                 //myDocuments.Lines.COGSAccountCode 销货成本科目
                 //myDocuments.Lines.COGSCostingCode 成本分配
                 //myDocuments.Lines.AccountCode  总账科目
+                myDocuments.Lines.COGSCostingCode = "D012";
+                myDocuments.Lines.UserFields.Fields.Item("U_JHLX").Value = "正常";
 
                 //myDocuments.Lines.BaseEntry = res.Fields.Item("DocEntry").Value;
                 //myDocuments.Lines.BaseLine = res.Fields.Item("LineNum").Value;
-                /*
-                #region 批次处理
-                //获取该物料该仓库下的所有批次信息 按创建时间排序
-                var ListBatchNumber = B1Common.BOneCommon.GetBatchByItemAndWhsCode(item.ItemCode, item.Warehouse);
-                double batchQuantitySum = 0;//0行~n行的批次总数量
-                double hasDistributedQuantitySum = 0;//已分配的批次数量
-                foreach (var batch in ListBatchNumber)
-                {
-                    myDocuments.Lines.BatchNumbers.BatchNumber = batch.BatchID;
-                    batchQuantitySum += batch.Quantity;
-                    myDocuments.Lines.BatchNumbers.Quantity = (batchQuantitySum - hasDistributedQuantitySum) >= (item.Quantity - hasDistributedQuantitySum) ?
-                        (item.Quantity - hasDistributedQuantitySum) : (batchQuantitySum - hasDistributedQuantitySum);//该行分配的批次数量为 =当前行批次的总数量-已分配好的数量
-                    hasDistributedQuantitySum += myDocuments.Lines.BatchNumbers.Quantity;
-                    myDocuments.Lines.BatchNumbers.Add();
-
-                    //该物料的数量<= 当前行的批次总数量，说明批次数量已够分配并已成功分配，跳出循环。
-                    if (item.Quantity <= batchQuantitySum)
-                        break;
-
-                }
-                #endregion
-                */
                 myDocuments.Lines.Add();
             }
             myDocuments.DocTotal = order.DocumentTotal;
@@ -193,13 +179,16 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             }
             else
             {
-                order.B1DocEntry = SAP.SAPCompany.GetNewObjectKey();
+                B1DocEntry = SAP.SAPCompany.GetNewObjectKey();
                 result.ResultValue = ResultType.True;
+                result.DocEntry = B1DocEntry;
                 result.ResultMessage = "【" + order.DocEntry.ToString() + "】销售交货订单处理成功，系统单据：" + SAP.SAPCompany.GetNewObjectKey();
             }
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(myDocuments);
 
             return result;
         }
+
+        #endregion
     }
 }
