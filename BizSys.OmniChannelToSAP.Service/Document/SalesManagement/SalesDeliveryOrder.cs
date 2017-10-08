@@ -124,6 +124,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             //myDocuments.Reference2 = order.Reference2;
             myDocuments.DocDate = Convert.ToDateTime(order.PostingDate);
             myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
+            myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate);
             myDocuments.Comments = order.Remarks;
             myDocuments.CardCode = order.BusinessPartnerCode;
             myDocuments.CardName = order.BusinessPartnerName;
