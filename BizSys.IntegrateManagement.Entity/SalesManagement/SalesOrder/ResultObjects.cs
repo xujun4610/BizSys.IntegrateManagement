@@ -91,5 +91,10 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder
         public string UpdateUserSign { get; set; }
         public List<UserFieldsItem> UserFields { get; set; }
         public int UserSign { get; set; }
+        //梅菲特定制字段
+        public string DocumentType { get; set; } //订单类型
+        public double MSNMoney { get; set; }  //代金券金额
+        public string PrmtsContent { get; set; } //促销活动内容
+
     }
 }

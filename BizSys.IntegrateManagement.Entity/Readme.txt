@@ -51,3 +51,4 @@ StockManagement
 	b1账套中，请注意添加如下字段：(B1 U开头字段不用管)
 	U_IM_DocEntry
 	U_ChannelDocType
+	U_IM_DocLine(单据行对象)

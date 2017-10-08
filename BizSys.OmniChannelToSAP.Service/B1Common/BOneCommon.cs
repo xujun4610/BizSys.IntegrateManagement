@@ -906,5 +906,32 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(whs);
             }
         }
+
+        /// <summary>
+        /// 获取 销售员编号
+        /// </summary>
+        /// <param name="AreaDescription">地区描述</param>
+        /// <returns></returns>
+        public static int GetSalesPersonCode(string SalesPersonName)
+        {
+            SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"SELECT TOP 1 SlpCode FROM [OSLP] WHERE SlpName = '{SalesPersonName}' And Active = 'Y'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    return -1; //无销售员工
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
     }
 }

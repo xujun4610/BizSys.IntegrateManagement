@@ -90,5 +90,7 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder
         public string VendorCatalogNumber { get; set; }
         public string VisOrder { get; set; }
         public string Warehouse { get; set; }
+        //梅菲特定制字段
+        public string GrossPriceTemp { get; set; } //原始毛价
     }
 }

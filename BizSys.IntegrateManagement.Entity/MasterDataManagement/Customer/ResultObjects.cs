@@ -26,6 +26,7 @@ namespace BizSys.IntegrateManagement.Entity.MasterDataManagement.Customer
         public string BillToZipCode { get; set; }
         public string BPCurrency { get; set; }
         public string BusinessPartnerNature { get; set; }
+        public string ChannelType { get; set; } //渠道类型，梅菲特需求：存放销售区域
         public string City { get; set; }
         public string Consignee { get; set; }
         public string ContactPerson { get; set; }
