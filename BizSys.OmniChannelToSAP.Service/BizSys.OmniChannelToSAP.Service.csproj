@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="B1Common\BOneCommon.cs" />
+    <Compile Include="B1Common\SAPCompanyPool.cs" />
     <Compile Include="B1Common\ServiceCommon.cs" />
     <Compile Include="B1UDO\B1ChildTable.cs" />
     <Compile Include="B1UDO\B1Field.cs" />

@@ -24,8 +24,9 @@ namespace BizSys.OmniChannelToSAP.Service.Task.SalesManagement
         public void Run()
         {
             //销售订单
+            // for 梅菲特
             GetSalesOrderService.GetSalesOrder();
-
+            /*
             //销售退货单
             GetSalesReturnOderService.GetSalesReturnOder();
 
@@ -38,7 +39,7 @@ namespace BizSys.OmniChannelToSAP.Service.Task.SalesManagement
             GetSalesDeliveryByB1Service.HandleSalesDeliveryOrder();
             //取消销售订单
             GetCancelOrCloseSalesOrderService.GetCancelSalesOrder();
-
+            */
         }
 
         public void Stop()

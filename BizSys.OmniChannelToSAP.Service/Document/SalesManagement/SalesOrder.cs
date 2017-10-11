@@ -21,10 +21,15 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
         /// <returns></returns>
         public static Result CreateSalesOrder(ResultObjects order)
         {
+            /*
+             * 梅菲特奇葩要求
+             * 分帐套存放salesorder
+             * 根据用户 XZ，BJ， 分别存放 账套
+             */
             string B1DocEntry = string.Empty;
             string B1DlftWhsCode = "01"; //别的项目请修改这里
-            string B1AccountCode = "";
-            string B1SaleCostCode = "";
+            string B1AccountCode = "6001"; //总账科目
+            string B1SaleCostCode = "640101"; //销货成本
             SAPbobsCOM.Documents myDocuments;
             //if (BOneCommon.IsMainStore(order.SalesOrderItems.FirstOrDefault().Warehouse))
             //{
@@ -38,6 +43,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                     ResultMessage = "该订单已生成到B1"
                 };
             }
+
+            //SAPCompanyPool.AllCompany();
+
             myDocuments = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders);
 
 
@@ -63,6 +71,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.UserFields.Fields.Item("U_BillType").Value = order.BillType; //11，12 仅限可选值 开票类型
             myDocuments.UserFields.Fields.Item("U_Voucher").Value = order.MSNMoney; //代金券金额 ，double类型 注意
             myDocuments.UserFields.Fields.Item("U_PrmtsContent").Value =order.PrmtsContent; //促销活动内容
+            myDocuments.UserFields.Fields.Item("U_OCM_DocEntry").Value = order.DocEntry; //同步过来的OCM订单编号
 
             foreach (var item in order.SalesOrderItems)
             {
