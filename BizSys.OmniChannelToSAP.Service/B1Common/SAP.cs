@@ -46,12 +46,12 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             if (_SAPCompany.Connected == true) return _SAPCompany;
             Logger.Writer("开始连接B1账套……");
             _SAPCompany.DbServerType = (SAPbobsCOM.BoDataServerTypes)System.Enum.Parse(typeof(SAPbobsCOM.BoDataServerTypes), ConfigurationManager.AppSettings["SAPDBServerType"]);
-            _SAPCompany.Server = Convert.ToBoolean(ConfigurationManager.AppSettings["UseHostName"]) ? ConfigurationManager.AppSettings["HostName"] : ConfigurationManager.AppSettings["DataSource"];
+            _SAPCompany.Server = Convert.ToBoolean(ConfigurationManager.AppSettings["UseHostName"]) ? ConfigurationManager.AppSettings["HostName"] : ConfigurationManager.AppSettings["SAPServer"];
             _SAPCompany.language = SAPbobsCOM.BoSuppLangs.ln_Chinese;
             _SAPCompany.UseTrusted = Convert.ToBoolean(ConfigurationManager.AppSettings["UseTrusted"]);
             _SAPCompany.DbUserName = ConfigurationManager.AppSettings["UserID"];
             _SAPCompany.DbPassword = ConfigurationManager.AppSettings["Password"];
-            _SAPCompany.CompanyDB = ConfigurationManager.AppSettings["InitialCatalog"];
+            _SAPCompany.CompanyDB = ConfigurationManager.AppSettings["SAPCompanyDB"];
             _SAPCompany.UserName = ConfigurationManager.AppSettings["SAPUser"];
             _SAPCompany.Password = ConfigurationManager.AppSettings["SAPPassword"];
             _SAPCompany.LicenseServer = ConfigurationManager.AppSettings["SAPLicenseServer"];

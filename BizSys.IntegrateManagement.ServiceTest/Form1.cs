@@ -171,12 +171,12 @@ namespace BizSys.IntegrateManagement.ServiceTest
             {
                 Logger.Writer("开始连接B1账套……");
                 b1Company.DbServerType = (SAPbobsCOM.BoDataServerTypes)System.Enum.Parse(typeof(SAPbobsCOM.BoDataServerTypes), ConfigurationManager.AppSettings["SAPDBServerType"]);
-                b1Company.Server = ConfigurationManager.AppSettings["DataSource"];
+                b1Company.Server = Convert.ToBoolean(ConfigurationManager.AppSettings["UseHostName"]) ? ConfigurationManager.AppSettings["HostName"] : ConfigurationManager.AppSettings["SAPServer"];
                 b1Company.language = SAPbobsCOM.BoSuppLangs.ln_Chinese;
                 b1Company.UseTrusted = Convert.ToBoolean(ConfigurationManager.AppSettings["UseTrusted"]);
                 b1Company.DbUserName = ConfigurationManager.AppSettings["UserID"];
                 b1Company.DbPassword = ConfigurationManager.AppSettings["Password"];
-                b1Company.CompanyDB = ConfigurationManager.AppSettings["InitialCatalog"];
+                b1Company.CompanyDB = ConfigurationManager.AppSettings["SAPCompanyDB"];
                 b1Company.UserName = ConfigurationManager.AppSettings["SAPUser"];
                 b1Company.Password = ConfigurationManager.AppSettings["SAPPassword"];
                 b1Company.LicenseServer = ConfigurationManager.AppSettings["SAPLicenseServer"];

@@ -120,6 +120,18 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             }
             */
             Result result = new Result();
+
+            //没有物料，就加物料
+            foreach (var item in order.SalesDeliveryItems)
+            {
+                SAPbobsCOM.Items b1Material = SAP.SAPCompany.GetBusinessObject(BoObjectTypes.oItems);
+                if (!b1Material.GetByKey(item.ItemCode))
+                {
+                    //go to sysnc material
+                    BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService.GetMatarialService.GetMaterial(item.ItemCode);
+                }
+            }
+
             SAPbobsCOM.Documents myDocuments = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes);
 
             myDocuments.Series = B1Common.BOneCommon.GetB1DocEntrySeries("15");
@@ -170,7 +182,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 //myDocuments.Lines.BaseLine = res.Fields.Item("LineNum").Value;
                 myDocuments.Lines.Add();
             }
-            myDocuments.DocTotal = order.DocumentTotal;
+            myDocuments.DocTotal = Math.Round(order.DocumentTotal, 2);
             int RntCode = myDocuments.Add();
 
             if (RntCode != 0)

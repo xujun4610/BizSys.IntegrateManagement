@@ -141,12 +141,19 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public async static Task<string> HttpSaveAsync(DocumentType OrderType, string requestJson)
         {
+            /*
+            WebRequestHandler handler = new WebRequestHandler();
+            X509Certificate2 certificate = GetMyX509Certificate();
+            handler.ClientCertificates.Add(certificate);
+            */
             HttpContent httpContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
             string jsonResult;
             using (var http = new HttpClient(handler))
             {
                 http.BaseAddress = new Uri(@BaseUrl);
+
+                HttpClient client = new HttpClient(handler);
                 string url = @GetSaveOrderUrl(OrderType) + Token;
                 var response = await http.PostAsync(url, httpContent);
                 response.EnsureSuccessStatusCode();
