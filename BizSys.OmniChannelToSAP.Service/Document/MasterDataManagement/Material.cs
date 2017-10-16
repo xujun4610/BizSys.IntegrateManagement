@@ -25,10 +25,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myMaterial.ForeignName = material.ForeignDescription;
             myMaterial.ItemsGroupCode = Convert.ToInt32(material.CategoryCode);
 
-            myMaterial.PurchaseItemsPerUnit = material.NoOfItemsPerPurchaseUnit;
-            myMaterial.PurchaseUnit = material.PurchasingUoM;
+            myMaterial.PurchaseItemsPerUnit = material.NoOfItemsPerPurchaseUnit <= 0 ? 1: material.NoOfItemsPerPurchaseUnit;
+            myMaterial.PurchaseUnit =  material.PurchasingUoM;
             myMaterial.SalesUnit = material.SalesUoM;
-            myMaterial.SalesItemsPerUnit = material.NoOfItemsPerSalesUnit;
+            myMaterial.SalesItemsPerUnit = material.NoOfItemsPerSalesUnit <= 0? 1: material.NoOfItemsPerSalesUnit;
             myMaterial.SalesVATGroup = BOneCommon.GetTaxByRate(material.SaleTax, "O");
             myMaterial.PurchaseVATGroup = BOneCommon.GetTaxByRate(material.PurchaseTax, "I");
             myMaterial.DefaultWarehouse = material.DefaultWarehouse;

@@ -18,7 +18,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
     {
         public async static void GetMaterial(string ItemCode = null)
         {
-            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 20);
+            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 30);
             string guid = "Material-" + Guid.NewGuid();
             string resultJson = string.Empty;
             #region 查找条件
@@ -110,12 +110,12 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
             }
 
             //序列化json对象
-            string requestJson = await JsonConvert.SerializeObjectAsync(cri);
+            string requestJson = JsonConvert.SerializeObject(cri);
             #endregion
             #region 调用接口
             try
             {
-                resultJson = await BaseHttpClient.HttpFetchAsync(DocumentType.MATERIALS, requestJson);
+                resultJson = BaseHttpClient.HttpFetch(DocumentType.MATERIALS, requestJson);
             }
             catch (Exception ex)
             {
@@ -140,7 +140,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
                     {
                         string callBackJsonString = JsonObject.GetCallBackJsonString(item.ObjectCode, "ObjectKey", item.ObjectKey, item.ObjectKey, syncDateTime);
                         string callBackResultStr = await BaseHttpClient.HttpCallBackAsync(callBackJsonString);
-                        var callBackResult = await JsonConvert.DeserializeObjectAsync<CallBackResult>(callBackResultStr);
+                        var callBackResult = JsonConvert.DeserializeObject<CallBackResult>(callBackResultStr);
                         if (callBackResult.ResultCode == 0)
                             mSuccessCount++;
                         else

@@ -105,7 +105,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
         public static Result CreateSalesDeliveryOrder(ResultObjects order)
         {
             string B1DocEntry;
-            string B1DlftWhsCode = "01";
+            string B1DlftWhsCode = "W03";
             string B1DlftSaleCostCode = string.Empty;
             string B1DlftFIAccount = string.Empty;
             /*
@@ -122,15 +122,15 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             Result result = new Result();
 
             //没有物料，就加物料
-            foreach (var item in order.SalesDeliveryItems)
-            {
-                SAPbobsCOM.Items b1Material = SAP.SAPCompany.GetBusinessObject(BoObjectTypes.oItems);
-                if (!b1Material.GetByKey(item.ItemCode))
-                {
-                    //go to sysnc material
-                    BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService.GetMatarialService.GetMaterial(item.ItemCode);
-                }
-            }
+            //foreach (var item in order.SalesDeliveryItems)
+            //{
+            //    SAPbobsCOM.Items b1Material = SAP.SAPCompany.GetBusinessObject(BoObjectTypes.oItems);
+            //    if (!b1Material.GetByKey(item.ItemCode))
+            //    {
+            //        //go to sysnc material
+            //        BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService.GetMatarialService.GetMaterial(item.ItemCode);
+            //    }
+            //}
 
             SAPbobsCOM.Documents myDocuments = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes);
 
@@ -147,7 +147,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.CardName = order.BusinessPartnerName;
             myDocuments.ContactPersonCode = B1Common.BOneCommon.GetBPContractCode(order.BusinessPartnerCode, order.ContactPerson);
             //收货地址
-            string[] textArray1 = new string[] { "CN", order.Province, order.City, order.County, order.Town, order.DetailedAddress };
+            string[] textArray1 = new string[] {order.Consignee, order.ContactNumber, "\n", "CN", order.Province, order.City, order.County, order.Town, order.DetailedAddress };
             myDocuments.Address2 = string.Concat(textArray1);
             //myDocuments.BPL_IDAssignedToInvoice = BOneCommon.GetBranchCodeByWhsCode(order.SalesDeliveryItems.FirstOrDefault().Warehouse);
             //if (string.IsNullOrEmpty(order.BillType))
@@ -169,7 +169,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse(item.Warehouse) == true ? item.Warehouse : B1DlftWhsCode;
                 myDocuments.Lines.Quantity = Convert.ToDouble(item.Quantity);
                 myDocuments.Lines.DiscountPercent = item.DiscountPerLine;
-                myDocuments.Lines.PriceAfterVAT = item.GrossPrice;
+                myDocuments.Lines.PriceAfterVAT = item.GrossPrice;                                                           
                 myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate(item.TaxRatePerLine, "O");
                 //myDocuments.Lines.UnitPrice = item.UnitPrice;
                 //myDocuments.Lines.COGSAccountCode 销货成本科目

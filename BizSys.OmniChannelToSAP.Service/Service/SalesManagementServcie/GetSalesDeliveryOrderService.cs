@@ -86,12 +86,12 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 Remarks = null
             };
             //序列化json对象
-            string requestJson = await JsonConvert.SerializeObjectAsync(cri);
+            string requestJson = JsonConvert.SerializeObject(cri);
             #endregion
             #region 调用接口
             try
             {
-                resultJson = await BaseHttpClient.HttpFetchAsync(DocumentType.SALESDELIVERYORDER, requestJson);
+                resultJson = BaseHttpClient.HttpFetch(DocumentType.SALESDELIVERYORDER, requestJson);
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
             #endregion
             #region 订单处理
             //反序列化
-            SalesDeliveryOrderRootObject salesDeliveryOrder = await JsonConvert.DeserializeObjectAsync<SalesDeliveryOrderRootObject>(resultJson);
+            SalesDeliveryOrderRootObject salesDeliveryOrder = JsonConvert.DeserializeObject<SalesDeliveryOrderRootObject>(resultJson);
             if (salesDeliveryOrder.ResultObjects.Count == 0) return;
             DateTime syncDateTime = DateTime.Now;
             Logger.Writer(guid, QueueStatus.Open, "[" + salesDeliveryOrder.ResultObjects.Count + "]条销售交货订单开始处理。");
@@ -123,7 +123,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         {
                             string callBackJsonString = JsonObject.GetCallBackJsonString(item.ObjectCode, item.DocEntry.ToString(), rt.DocEntry, syncDateTime);
                             string callBackResultStr = await BaseHttpClient.HttpCallBackAsync(callBackJsonString);
-                            var callBackResult = await JsonConvert.DeserializeObjectAsync<CallBackResult>(callBackResultStr);
+                            var callBackResult = JsonConvert.DeserializeObject<CallBackResult>(callBackResultStr);
                             if (callBackResult.ResultCode == 0)
                                 mSuccessCount++;
                         }

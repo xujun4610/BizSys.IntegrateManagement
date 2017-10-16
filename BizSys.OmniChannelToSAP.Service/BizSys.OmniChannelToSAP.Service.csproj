@@ -133,6 +133,7 @@
     <Compile Include="Service\StockManagementServcie\GetInventoryTransferApplyService.cs" />
     <Compile Include="Service\StockManagementServcie\GetInventoryUpdateService.cs" />
     <Compile Include="Task\CustomerService\CustomerService.cs" />
+    <Compile Include="Task\SalesManagement\SalesDeliveryService.cs" />
     <Compile Include="Task\SalesOrderByNiko\SalesOrderByNikoService.cs" />
     <Compile Include="Task\StockManagement\StockManagementService.cs" />
     <Compile Include="Task\MasterDataManagement\MasterDataService.cs" />
