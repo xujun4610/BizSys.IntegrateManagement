@@ -29,7 +29,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.ZipCode = customer.BillToZipCode;
             myBP.EmailAddress = customer.Email;
             myBP.CreditLimit = customer.PaidToCredit;
-            myBP.SalesPersonCode = -1; //销售员修改；
+            //myBP.SalesPersonCode = -1; //销售员修改；
             myBP.Territory = -2; //区域修改，默认值
 
             myBP.PayTermsGrpCode = -1; //付款条件修改

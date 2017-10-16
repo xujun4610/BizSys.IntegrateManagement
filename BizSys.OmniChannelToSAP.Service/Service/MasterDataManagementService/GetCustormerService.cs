@@ -17,7 +17,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
 
         public async static void GetCustomer(string CardCode = null)
         {
-            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 20);
+            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 30);
             string guid = "Customer-" + Guid.NewGuid();
             string resultJson = string.Empty;
             #region 查找条件

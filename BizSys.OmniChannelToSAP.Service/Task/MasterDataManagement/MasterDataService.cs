@@ -24,11 +24,11 @@ namespace BizSys.OmniChannelToSAP.Service.Task.MaterialsManagement
 
         public  void Run()
         {
-            GetSupplierService.GetSupplier();//供应商
+            //GetSupplierService.GetSupplier();//供应商
             GetCustormerService.GetCustomer();//客户主数据
            //GetCapitalPlanService.GetCapitalPlan();//资金计划
-            GetIncomeBudgetService.GetIncomeBudget();//收入预算
-            GetCostBudgetService.GetCostBudget();//费用预算
+            //GetIncomeBudgetService.GetIncomeBudget();//收入预算
+            //GetCostBudgetService.GetCostBudget();//费用预算
             //GetSalesPomotionService.GetSalesPomotion();//促销活动
         }
 

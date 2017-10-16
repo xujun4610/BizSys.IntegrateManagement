@@ -118,14 +118,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BP_CUS.png" />
     <Content Include="Dll\Interop.SAPbobsCOM.dll" />
     <Content Include="Dll\MagicBox.Common.dll" />
     <Content Include="Dll\MagicBox.Log.dll" />
     <Content Include="Dll\MagicBox.WindowsServices.Common.dll" />
     <Content Include="Dll\Newtonsoft.Json.dll" />
     <Content Include="Dll\SAPB1Addon.dll" />
-    <Content Include="销售模块状态图.png" />
-    <Content Include="销售模块订单号.png" />
+    <Content Include="SD.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BizSys.IntegrateManagement.Entity\BizSys.IntegrateManagement.Entity.csproj">
