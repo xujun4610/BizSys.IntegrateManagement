@@ -40,8 +40,15 @@ namespace BizSys.IntegrateManagement.ServiceTest
 
         private void btnMaterials_Click(object sender, EventArgs e)
         {
-            MasterDataService service = new MasterDataService();
-            service.Run();
+            //MasterDataService service = new MasterDataService();
+            //service.Run();
+            //var itemCodes = new string[] {"Test20170911001" };
+
+            //var itemCodes = new string[] { "jd00001", "Test20170911001", "99968200423", "99968200405", "99958007520", "99191010619", "99152015325" };
+            //foreach (var item in itemCodes)
+            //{
+                BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService.GetMatarialService.GetMaterial();
+            //}
         }
 
         private void btnBusinessPartner_Click(object sender, EventArgs e)
@@ -127,7 +134,7 @@ namespace BizSys.IntegrateManagement.ServiceTest
 
         private void button3_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void button12_Click(object sender, EventArgs e)

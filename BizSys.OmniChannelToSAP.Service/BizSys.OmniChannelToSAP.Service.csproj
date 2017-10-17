@@ -156,6 +156,7 @@
     <None Include="WindowsServicePlatform\MagicBox.WindowsServices.Performer.exe.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="docs\TextFile1.txt" />
     <Content Include="WindowsServicePlatform\ServiceConfig.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,777 @@
+﻿
+
+---------------------------------------------------------------------------------------------------
+B1存储过程 -- 客户同步
+---------------------------------------------------------------------------------------------------
+/*
+	ocm customed SQLs
+	此段sql 同步B1 客户
+ */
+		--客户
+	IF  @object_type=N'2' 
+	BEGIN
+			declare @ObjectKey int = 0; --OCM ObjectKey
+			declare @CardName nvarchar(100)
+			declare @GroupCode int = 0;
+			declare @SlpCode int = 0;
+			declare @DlftPriceListNum int = 0;
+			declare @ValidFlag nvarchar(1);
+			declare @FrozenFlag nvarchar(1);
+
+			IF @list_of_key_cols_tab_del = N'CardCode' and exists (select * from OCRD where CardCode = @list_of_cols_val_tab_del and CardType = N'C')  --LEFT(@list_of_cols_val_tab_del,1) = 'C'
+			BEGIN
+					--赋值
+					select Top 1 @CardName = CardName, @GroupCode = GroupCode, @DlftPriceListNum = ListNum, @SlpCode = SlpCode, @ValidFlag= validFor, @FrozenFlag = frozenFor  from OCRD where CardCode = @list_of_cols_val_tab_del;
+
+					if @transaction_type = N'A'
+					begin
+					--执行
+					select Top 1 @ObjectKey = AutoKey from [omni_channel_man].[dbo].[AVA_SYS_ONNM] where ObjectCode = 'AVA_BP_CUSTOMER'
+
+					INSERT INTO [omni_channel_man].[dbo].[AVA_BP_OCUS]
+							   ([ObjectKey]
+							   ,[CardCode]
+							   ,[CardName]
+							   ,[GroupCode]
+							   ,[CmpPrivate]
+							   ,[CustomerLevel]
+							   ,[Address]
+							   ,[ZipCode]
+							   ,[Phone1]
+							   ,[Phone2]
+							   ,[Cellular]
+							   ,[Fax]
+							   ,[CntctPrsn]
+							   ,[Email]
+							   ,[Website]
+							   ,[Province]
+							   ,[City]
+							   ,[County]
+							   ,[Notes]
+							   ,[Balance]
+							   ,[LicTradNum]
+							   ,[SlpCode]
+							   ,[Currency]
+							   ,[ListNum]
+							   ,[Deleted]
+							   ,[activationFor]
+							   ,[validFrom]
+							   ,[validTo]
+							   ,[frozenFor]
+							   ,[frozenFrom]
+							   ,[frozenTo]
+							   ,[Object]
+							   ,[CreateDate]
+							   ,[CreateTime]
+							   ,[UpdateDate]
+							   ,[UpdateTime]
+							   ,[LogInst]
+							   ,[Series]
+							   ,[Creator]
+							   ,[Updator]
+							   ,[CreateActId]
+							   ,[UpdateActId]
+							   ,[DataOwner]
+							   ,[TeamMembers]
+							   ,[OrgCode]
+							   ,[ApvlStatus]
+							   ,[Refed]
+							   ,[ManCusCrt]
+							   ,[PaidToCredit]
+							   ,[AlertThreshold]
+							   ,[PaymentMethod]
+							   ,[CreditScore]
+							   ,[AccountBalance]
+							   ,[PreCharge]
+							   ,[OrganizationId]
+							   ,[U_SBOSynchronization]
+							   ,[U_SBOCallbackDate]
+							   ,[U_SBOId]
+							   ,[TaxRate]
+							   ,[U_ResourceType]
+							   ,[U_DocEntryAnywhere]
+							   ,[DataSource]
+							   ,[BillingAddress]
+							   ,[BillingTelephone]
+							   ,[InvoiceRecipient]
+							   ,[Account]
+							   ,[TaxNumber]
+							   ,[HouseBank]
+							   ,[U_SBOCallbackTime]
+							   ,[TaxpayerQualification]
+							   ,[AccountNumber]
+							   ,[IDCardNo]
+							   ,[Town]
+							   ,[AccountPeriod]
+							   ,[Channel]
+							   ,[CreditValidFrom]
+							   ,[CreditValidTo])
+						 VALUES
+							   (@ObjectKey
+							   ,@list_of_cols_val_tab_del
+							   ,@CardName		--<CardName, nvarchar(100),>  --带入
+							   ,@GroupCode		--<GroupCode, nvarchar(8),>   --带入
+							   ,null		--<CmpPrivate, nvarchar(100),> --带入
+							   ,null	--<CustomerLevel, nvarchar(100),>
+							   ,null	--<Address, nvarchar(200),>
+							   ,null	--<ZipCode, nvarchar(20),>
+							   ,null	--<Phone1, nvarchar(100),>
+							   ,null	--<Phone2, nvarchar(100),>
+							   ,null	--<Cellular, nvarchar(100),>
+							   ,null	--<Fax, nvarchar(100),>
+							   ,null	--<CntctPrsn, nvarchar(50),>
+							   ,null	--<Email, nvarchar(50),>
+							   ,null	--<Website, nvarchar(100),>
+							   ,null	--<Province, nvarchar(100),>
+							   ,null	--<City, nvarchar(100),>
+							   ,null	--<County, nvarchar(100),>
+							   ,null	--<Notes, nvarchar(200),>
+							   ,0.0		--<Balance, numeric(19,6),>
+							   ,null	--<LicTradNum, nvarchar(30),>
+							   ,null	--<SlpCode, nvarchar(8),>
+							   ,null	--<Currency, nvarchar(5),>
+							   ,@DlftPriceListNum		--<ListNum, int,>
+							   ,N'N'		--<Deleted, nvarchar(1),>
+							   ,(case when (@ValidFlag = N'Y') then N'Y' when (@FrozenFlag = N'Y') then N'N' else N'Y' end ) 		--<activationFor, nvarchar(1),>
+							   ,GETDATE()  --<validFrom, datetime,>
+							   ,'2100-1-31' --<validTo, datetime,>
+							   ,null	--<frozenFor, nvarchar(1),>
+							   ,null	--<frozenFrom, datetime,>
+							   ,null	--<frozenTo, datetime,>
+							   ,'AVA_BP_CUSTOMER'	--<Object, nvarchar(30),>
+							   ,GETDATE()	--<CreateDate, datetime,>
+							   ,DATENAME(HOUR,GETDATE())*100 + DATENAME(MINUTE,GETDATE())	--<CreateTime, smallint,>
+							   ,null	--<UpdateDate, datetime,>
+							   ,null	--<UpdateTime, smallint,>
+							   ,1		--<LogInst, int,>
+							   ,1		--<Series, int,>
+							   ,278		--<Creator, int,>
+							   ,0		--<Updator, int,>
+							   ,NEWID()	--<CreateActId, nvarchar(36),>
+							   ,null	--<UpdateActId, nvarchar(36),>
+							   ,278		--<DataOwner, int,>
+							   ,null	--<TeamMembers, nvarchar(50),>
+							   ,null	--<OrgCode, nvarchar(8),>
+							   ,'U'		--<ApvlStatus, nvarchar(1),>
+							   ,'N'		--<Refed, nvarchar(1),>
+							   ,'Y'		--<ManCusCrt, nvarchar(1),>
+							   ,0		--<PaidToCredit, numeric(19,6),>
+							   ,0		--<AlertThreshold, numeric(19,6),>
+							   ,null	--<PaymentMethod, nvarchar(100),>
+							   ,0		--<CreditScore, numeric(19,6),>
+							   ,null	--<AccountBalance, numeric(19,6),>
+							   ,0.0		--<PreCharge, numeric(19,6),>
+							   ,null	--<OrganizationId, nvarchar(100),>
+							   ,'N'		--<U_SBOSynchronization, nvarchar(1),>
+							   ,null	--<U_SBOCallbackDate, datetime,>
+							   ,null	--<U_SBOId, nvarchar(36),>
+							   ,0.0		--<TaxRate, numeric(19,6),>
+							   ,null	--<U_ResourceType, nvarchar(2),>
+							   ,null	--<U_DocEntryAnywhere, nvarchar(36),>
+							   ,0		--<DataSource, nvarchar(8),>
+							   ,null	--<BillingAddress, nvarchar(100),>
+							   ,null		--<BillingTelephone, nvarchar(20),>
+							   ,null		--<InvoiceRecipient, nvarchar(50),>
+							   ,null		--<Account, nvarchar(50),>
+							   ,null		--<TaxNumber, nvarchar(32),>
+							   ,-1		--<HouseBank, nvarchar(30),>
+							   ,0		--<U_SBOCallbackTime, smallint,>
+							   ,null	--<TaxpayerQualification, nvarchar(8),>
+							   ,null	--<AccountNumber, nvarchar(50),>
+							   ,null	--<IDCardNo, nvarchar(50),>
+							   ,null	--<Town, nvarchar(100),>
+							   ,0		--<AccountPeriod, numeric(19,6),>
+							   ,@SlpCode	--<Channel, nvarchar(100),>  --带入
+							   ,GETDATE()	--<CreditValidFrom, datetime,>
+							   ,DATEADD(year,1,GETDATE())	--<CreditValidTo, datetime,>)
+							)
+							--update autokey
+							update [omni_channel_man].[dbo].[AVA_SYS_ONNM] set AutoKey = AutoKey+1 where ObjectCode = 'AVA_BP_CUSTOMER'
+
+					end
+					if @transaction_type = N'U'
+					begin
+						update omni_channel_man.dbo.AVA_BP_OCUS set CardName = @CardName , GroupCode = @CardName, Channel = @SlpCode, activationFor = (case when (@ValidFlag = N'Y') then N'Y' when (@FrozenFlag = N'Y') then N'N' else N'Y' end ) , ListNum = @DlftPriceListNum  where CardCode = @list_of_cols_val_tab_del
+					end
+					if @transaction_type = N'D'
+					begin
+						update omni_channel_man.dbo.AVA_BP_OCUS set activationFor = N'N' where CardCode = @list_of_cols_val_tab_del
+					end
+
+			END
+/*
+			else
+			begin
+					set @error = -1
+					set @error_message = n'b1系统存储过程执行【业务伙伴主数据】有误，请检查！'
+			end
+*/
+
+	END
+
+---------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+B1存储过程 -- 第三方服务合同 同步至 OCM 销售订单
+曼恩
+---------------------------------------------------------------------------------------------------
+
+USE [omni_channel_man]
+GO
+/****** Object:  StoredProcedure [dbo].[AVA_SM_SP_GET_THIRDPARTYORDR]    Script Date: 2017/10/17 16:37:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Niko.Xu xuhaizhou
+-- Create date: 2017-10-10
+-- Description: 3rd-party services contract to OCM SalesOrder 
+-- MainBO:My_Cursor  LineBO:Line_Cursor
+-- =============================================
+ALTER PROCEDURE [dbo].[AVA_SM_SP_GET_THIRDPARTYORDR] 
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	--错误
+	declare @ErrorSum int = 0;
+	declare @Error int = 0; --单条错误记录
+	--其他函数 
+	declare @AutoKey int = 0;
+	--Main
+	declare @DocEntry 		nvarchar(255);
+	declare @DocDate 		datetime;
+	declare @DocDueDate 	datetime;
+	declare @TaxDate 		datetime;
+	declare @DocumenType 	int;
+	declare @CardCode 		nvarchar(20);
+	declare @CardName 		nvarchar(255);
+	declare @VatPercent 	numeric(19, 6) = 0;
+	declare @VatSum 		numeric(19, 6) = 0;
+	declare @DiscPrcnt 		numeric(19, 6) = 0;
+	declare @DiscSum 		numeric(19, 6) = 0;
+	declare @DocTotal 		numeric(19, 6) = 0;
+	declare @Consignee 		nvarchar(255);
+	declare @CntctNumber 	nvarchar(255);
+	declare @DtlAddress 	nvarchar(255);
+	declare @ID 			nvarchar(36);
+
+	--Line
+	declare @LineDocEntry 	nvarchar(255) ; --DocEntry
+	declare @LineId 		int ;
+	declare @ItemCode 		nvarchar(255) ;
+	declare @Dscription 	nvarchar(255) ;
+	declare @Quantity 		numeric(19, 6) ;
+	declare @LineTotal 		numeric(19, 6) = 0;
+	declare @PriceBefDi 	numeric(19, 6) = 0;
+	declare @UseBaseUn 		nvarchar(10) ;
+	declare @VatPrcnt 		numeric(19, 6) = 0;
+	declare @PriceAfVAT 	numeric(19, 6) = 0;
+	declare @LineVatSum 	numeric(19, 6) = 0; --VatSum
+	declare @Gtotal 		numeric(19, 6) = 0;
+	declare @LineDocID 		nvarchar(36) ; --ID
+	declare @DocEntryID 	nvarchar(36) ; 
+
+	--正文
+	DECLARE My_Cursor CURSOR --定义游标
+	FOR (SELECT t1.* FROM V_AVA_SM_ORDR t1  left join AVA_SM_ORDR t2 on t2.U_DocEntryAnywhere = t1.DocEntry
+	where t1.DocEntry not in (select U_DocEntryAnywhere from AVA_SM_ORDR  where U_DocEntryAnywhere is not null  group by U_DocEntryAnywhere)
+	) --查出需要的集合放到游标中
+	--必要时候 SELECT * FROM V_AVA_SM_ORDR
+	OPEN My_Cursor; --打开游标
+	FETCH NEXT FROM My_Cursor 
+	into @DocEntry, @DocDate, @DocDueDate, @TaxDate, @DocumenType, @CardCode, @CardName, @VatPercent, @VatSum, @DiscPrcnt, @DiscSum, @DocTotal, @Consignee, @CntctNumber, @DtlAddress, @ID ; --读取第一行数据(将MemberAccount表中的UserId放到@UserId变量中)
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			--开始事务
+			Set @Error = 0;
+			begin tran
+
+			--前期准备 - 业务伙伴信息
+			declare @BPCardName nvarchar(100);
+			declare @BPGroupCode nvarchar(10)
+			declare @BPCntctPrsn nvarchar(20)
+			declare @BPCellular nvarchar(20)
+			declare @BPEmail    nvarchar(50)
+
+			declare @BPProvince nvarchar(50)
+			declare @BPCity	    nvarchar(50)
+			declare @BPCounty   nvarchar(50)
+			declare @BPTown	    nvarchar(50)
+			declare @BPAddress  nvarchar(100)
+
+			select Top 1  @BPCardName=t1.CardName, @BPGroupCode=t1.GroupCode, 
+			@BPCntctPrsn=t2.CntctPrsn, @BPCellular=t2.Cellular, @BPEmail=t2.Email, 
+			@BPProvince=t2.Province,@BPCity=t2.City, @BPCounty=t2.County, @BPTown=t2.Town, @BPAddress=t2.[Address] 
+			from AVA_BP_OCUS t1 inner join AVA_BP_OCAD t2 on t1.ObjectKey=t2.ObjectKey 
+			where t1.CardCode = @CardCode and t2.DefaltAddress = 'Yes' --默认地址
+			Set @Error += @@ERROR
+
+			--autokey
+			select Top 1 @AutoKey = AutoKey from AVA_SYS_ONNM where ObjectCode = 'AVA_SM_SALESORDER';
+			Set @Error += @@ERROR
+			--insert into AVA_SM_ORDR(DocNum,DocEntry,CreateDate,CreateActId,
+			--主插入
+			INSERT INTO [dbo].[AVA_SM_ORDR]
+			   ([DocEntry]
+			   ,[DocNum]
+			   ,[Period]
+			   ,[Instance]
+			   ,[Series]
+			   ,[Handwrtten]
+			   ,[Canceled]
+			   ,[Object]
+			   ,[LogInst]
+			   ,[UserSign]
+			   ,[Transfered]
+			   ,[Status]
+			   ,[DataSource]
+			   ,[CreateDate]
+			   ,[CreateTime]
+			   ,[UpdateDate]
+			   ,[UpdateTime]
+			   ,[Creator]
+			   ,[Updator]
+			   ,[CreateActId]
+			   ,[UpdateActId]
+			   ,[DataOwner]
+			   ,[TeamMembers]
+			   ,[OrgCode]
+			   ,[ApvlStatus]
+			   ,[DocStatus]
+			   ,[DocDate]
+			   ,[DocDueDate]
+			   ,[TaxDate]
+			   ,[Ref1]
+			   ,[Ref2]
+			   ,[Remarks]
+			   ,[B1DocEntry]
+			   ,[Printed]
+			   ,[CardCode]
+			   ,[CardName]
+			   ,[CntctCode]
+			   ,[Address]
+			   ,[Address2]
+			   ,[NumAtCard]
+			   ,[VatPercent]
+			   ,[VatSum]
+			   ,[DiscPrcnt]
+			   ,[DiscSum]
+			   ,[DocCur]
+			   ,[DocRate]
+			   ,[DocTotal]
+			   ,[PaidToDate]
+			   ,[GrosProfit]
+			   ,[GrossBase]
+			   ,[GroupNum]
+			   ,[Rounding]
+			   ,[RoundDif]
+			   ,[PaidSum]
+			   ,[Project]
+			   ,[CusType]
+			   ,[Refed]
+			   ,[Deleted]
+			   ,[LotStatus]
+			   ,[ArrDate]
+			   ,[Consignee]
+			   ,[CntctNumber]
+			   ,[Province]
+			   ,[City]
+			   ,[County]
+			   ,[DtlAddress]
+			   ,[LotCompany]
+			   ,[LotNum]
+			   ,[OpenRecSum]
+			   ,[ClosedRecSum]
+			   ,[RecKey]
+			   ,[Subtotal]
+			   ,[ProDiscount]
+			   ,[ProDisRate]
+			   ,[Salesperson]
+			   ,[GrossCommission]
+			   ,[ExArrDate]
+			   ,[Postcodes]
+			   ,[BillType]
+			   ,[U_SBOSynchronization]
+			   ,[U_SBOCallbackDate]
+			   ,[U_SBOId]
+			   ,[PrmtsCode]
+			   ,[DocEntryAnywhere]
+			   ,[PickingWay]
+			   ,[PickingAddress]
+			   ,[U_ResourceType]
+			   ,[U_DocEntryAnywhere]
+			   ,[U_CouponCode]
+			   ,[ManServiceNum]
+			   ,[MSNEntry]
+			   ,[MSNLineId]
+			   ,[MSNMoney]
+			   ,[U_SBOCallbackTime]
+			   ,[Town]
+			   ,[PrmtsContent]
+			   ,[ChannelType]
+			   ,[DocumentType]
+			   ,[Email]
+			   ,[GroupName])
+		 VALUES
+			   (@AutoKey
+			   ,0
+			   ,0
+			   ,0
+			   ,0
+			   ,'N'
+			   ,'N'
+			   ,'AVA_SM_SALESORDER'
+			   ,0
+			   ,0
+			   ,'N'
+			   ,'O'
+			   ,16
+			   ,GETDATE()
+			   ,DATENAME(HOUR,GETDATE())*100 + DATENAME(MINUTE,GETDATE())
+			   ,null
+			   ,null
+			   ,82
+			   ,null
+			   ,NEWID()
+			   ,null
+			   ,278
+			   ,null
+			   ,null
+			   ,'U'
+			   ,'R'
+			   ,GETDATE()
+			   ,GETDATE()
+			   ,GETDATE()
+			   ,null
+			   ,null
+			   ,null
+			   ,null
+			   ,'N'
+			   ,@CardCode
+			   ,@BPCardName --<CardName, nvarchar(100),>
+			   ,0 --<CntctCode, int,> --别给我放
+			   ,null
+			   ,@BPAddress --<Address2, nvarchar(50),> --带入
+			   ,null
+			   ,17 --<VatPercent, numeric(19,6),> --带入 
+			   ,@VatSum  --<VatSum, numeric(19,6),> --计算
+			   ,@DiscPrcnt --<DiscPrcnt, numeric(19,6),> --带入 不要X10
+			   ,@DiscSum --<DiscSum, numeric(19,6), > --带入
+			   ,null
+			   ,0 --<DocRate, numeric(19,6),> --人民币汇率统一 0
+			   ,@DocTotal --<DocTotal, numeric(19,6),> --计算
+			   ,0
+			   ,0
+			   ,1
+			   ,null
+			   ,'N'
+			   ,0
+			   ,0
+			   ,null
+			   ,null
+			   ,'N'
+			   ,'Y'
+			   ,'U'
+			   ,null
+			   ,@BPCntctPrsn --<Consignee, nvarchar(50),>
+			   ,@BPCellular --<CntctNumber, nvarchar(20),>
+			   ,@BPProvince --<Province, nvarchar(100),>
+			   ,@BPCity --<City, nvarchar(100),>
+			   ,@BPCounty --<County, nvarchar(100),>
+			   ,@BPAddress --<DtlAddress, nvarchar(200),>
+			   ,null
+			   ,null
+			   ,0
+			   ,0
+			   ,null
+			   ,@DocTotal /(100 - @DiscPrcnt) --<Subtotal, numeric(19,6),> 
+			   ,(@DocTotal /(100 - @DiscPrcnt)) * 0.23  --<ProDiscount, numeric(19,6),> 促销优惠折扣额
+			   ,23 --<ProDisRate, numeric(19,6),> 促销折扣率   库存订单 经销商 35%这扣优惠  KAW 23% --this KAW
+			   ,0 --<Salesperson, nvarchar(20),> ??销售员是谁啊
+			   ,0 --<GrossCommission, numeric(19,6),>
+			   ,null
+			   ,null --<Postcodes, nvarchar(100),>
+			   ,13 --库存订单
+			   ,null
+			   ,null
+			   ,null
+			   ,null
+			   ,null --<DocEntryAnywhere, nvarchar(30),> --放编号？
+			   ,null --<PickingWay, nvarchar(100),>
+			   ,null --<PickingAddress, nvarchar(200),>
+			   ,16    
+			   ,@DocEntry --<U_DocEntryAnywhere, nvarchar(36),> --方便好
+			   ,null
+			   ,null
+			   ,null
+			   ,null
+			   ,null
+			   ,0
+			   ,@BPTown --<Town, nvarchar(100),>
+			   ,null
+			   ,null
+			   ,null
+			   ,@BPEmail --<Email, nvarchar(50),>
+			   ,@BPGroupCode --<GroupName, nvarchar(100),>
+			   )
+
+			--主插入 结束
+
+			--内循环
+			declare @InnerDoc_LineId int = 1; --行号
+			DECLARE Line_Cursor CURSOR --定义游标
+			FOR (SELECT * FROM V_AVA_SM_RDR1 where DocEntry = @DocEntry ) --查出需要的集合放到游标中
+			OPEN Line_Cursor; --打开游标
+			FETCH NEXT FROM Line_Cursor 
+			into @LineDocEntry, @LineId, @ItemCode, @Dscription, @Quantity, @LineTotal, @PriceBefDi, @UseBaseUn, @VatPrcnt, @PriceAfVAT, @LineVatSum, @Gtotal, @LineDocID, @DocEntryID
+			WHILE @@FETCH_STATUS = 0
+				BEGIN
+					--INSERT INTO AVA_SM_RDR1 SELECT (  )
+					declare @DlftWhsCode nvarchar(20);
+					declare @ItemName nvarchar(100);
+					declare @CategoryCode nvarchar(10);
+					declare @BuyUnitMsr nvarchar(10)
+					select Top 1  @ItemName=ItemName, @CategoryCode=CategoryCode, @DlftWhsCode=DfltWH, @BuyUnitMsr=BuyUnitMsr from AVA_MM_OITM where ItemCode = @ItemCode
+					--select * from AVA_MM_OITM
+					--插入
+					INSERT INTO [dbo].[AVA_SM_RDR1]
+							   ([DocEntry]
+							   ,[LineId]
+							   ,[VisOrder]
+							   ,[Object]
+							   ,[LogInst]
+							   ,[Canceled]
+							   ,[Status]
+							   ,[LineStatus]
+							   ,[CreateDate]
+							   ,[CreateTime]
+							   ,[UpdateDate]
+							   ,[UpdateTime]
+							   ,[Creator]
+							   ,[Updator]
+							   ,[CreateActId]
+							   ,[UpdateActId]
+							   ,[Ref1]
+							   ,[Ref2]
+							   ,[TargetType]
+							   ,[TrgetEntry]
+							   ,[BaseRef]
+							   ,[BaseType]
+							   ,[BaseEntry]
+							   ,[BaseLinNum]
+							   ,[ItemCode]
+							   ,[Dscription]
+							   ,[ItemType]
+							   ,[ItmsCgrCode]
+							   ,[ManSerNum]
+							   ,[ManBtchNum]
+							   ,[ManServiceNum]
+							   ,[Quantity]
+							   ,[ShipDate]
+							   ,[OpenQty]
+							   ,[Price]
+							   ,[Currency]
+							   ,[Rate]
+							   ,[DiscPrcnt]
+							   ,[LineTotal]
+							   ,[OpenSum]
+							   ,[VendorNum]
+							   ,[WhsCode]
+							   ,[TreeType]
+							   ,[TreeBasisQty]
+							   ,[LineSign]
+							   ,[ParentSign]
+							   ,[AcctCode]
+							   ,[GrossBuyPr]
+							   ,[PriceBefDi]
+							   ,[UseBaseUn]
+							   ,[CodeBars]
+							   ,[VatPrcnt]
+							   ,[VatGroup]
+							   ,[PriceAfVAT]
+							   ,[VatSum]
+							   ,[GrssProfit]
+							   ,[Gtotal]
+							   ,[DelivrdQty]
+							   ,[LinManClsd]
+							   ,[Project]
+							   ,[OcrCode1]
+							   ,[OcrCode2]
+							   ,[OcrCode3]
+							   ,[OcrCode4]
+							   ,[OcrCode5]
+							   ,[BsDocType]
+							   ,[BsDocEntry]
+							   ,[BsDocLine]
+							   ,[GrossBase]
+							   ,[PrmtsCode]
+							   ,[Refed]
+							   ,[Deleted]
+							   ,[DataSource]
+							   ,[ParOthPom]
+							   ,[Cubage]
+							   ,[Activities]
+							   ,[SalesCommission]
+							   ,[U_SBOSynchronization]
+							   ,[U_SBOCallbackDate]
+							   ,[U_SBOId]
+							   ,[Salesperson]
+							   ,[OwnerId]
+							   ,[FatcherId]
+							   ,[Multiple]
+							   ,[U_ResourceType]
+							   ,[U_DocEntryAnywhere]
+							   ,[PriceMultiple]
+							   ,[U_CouponCode]
+							   ,[Workload]
+							   ,[EstimateWorkDays]
+							   ,[ExArrDate]
+							   ,[U_SBOCallbackTime]
+							   ,[ProductType]
+							   ,[GoodsType]
+							   ,[PriceAfVATTemp]
+							   ,[DiscPrcntTemp]
+							   ,[PriceListType]
+							   ,[LowPrice]
+							   ,[LowRetailPrice]
+							   ,[Flag]
+							   ,[Usable])
+						 VALUES
+							   (@AutoKey  --<DocEntry, int,> --带入
+							   ,@InnerDoc_LineId --<LineId, int,> --带入
+							   ,0
+							   ,'AVA_SM_SALESORDER.1'
+							   ,1
+							   ,'N'
+							   ,'O'
+							   ,'R'
+							   ,GETDATE()
+							   ,DATENAME(HOUR,GETDATE())*100 + DATENAME(MINUTE,GETDATE())
+							   ,null
+							   ,null
+							   ,0
+							   ,0
+							   ,NEWID()
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,@ItemCode --<ItemCode, nvarchar(20),>
+							   ,@Dscription --<Dscription, nvarchar(100),>
+							   ,'I'
+							   ,@CategoryCode --<ItmsCgrCode, nvarchar(100),> --带入
+								,'N'
+								,'N'
+								,'N'
+							   ,@Quantity --<Quantity, numeric(19,6),> --带入
+							   ,null
+							   ,@Quantity --<OpenQty, numeric(19,6),>  --带入
+							   ,(@PriceAfVAT / 1.17)  --<Price, numeric(19,6),> --带入
+							   ,null  --人民币默认null
+							   ,0
+							   ,0
+							   ,(@PriceAfVAT / 1.17) * @Quantity --@LineTotal --<LineTotal, numeric(19,6),> --计算
+							   ,0
+							   ,null
+							   ,@DlftWhsCode --<WhsCode, nvarchar(8),>  --带入
+							   ,'N'
+							   ,0
+							   ,null
+							   ,null
+							   ,null
+							   ,@PriceAfVAT --<GrossBuyPr, numeric(19,6),> --带入
+							   ,(@PriceAfVAT / 1.17) --<PriceBefDi, numeric(19,6),> --不含税单价
+							   ,@BuyUnitMsr --<UseBaseUn, nvarchar(8),>
+							   ,null
+							   ,17.0 --<VatPrcnt, numeric(19,6),>  --税率
+							   ,null
+							   ,@PriceAfVAT  --<PriceAfVAT, numeric(19,6),> --带入
+							   ,@PriceAfVAT *(0.17/1.17)--<VatSum, numeric(19,6),>  --总税额
+							   ,0
+							   ,@Gtotal  --<Gtotal, numeric(19,6),>  --毛价总计
+							   ,0
+							   ,'N'
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,0
+							   ,0
+							   ,1
+							   ,null
+							   ,'N'
+							   ,'N'
+							   ,null
+							   ,'N'
+							   ,0
+							   ,'O'
+							   ,0
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,null
+							   ,0
+							   ,16  --固定值
+							   ,@LineDocEntry --<U_DocEntryAnywhere, nvarchar(36),>  --带入
+							   ,0
+							   ,null
+							   ,0
+							   ,0
+							   ,null
+							   ,0  --callbackTime
+							   ,'C'
+							   ,'G'
+							   ,@PriceAfVAT --<PriceAfVATTemp, numeric(19,6),> --带入
+							   ,0 ---<DiscPrcntTemp, numeric(19,6),> --带入
+							   ,0
+							   ,0
+							   ,0
+							   ,0  --flag
+							   ,0 --<Usable, numeric(19,6),>  --计算
+							)
+					--插入 结束
+					Set @Error += @@ERROR
+					--更新lineID
+					SET @InnerDoc_LineId += 1;
+
+					FETCH NEXT FROM Line_Cursor 
+					into @LineDocEntry, @LineId, @ItemCode, @Dscription, @Quantity, @LineTotal, @PriceBefDi, @UseBaseUn, @VatPrcnt, @PriceAfVAT, @LineVatSum, @Gtotal, @LineDocID, @DocEntryID
+				END
+			CLOSE Line_Cursor; --关闭游标
+			DEALLOCATE Line_Cursor; --释放游标
+			--更新autokey
+			UPDATE AVA_SYS_ONNM set AutoKey = AutoKey+1 WHERE ObjectCode = 'AVA_SM_SALESORDER'
+			Set @Error += @@ERROR
+
+			--提交
+			if (@Error <> 0)
+			begin
+				rollback tran
+			end
+			else
+			begin
+				commit tran
+			end
+			
+			--UPDATE dbo.MemberService SET ServiceTime = DATEADD(Month, 6, getdate()) WHERE UserId = @UserId; --更新数据
+			FETCH NEXT FROM My_Cursor 
+			into @DocEntry, @DocDate, @DocDueDate, @TaxDate, @DocumenType, @CardCode, @CardName, @VatPercent, @VatSum, @DiscPrcnt, @DiscSum, @DocTotal, @Consignee, @CntctNumber, @DtlAddress, @ID ; --读取第一行数据(将MemberAccount表中的UserId放到@UserId变量中)
+
+		END
+	CLOSE My_Cursor; --关闭游标
+	DEALLOCATE My_Cursor; --释放游标
+
+
+END
