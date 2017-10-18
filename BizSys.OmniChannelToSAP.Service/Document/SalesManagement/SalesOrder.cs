@@ -5,6 +5,7 @@ using BizSys.OmniChannelToSAP.Service.B1Common;
 using SAPbobsCOM;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,20 +22,40 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
         /// <returns></returns>
         public static Result CreateSalesOrder(ResultObjects order)
         {
+            Result result = new Result();
             /*
              * 梅菲特奇葩要求
              * 分帐套存放salesorder
              * 根据用户 XZ，BJ， 分别存放 账套
              */
+            if (string.IsNullOrWhiteSpace(order.Salesperson))
+            {
+                result.ResultValue = ResultType.False;
+                result.ResultMessage = string.Format("OCM销售订单[{0}]，没有销售员。", order.DocEntry.ToString());
+                result.DocEntry = order.DocEntry.ToString();
+                return result;
+            }
+            if (!order.Salesperson.ToUpper().Contains("XZ") || !order.Salesperson.ToUpper().Contains("BJ"))
+            {
+                result.ResultValue = ResultType.False;
+                result.ResultMessage = string.Format("OCM销售订单[{0}]，销售员[{1}]，无法区分所属分支。", order.DocEntry.ToString(), order.Salesperson);
+                result.DocEntry = order.DocEntry.ToString();
+                return result;
+            }
+
             string B1DocEntry = string.Empty;
             string B1DlftWhsCode = "01"; //别的项目请修改这里
             string B1AccountCode = "6001"; //总账科目
             string B1SaleCostCode = "640101"; //销货成本
-            SAPbobsCOM.Documents myDocuments;
+            //销售员标识
+            string slpCodeSign = order.Salesperson.Substring(0, 2).ToUpper();
+
+
             //if (BOneCommon.IsMainStore(order.SalesOrderItems.FirstOrDefault().Warehouse))
             //{
             //生成销售订单
-            if (B1Common.BOneCommon.IsExistDocument("ORDR", order.DocEntry.ToString(), out B1DocEntry))
+            
+            if (B1Common.BOneCommon.IsExistDocument4MFT(slpCodeSign, "ORDR", order.DocEntry.ToString(), out B1DocEntry))
             {
                 order.B1DocEntry = B1DocEntry;
                 return new Result()
@@ -46,13 +67,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
 
             //SAPCompanyPool.AllCompany();
 
-            myDocuments = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders);
+            SAPbobsCOM.Documents myDocuments = SAPCompanyPool.GetSAPCompany(slpCodeSign).GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders);
 
-
-            Result result = new Result();
-
-
-            myDocuments.Series = B1Common.BOneCommon.GetB1DocEntrySeries("17");
+            myDocuments.Series = B1Common.BOneCommon.GetB1DocEntrySeries4MFT(slpCodeSign,"17");
             myDocuments.CardCode = order.BusinessPartnerCode;
             myDocuments.CardName = order.BusinessPartnerName;
             //myDocuments.Reference1 = order.Reference1;
@@ -85,8 +102,8 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 {
                     myDocuments.Lines.DiscountPercent = double.Parse(item.DiscountPerLine);//折扣率
                 }
-                myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate(item.TaxRatePerLine,"O");
-                myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse(item.Warehouse)== true? item.Warehouse: B1DlftWhsCode ;
+                myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate4MFT(slpCodeSign,item.TaxRatePerLine,"O");
+                myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse4MFT(slpCodeSign,item.Warehouse)== true? item.Warehouse: B1DlftWhsCode ;
                 myDocuments.Lines.UnitPrice = item.UnitPrice;
                 myDocuments.Lines.PriceAfterVAT = item.GrossPrice;
                 //单位？？？？
@@ -108,11 +125,11 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             if (RntCode != 0)
             {
                 result.ResultValue = ResultType.False;
-                result.ResultMessage = string.Format("【{0}】销售订单处理失败，ErrorCode:[{1}],ErrrMsg:[{2}];", order.DocEntry, SAP.SAPCompany.GetLastErrorCode(), SAP.SAPCompany.GetLastErrorDescription());
+                result.ResultMessage = string.Format("【{0}】销售订单处理失败，ErrorCode:[{1}],ErrrMsg:[{2}];", order.DocEntry, SAPCompanyPool.GetSAPCompany(slpCodeSign).GetLastErrorCode(), SAPCompanyPool.GetSAPCompany(slpCodeSign).GetLastErrorDescription());
             }
             else
             {
-                B1DocEntry = SAP.SAPCompany.GetNewObjectKey();
+                B1DocEntry = SAPCompanyPool.GetSAPCompany(slpCodeSign).GetNewObjectKey();
                 result.ResultValue = ResultType.True;
                 result.DocEntry = B1DocEntry;
                 result.ResultMessage = "【" + order.DocEntry.ToString() + "】销售订单处理成功，系统单据：" + result.DocEntry;

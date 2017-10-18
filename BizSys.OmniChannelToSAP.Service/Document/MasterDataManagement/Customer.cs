@@ -14,9 +14,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
     {
         public static Result CreateCustomer(ResultObjects customer)
         {
+            string b1CpySign = "BJ"; //客户主数据放北京
             Result result = new Result();
 
-            SAPbobsCOM.BusinessPartners myBP = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oBusinessPartners);
+            SAPbobsCOM.BusinessPartners myBP = SAPCompanyPool.GetSAPCompany(b1CpySign).GetBusinessObject(SAPbobsCOM.BoObjectTypes.oBusinessPartners);
             bool IsExists = myBP.GetByKey(customer.CustomerCode);
 
             myBP.CardType = SAPbobsCOM.BoCardTypes.cCustomer;
@@ -30,7 +31,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.EmailAddress = customer.Email;
             myBP.CreditLimit = customer.PaidToCredit;
             //myBP.SalesPersonCode = -1; //销售员修改；
-            myBP.Territory = B1Common.BOneCommon.GetTerritoryId(customer.ChannelType); //-2; //区域修改，默认值
+            myBP.Territory = B1Common.BOneCommon.GetTerritoryId4MFT(b1CpySign, customer.ChannelType); //-2; //区域修改，默认值
 
             //myBP.PayTermsGrpCode = -1; //付款条件修改
             myBP.PriceListNum = (customer.PriceListNumber == 0) ? 1 : customer.PriceListNumber; //1; //默认价格清单修改
@@ -163,12 +164,12 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             if (RntCode != 0)
             {
                 result.ResultValue = ResultType.False;
-                result.ResultMessage = string.Format("【{0}】客户处理失败，ErrorCode:[{1}],ErrrMsg:[{2}];", customer.CustomerCode, SAP.SAPCompany.GetLastErrorCode(), SAP.SAPCompany.GetLastErrorDescription());
+                result.ResultMessage = string.Format("【{0}】客户处理失败，ErrorCode:[{1}],ErrrMsg:[{2}];", customer.CustomerCode, SAPCompanyPool.GetSAPCompany(b1CpySign).GetLastErrorCode(), SAPCompanyPool.GetSAPCompany(b1CpySign).GetLastErrorDescription());
             }
             else
             {
                 result.ResultValue = ResultType.True;
-                result.ResultMessage = "【" + customer.CustomerCode + "】客户处理成功，系统数据：" + SAP.SAPCompany.GetNewObjectKey();
+                result.ResultMessage = "【" + customer.CustomerCode + "】客户处理成功，系统数据：" + SAPCompanyPool.GetSAPCompany(b1CpySign).GetNewObjectKey();
             }
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(myBP);
             return result;

@@ -240,6 +240,43 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
             }
         }
+
+        /// <summary>
+        /// 多账套同步,单据是否存在
+        /// </summary>
+        /// <param name="CompanyKey">账套标识</param>
+        /// <param name="tableName"></param>
+        /// <param name="DocEntry"></param>
+        /// <param name="B1DocEntry"></param>
+        /// <returns></returns>
+        public static bool IsExistDocument4MFT(string CompanyKey, string tableName, string DocEntry, out string B1DocEntry)
+        {
+            bool IsExistDocument = false;
+            B1DocEntry = default(String);
+            SAPbobsCOM.IRecordset res = SAPCompanyPool.GetSAPCompany(CompanyKey).GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+
+            try
+            {
+                string sql = string.Format(@"select DocEntry from {0} where U_OCM_DocEntry = '{1}'", tableName, DocEntry);
+                res.DoQuery(sql);
+                if (res.RecordCount >= 1)
+                {
+                    B1DocEntry = res.Fields.Item("DocEntry").Value.ToString();
+                    IsExistDocument = true;
+                }
+                return IsExistDocument;
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+
         /// <summary>
         /// 根据全渠道单号判断该取消订单是否已处理到B1中 
         /// </summary>
@@ -613,6 +650,34 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         }
 
         /// <summary>
+        /// 根据税率获取税码 
+        /// </summary>
+        /// <param name="CompanyKey">账套标识</param>
+        /// <param name="rate"></param>
+        /// <param name="TaxType">I/O</param>
+        /// <returns></returns>
+        public static string GetTaxByRate4MFT(string CompanyKey, double rate, string TaxType)
+        {
+            SAPbobsCOM.Recordset res = SAPCompanyPool.GetSAPCompany(CompanyKey).GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $" select Code from OVTG where Category = '{TaxType}' and Rate = {rate}";
+                res.DoQuery(sql);
+                if (res.RecordCount != 1)
+                    throw new Exception("根据税率无法找到税码，请检查。");
+                return res.Fields.Item("Code").Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+        /// <summary>
         /// 根据付款类型获取科目
         /// </summary>
         /// <param name="payType"></param>
@@ -748,6 +813,36 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
             }
         }
+
+
+        /// <summary>
+        /// B1单据序列号
+        /// </summary>
+        /// <param name="CompanyKey">账套标识</param>
+        /// <param name="B1ObjectCode"></param>
+        /// <returns></returns>
+        public static int GetB1DocEntrySeries4MFT(string CompanyKey, string B1ObjectCode)
+        {
+            SAPbobsCOM.Recordset res = SAPCompanyPool.GetSAPCompany(CompanyKey).GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"select Top 1 DfltSeries from ONNM where ObjectCode = '{B1ObjectCode}'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    return 0;
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
 
         /// <summary>
         /// 获取业务伙伴组
@@ -885,6 +980,35 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
             }
         }
+
+        /// <summary>
+        /// 获取 业务伙伴区域编号
+        /// </summary>
+        /// <param name="CompanyKey">账套标识</param>
+        /// <param name="AreaDescription">地区描述</param>
+        /// <returns></returns>
+        public static int GetTerritoryId4MFT(string CompanyKey,string AreaDescription)
+        {
+            SAPbobsCOM.Recordset res = SAPCompanyPool.GetSAPCompany(CompanyKey).GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"SELECT TOP 1 territryID FROM [OTER] WHERE descript = '{AreaDescription}'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    throw new Exception($"未能找到[{AreaDescription}]区域的编号");
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
         /// <summary>
         /// 查询仓库是否存在
         /// </summary>
@@ -893,6 +1017,29 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         public static bool IsExistWarehouse(string WhsCode)
         {
             SAPbobsCOM.Warehouses whs = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oWarehouses);
+            try
+            {
+                return whs.GetByKey(WhsCode);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(whs);
+            }
+        }
+
+        /// <summary>
+        /// 查询仓库是否存在
+        /// </summary>
+        /// <param name="CompanyKey">账套标识</param>
+        /// <param name="WhsCode"></param>
+        /// <returns></returns>
+        public static bool IsExistWarehouse4MFT(string CompanyKey, string WhsCode)
+        {
+            SAPbobsCOM.Warehouses whs = SAPCompanyPool.GetSAPCompany(CompanyKey).GetBusinessObject(SAPbobsCOM.BoObjectTypes.oWarehouses);
             try
             {
                 return whs.GetByKey(WhsCode);

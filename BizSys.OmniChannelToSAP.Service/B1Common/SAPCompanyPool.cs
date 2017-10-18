@@ -32,7 +32,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
         private void Init()
         {
-            
+
             foreach (var item in CompanySign)
             {
                 Add(item);
@@ -54,6 +54,14 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 catch (Exception ex)
                 {
                     throw ex;
+                }
+            }
+            else
+            {
+                if (!_AllCompany[CompanyKey].Connected || _AllCompany[CompanyKey] == null)
+                {
+                    _AllCompany.Remove(CompanyKey);
+                    _AllCompany.Add(CompanyKey, ConnectB1Company(CompanyKey));
                 }
             }
         }
@@ -132,6 +140,18 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             }
             Logger.Writer(string.Format("已连接：{0}[{1}]", company.CompanyName, company.CompanyDB));
             return company;
+        }
+
+        public static SAPbobsCOM.Company GetSAPCompany(string CompanyKey)
+        {
+            if (_AllCompany.ContainsKey(CompanyKey))
+            {
+                return _AllCompany[CompanyKey];
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }
