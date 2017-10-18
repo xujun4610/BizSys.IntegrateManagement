@@ -111,87 +111,87 @@ B1存储过程 -- 客户同步
 							   ,@list_of_cols_val_tab_del
 							   ,@CardName		--<CardName, nvarchar(100),>  --带入
 							   ,@GroupCode		--<GroupCode, nvarchar(8),>   --带入
-							   ,null		--<CmpPrivate, nvarchar(100),> --带入
-							   ,null	--<CustomerLevel, nvarchar(100),>
-							   ,null	--<Address, nvarchar(200),>
-							   ,null	--<ZipCode, nvarchar(20),>
-							   ,null	--<Phone1, nvarchar(100),>
-							   ,null	--<Phone2, nvarchar(100),>
-							   ,null	--<Cellular, nvarchar(100),>
-							   ,null	--<Fax, nvarchar(100),>
-							   ,null	--<CntctPrsn, nvarchar(50),>
-							   ,null	--<Email, nvarchar(50),>
-							   ,null	--<Website, nvarchar(100),>
-							   ,null	--<Province, nvarchar(100),>
-							   ,null	--<City, nvarchar(100),>
-							   ,null	--<County, nvarchar(100),>
-							   ,null	--<Notes, nvarchar(200),>
+							   ,N''		--<CmpPrivate, nvarchar(100),> --带入
+							   ,N''	--<CustomerLevel, nvarchar(100),>
+							   ,N''	--<Address, nvarchar(200),>
+							   ,N''	--<ZipCode, nvarchar(20),>
+							   ,N''	--<Phone1, nvarchar(100),>
+							   ,N''	--<Phone2, nvarchar(100),>
+							   ,N''	--<Cellular, nvarchar(100),>
+							   ,N''	--<Fax, nvarchar(100),>
+							   ,N''	--<CntctPrsn, nvarchar(50),>
+							   ,N''	--<Email, nvarchar(50),>
+							   ,N''	--<Website, nvarchar(100),>
+							   ,N''	--<Province, nvarchar(100),>
+							   ,N''	--<City, nvarchar(100),>
+							   ,N''	--<County, nvarchar(100),>
+							   ,N''	--<Notes, nvarchar(200),>
 							   ,0.0		--<Balance, numeric(19,6),>
-							   ,null	--<LicTradNum, nvarchar(30),>
-							   ,null	--<SlpCode, nvarchar(8),>
-							   ,null	--<Currency, nvarchar(5),>
+							   ,N''	--<LicTradNum, nvarchar(30),>
+							   ,@SlpCode	--<SlpCode, nvarchar(8),>
+							   ,N''	--<Currency, nvarchar(5),>
 							   ,@DlftPriceListNum		--<ListNum, int,>
 							   ,N'N'		--<Deleted, nvarchar(1),>
 							   ,(case when (@ValidFlag = N'Y') then N'Y' when (@FrozenFlag = N'Y') then N'N' else N'Y' end ) 		--<activationFor, nvarchar(1),>
 							   ,GETDATE()  --<validFrom, datetime,>
 							   ,'2100-1-31' --<validTo, datetime,>
-							   ,null	--<frozenFor, nvarchar(1),>
-							   ,null	--<frozenFrom, datetime,>
-							   ,null	--<frozenTo, datetime,>
+							   ,N''	--<frozenFor, nvarchar(1),>
+							   ,N''	--<frozenFrom, datetime,>
+							   ,N''	--<frozenTo, datetime,>
 							   ,'AVA_BP_CUSTOMER'	--<Object, nvarchar(30),>
 							   ,GETDATE()	--<CreateDate, datetime,>
-							   ,DATENAME(HOUR,GETDATE())*100 + DATENAME(MINUTE,GETDATE())	--<CreateTime, smallint,>
-							   ,null	--<UpdateDate, datetime,>
-							   ,null	--<UpdateTime, smallint,>
+							   ,(DATENAME(HOUR,GETDATE())*100 + DATENAME(MINUTE,GETDATE()))	--<CreateTime, smallint,>
+							   ,N''	--<UpdateDate, datetime,>
+							   ,N''	--<UpdateTime, smallint,>
 							   ,1		--<LogInst, int,>
 							   ,1		--<Series, int,>
 							   ,278		--<Creator, int,>
 							   ,0		--<Updator, int,>
 							   ,NEWID()	--<CreateActId, nvarchar(36),>
-							   ,null	--<UpdateActId, nvarchar(36),>
+							   ,N''	--<UpdateActId, nvarchar(36),>
 							   ,278		--<DataOwner, int,>
-							   ,null	--<TeamMembers, nvarchar(50),>
-							   ,null	--<OrgCode, nvarchar(8),>
-							   ,'U'		--<ApvlStatus, nvarchar(1),>
-							   ,'N'		--<Refed, nvarchar(1),>
-							   ,'Y'		--<ManCusCrt, nvarchar(1),>
+							   ,N''	--<TeamMembers, nvarchar(50),>
+							   ,N''	--<OrgCode, nvarchar(8),>
+							   ,N'U'		--<ApvlStatus, nvarchar(1),>
+							   ,N'N'		--<Refed, nvarchar(1),>
+							   ,N'Y'		--<ManCusCrt, nvarchar(1),>
 							   ,0		--<PaidToCredit, numeric(19,6),>
 							   ,0		--<AlertThreshold, numeric(19,6),>
-							   ,null	--<PaymentMethod, nvarchar(100),>
+							   ,N''	--<PaymentMethod, nvarchar(100),>
 							   ,0		--<CreditScore, numeric(19,6),>
-							   ,null	--<AccountBalance, numeric(19,6),>
+							   ,0.0	--<AccountBalance, numeric(19,6),>
 							   ,0.0		--<PreCharge, numeric(19,6),>
-							   ,null	--<OrganizationId, nvarchar(100),>
-							   ,'N'		--<U_SBOSynchronization, nvarchar(1),>
-							   ,null	--<U_SBOCallbackDate, datetime,>
-							   ,null	--<U_SBOId, nvarchar(36),>
+							   ,N''	--<OrganizationId, nvarchar(100),>
+							   ,N'N'		--<U_SBOSynchronization, nvarchar(1),>
+							   ,N''	--<U_SBOCallbackDate, datetime,>
+							   ,N''	--<U_SBOId, nvarchar(36),>
 							   ,0.0		--<TaxRate, numeric(19,6),>
-							   ,null	--<U_ResourceType, nvarchar(2),>
-							   ,null	--<U_DocEntryAnywhere, nvarchar(36),>
+							   ,N''	--<U_ResourceType, nvarchar(2),>
+							   ,N''	--<U_DocEntryAnywhere, nvarchar(36),>
 							   ,0		--<DataSource, nvarchar(8),>
-							   ,null	--<BillingAddress, nvarchar(100),>
-							   ,null		--<BillingTelephone, nvarchar(20),>
-							   ,null		--<InvoiceRecipient, nvarchar(50),>
-							   ,null		--<Account, nvarchar(50),>
-							   ,null		--<TaxNumber, nvarchar(32),>
+							   ,N''	--<BillingAddress, nvarchar(100),>
+							   ,N''		--<BillingTelephone, nvarchar(20),>
+							   ,N''		--<InvoiceRecipient, nvarchar(50),>
+							   ,N''		--<Account, nvarchar(50),>
+							   ,N''		--<TaxNumber, nvarchar(32),>
 							   ,-1		--<HouseBank, nvarchar(30),>
 							   ,0		--<U_SBOCallbackTime, smallint,>
-							   ,null	--<TaxpayerQualification, nvarchar(8),>
-							   ,null	--<AccountNumber, nvarchar(50),>
-							   ,null	--<IDCardNo, nvarchar(50),>
-							   ,null	--<Town, nvarchar(100),>
+							   ,N''	--<TaxpayerQualification, nvarchar(8),>
+							   ,N''	--<AccountNumber, nvarchar(50),>
+							   ,N''	--<IDCardNo, nvarchar(50),>
+							   ,N''	--<Town, nvarchar(100),>
 							   ,0		--<AccountPeriod, numeric(19,6),>
 							   ,@SlpCode	--<Channel, nvarchar(100),>  --带入
 							   ,GETDATE()	--<CreditValidFrom, datetime,>
-							   ,DATEADD(year,1,GETDATE())	--<CreditValidTo, datetime,>)
+							   ,DATEADD(year,1,GETDATE())	--<CreditValidTo, datetime,>
 							)
 							--update autokey
-							update [omni_channel_man].[dbo].[AVA_SYS_ONNM] set AutoKey = AutoKey+1 where ObjectCode = 'AVA_BP_CUSTOMER'
+							update [omni_channel_man].[dbo].[AVA_SYS_ONNM] set AutoKey = AutoKey+1 where ObjectCode = N'AVA_BP_CUSTOMER'
 
 					end
 					if @transaction_type = N'U'
 					begin
-						update omni_channel_man.dbo.AVA_BP_OCUS set CardName = @CardName , GroupCode = @CardName, Channel = @SlpCode, activationFor = (case when (@ValidFlag = N'Y') then N'Y' when (@FrozenFlag = N'Y') then N'N' else N'Y' end ) , ListNum = @DlftPriceListNum  where CardCode = @list_of_cols_val_tab_del
+						update omni_channel_man.dbo.AVA_BP_OCUS set CardName = @CardName , GroupCode = @GroupCode, SlpCode = @SlpCode, activationFor = (case when (@ValidFlag = N'Y') then N'Y' when (@FrozenFlag = N'Y') then N'N' else N'Y' end ) , ListNum = @DlftPriceListNum  where CardCode = @list_of_cols_val_tab_del
 					end
 					if @transaction_type = N'D'
 					begin
