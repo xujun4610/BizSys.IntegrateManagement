@@ -11,6 +11,8 @@ namespace BizSys.IntegrateManagement.Entity.CallBack
         public string ObjectId { get; set; }
         public List<QueryParameters> QueryParameters { get; set; }
         public List<Data> Data { get; set; }
+        // customed for meffert
+        public List<b1_contact> b1_contact { get; set; }
     }
     public class QueryParameters
     {
@@ -23,4 +25,14 @@ namespace BizSys.IntegrateManagement.Entity.CallBack
         public string Key { get; set; }
         public string Text { get; set; }
     }
+
+    #region customed for meffert
+
+    public class b1_contact
+    {
+        public string Key { get; set; }
+        public string Text { get; set; }
+    }
+
+    #endregion
 }

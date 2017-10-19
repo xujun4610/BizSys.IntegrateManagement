@@ -1,4 +1,5 @@
 ﻿using BizSys.IntegrateManagement.Entity.CallBack;
+using BizSys.IntegrateManagement.Entity.Result;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -158,6 +159,52 @@ namespace BizSys.IntegrateManagement.Common
                     }
                 }
             };
+            return JsonConvert.SerializeObject(callBackRootObject);
+        }
+
+        /// <summary>
+        /// 获取处理成功单据的回写json字符串
+        /// </summary>
+        /// <param name="ObjectCode">单据</param>
+        /// <param name="keyWord">关键字段名称</param>
+        /// <param name="Value">关键字段值</param>
+        /// <param name="B1DocEntry">B1单据号</param>
+        /// <returns></returns>
+        public static string GetCallBackJsonString4MFT_B1Customer(string ObjectCode, string KeyWord, string Value, string B1DocEntry, DateTime dateTime, CallBackDataList cbdl)
+        {
+            CallBackRootObject callBackRootObject = new CallBackRootObject()
+            {
+                ObjectId = ObjectCode,
+                QueryParameters = new List<QueryParameters>(){
+                                    new QueryParameters(){
+                                Key=KeyWord,
+                                Text=Value
+                                    }
+                },
+                Data = new List<Data>(){
+                    new Data(){
+                        Key="U_SBOSynchronization",
+                        Text="Y"
+                    },
+                    new Data(){
+                        Key="U_SBOCallbackDate",
+                        Text=dateTime.ToString()
+                    },
+                    new Data(){
+                         Key="U_SBOCallbackTime",
+                         Text=Convert.ToString(dateTime.Hour * 100 + dateTime.Minute)
+                    },
+                     new Data(){
+                         Key="U_SBOId",
+                        Text=B1DocEntry
+                    }
+                }
+            };
+            callBackRootObject.b1_contact = new List<b1_contact>();
+            foreach (var it_cbdl in cbdl)
+            {
+                callBackRootObject.b1_contact.Add(new b1_contact() { Key = it_cbdl.Key, Text = it_cbdl.Value });
+            }
             return JsonConvert.SerializeObject(callBackRootObject);
         }
 

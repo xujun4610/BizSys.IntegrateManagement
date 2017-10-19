@@ -1,4 +1,5 @@
 ﻿using BizSys.IntegrateManagement.Entity.BatchNumber;
+using BizSys.IntegrateManagement.Entity.Result;
 using BizSys.IntegrateManagement.Entity.Task;
 using System;
 using System.Collections.Generic;
@@ -775,6 +776,74 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 else
                 {
                     return res.Fields.Item(0).Value;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+        /// <summary>
+        /// 多账套获取联系人编号
+        /// </summary>
+        /// <param name="CardCode"></param>
+        /// <param name="ContractName"></param>
+        /// <returns></returns>
+        public static int GetBPContractCode4MFT(string CompanyKey, string CardCode, string ContractName)
+        {
+            SAPbobsCOM.Recordset res = SAPCompanyPool.GetSAPCompany(CompanyKey).GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"select Top 1 CntctCode from OCPR where CardCode = '{CardCode}' and Name = '{ContractName}' ";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    return 0;
+                else
+                {
+                    return res.Fields.Item(0).Value;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+
+
+        /// <summary>
+        /// 获取联系人编号[集合] 
+        /// </summary>
+        /// <param name="CardCode"></param>
+        /// <param name="ContractName"></param>
+        /// <returns></returns>
+        public static IList<CallBackData> GetBPContractCode4MFT(string CompanyKey, string CardCode)
+        {
+            IList<CallBackData> list = new List<CallBackData>();
+            SAPbobsCOM.Recordset res = SAPCompanyPool.GetSAPCompany(CompanyKey).GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"select CntctCode,Name from OCPR where CardCode = N'{CardCode}' and Active = N'Y'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    return null;
+                else
+                {
+                    while (!res.EoF)
+                    {
+                        list.Add(new CallBackData() { Key= (Convert.ToInt32(res.Fields.Item("CntctCode").Value)).ToString(), Value = res.Fields.Item("Name").Value });
+                        res.MoveNext();
+                    }
+                    return list;
                 }
             }
             catch (Exception ex)

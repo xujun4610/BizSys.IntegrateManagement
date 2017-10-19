@@ -21,5 +21,12 @@ namespace BizSys.IntegrateManagement.Entity.Result
         {
             get { return _ErrorList; }
         }
+        #region customed for meffert
+        private CallBackDataList _CallBackDataList;
+        public CallBackDataList CallBackDataList
+        {
+            get { return _CallBackDataList; }
+        }
+        #endregion
     }
 }

@@ -37,9 +37,18 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.PriceListNum = (customer.PriceListNumber == 0) ? 1 : customer.PriceListNumber; //1; //默认价格清单修改
             myBP.DebitorAccount = "1122";
 
-            myBP.Valid = customer.Activation == "Yes" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
-            myBP.ValidFrom = Convert.ToDateTime(customer.ActiveFrom);
-            myBP.ValidTo = Convert.ToDateTime(customer.ActiveTo);
+            if(customer.Activation == "Yes")
+            {
+                myBP.Valid = BoYesNoEnum.tYES;
+                myBP.Frozen = BoYesNoEnum.tNO;
+                myBP.ValidFrom = Convert.ToDateTime(customer.ActiveFrom);
+                myBP.ValidTo = Convert.ToDateTime(customer.ActiveTo);
+            }
+            else
+            {
+                myBP.Valid = BoYesNoEnum.tNO;
+                myBP.Frozen = BoYesNoEnum.tYES;
+            }
             //myBP.Frozen = customer.Inactive == "No" ? BoYesNoEnum.tNO : BoYesNoEnum.tYES;
             //myBP.FrozenFrom = Convert.ToDateTime(customer.InactiveFrom);
             //myBP.FrozenTo = Convert.ToDateTime(customer.InactiveTo);
@@ -63,10 +72,12 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                 for (int i = 0; i < oldContractsCount; i++)
                 {
                     ce.SetCurrentLine(i);
-                    if (customer.CustomerItems.Count(c => c.ContactPerson.Equals(ce.Name)) == 0)
+                    if (customer.CustomerItems.Count(ocm => ocm.ContactPerson.Equals(ce.Name)) == 0)
                     {
-                        //add
-
+                        //add & disable b1
+                        //item.isNew = false.ToString();
+                        ce.Active = BoYesNoEnum.tNO;
+                        ce.Add();
                     }
                     else
                     {
@@ -149,9 +160,6 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                 }
             }
 
-
-
-
             int RntCode = 0;
             if (IsExists)
             {
@@ -169,9 +177,12 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             else
             {
                 result.ResultValue = ResultType.True;
+                //回写
+                result.CallBackDataList.AddRange(B1Common.BOneCommon.GetBPContractCode4MFT(b1CpySign, myBP.CardCode));
                 result.ResultMessage = "【" + customer.CustomerCode + "】客户处理成功，系统数据：" + SAPCompanyPool.GetSAPCompany(b1CpySign).GetNewObjectKey();
             }
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(myBP);
+            SAPCompanyPool.DisconnectAll();
             return result;
         }
     }

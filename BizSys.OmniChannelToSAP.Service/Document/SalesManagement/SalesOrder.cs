@@ -135,6 +135,8 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 result.ResultMessage = "【" + order.DocEntry.ToString() + "】销售订单处理成功，系统单据：" + result.DocEntry;
             }
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(myDocuments);
+            SAPCompanyPool.DisconnectAll();
+
             return result;
         }
     }

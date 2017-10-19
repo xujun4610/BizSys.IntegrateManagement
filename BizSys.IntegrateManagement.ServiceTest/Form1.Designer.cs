@@ -61,6 +61,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.btnPurcaseOrder = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button49 = new System.Windows.Forms.Button();
             this.button42 = new System.Windows.Forms.Button();
             this.button25 = new System.Windows.Forms.Button();
             this.button23 = new System.Windows.Forms.Button();
@@ -96,7 +97,9 @@
             this.button19 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.buttonTestConnect = new System.Windows.Forms.Button();
-            this.button49 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.rbtn_XZ = new System.Windows.Forms.RadioButton();
+            this.rbtn_BJ = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -109,6 +112,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -513,6 +517,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "销售";
             // 
+            // button49
+            // 
+            this.button49.Location = new System.Drawing.Point(274, 19);
+            this.button49.Margin = new System.Windows.Forms.Padding(2);
+            this.button49.Name = "button49";
+            this.button49.Size = new System.Drawing.Size(97, 29);
+            this.button49.TabIndex = 7;
+            this.button49.Text = "取消销售订单";
+            this.button49.UseVisualStyleBackColor = true;
+            this.button49.Click += new System.EventHandler(this.button49_Click);
+            // 
             // button42
             // 
             this.button42.Location = new System.Drawing.Point(187, 48);
@@ -914,22 +929,43 @@
             this.buttonTestConnect.UseVisualStyleBackColor = true;
             this.buttonTestConnect.Click += new System.EventHandler(this.buttonTestConnect_Click);
             // 
-            // button49
+            // panel1
             // 
-            this.button49.Location = new System.Drawing.Point(274, 19);
-            this.button49.Margin = new System.Windows.Forms.Padding(2);
-            this.button49.Name = "button49";
-            this.button49.Size = new System.Drawing.Size(97, 29);
-            this.button49.TabIndex = 7;
-            this.button49.Text = "取消销售订单";
-            this.button49.UseVisualStyleBackColor = true;
-            this.button49.Click += new System.EventHandler(this.button49_Click);
+            this.panel1.Controls.Add(this.rbtn_XZ);
+            this.panel1.Controls.Add(this.rbtn_BJ);
+            this.panel1.Location = new System.Drawing.Point(192, 9);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(241, 29);
+            this.panel1.TabIndex = 7;
+            // 
+            // rbtn_XZ
+            // 
+            this.rbtn_XZ.AutoSize = true;
+            this.rbtn_XZ.Location = new System.Drawing.Point(123, 6);
+            this.rbtn_XZ.Name = "rbtn_XZ";
+            this.rbtn_XZ.Size = new System.Drawing.Size(71, 16);
+            this.rbtn_XZ.TabIndex = 8;
+            this.rbtn_XZ.TabStop = true;
+            this.rbtn_XZ.Text = "西藏账套";
+            this.rbtn_XZ.UseVisualStyleBackColor = true;
+            // 
+            // rbtn_BJ
+            // 
+            this.rbtn_BJ.AutoSize = true;
+            this.rbtn_BJ.Location = new System.Drawing.Point(22, 6);
+            this.rbtn_BJ.Name = "rbtn_BJ";
+            this.rbtn_BJ.Size = new System.Drawing.Size(71, 16);
+            this.rbtn_BJ.TabIndex = 7;
+            this.rbtn_BJ.TabStop = true;
+            this.rbtn_BJ.Text = "北京账套";
+            this.rbtn_BJ.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 567);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.buttonTestConnect);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.groupBox5);
@@ -949,6 +985,8 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1024,6 +1062,9 @@
         private System.Windows.Forms.Button button48;
         private System.Windows.Forms.Button button47;
         private System.Windows.Forms.Button button49;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton rbtn_XZ;
+        private System.Windows.Forms.RadioButton rbtn_BJ;
     }
 }
 

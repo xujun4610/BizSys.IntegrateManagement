@@ -135,6 +135,8 @@
     <Compile Include="ReceiptPayment\Record\Informations.cs" />
     <Compile Include="ReceiptPayment\Record\RecordRootObject.cs" />
     <Compile Include="ReceiptPayment\Record\ResultObjects.cs" />
+    <Compile Include="Result\CallBackData.cs" />
+    <Compile Include="Result\CallBackDataList.cs" />
     <Compile Include="SalesManagement\InvoiceOrder\Informations.cs" />
     <Compile Include="SalesManagement\InvoiceOrder\InvoiceOrderRootObject.cs" />
     <Compile Include="SalesManagement\InvoiceOrder\ReceivableItems.cs" />

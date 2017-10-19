@@ -17,6 +17,7 @@ using BizSys.OmniChannelToSAP.Service.Document.ReceiptPayment;
 using BizSys.SAPToOmniChannel.Service.Service.ReceiptPaymentService;
 using BizSys.OmniChannelToSAP.Service.Service.CustomerService;
 using BizSys.OmniChannelToSAP.Service.Task.StockManagement;
+using System.Collections.Specialized;
 
 namespace BizSys.IntegrateManagement.ServiceTest
 {
@@ -127,7 +128,7 @@ namespace BizSys.IntegrateManagement.ServiceTest
 
         private void button3_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -157,15 +158,56 @@ namespace BizSys.IntegrateManagement.ServiceTest
 
         private void buttonTestConnect_Click(object sender, EventArgs e)
         {
-            SAPbobsCOM.Company cmy = CreateConnect();
+            SAPbobsCOM.Company cmy = null;
+            if (this.rbtn_BJ.Checked)
+            {
+                cmy = CreateConnect("BJ");
+            }else if (this.rbtn_XZ.Checked)
+            {
+                cmy = CreateConnect("XZ");
+            }
             if (cmy.Connected)
             {
-                MessageBox.Show("B1连接成功！");
+                MessageBox.Show($"B1连接成功！[{cmy.CompanyName}]");
             }
+            cmy.Disconnect();
+            System.Runtime.InteropServices.Marshal.FinalReleaseComObject(cmy);
         }
 
-        public static SAPbobsCOM.Company CreateConnect()
+        public static SAPbobsCOM.Company CreateConnect(string companyKey)
         {
+            NameValueCollection nvc_AppSetting = (NameValueCollection)ConfigurationManager.GetSection(companyKey);
+            //if (_AllCompany.ContainsKey(CompanyKey) && _AllCompany[CompanyKey].Connected) return _AllCompany[CompanyKey];
+            SAPbobsCOM.Company company = new SAPbobsCOM.Company();
+            try
+            {
+                Logger.Writer("开始连接B1账套……");
+                company.DbServerType = (SAPbobsCOM.BoDataServerTypes)System.Enum.Parse(typeof(SAPbobsCOM.BoDataServerTypes), nvc_AppSetting["SAPDBServerType"]);
+                company.Server = Convert.ToBoolean(nvc_AppSetting["UseHostName"]) ? nvc_AppSetting["HostName"] : nvc_AppSetting["DataSource"];
+                company.language = SAPbobsCOM.BoSuppLangs.ln_Chinese;
+                company.UseTrusted = Convert.ToBoolean(nvc_AppSetting["UseTrusted"]);
+                company.DbUserName = nvc_AppSetting["UserID"];
+                company.DbPassword = nvc_AppSetting["Password"];
+                company.CompanyDB = nvc_AppSetting["InitialCatalog"];
+                company.UserName = nvc_AppSetting["SAPUser"];
+                company.Password = nvc_AppSetting["SAPPassword"];
+                company.LicenseServer = nvc_AppSetting["SAPLicenseServer"];
+
+                int RntCode = company.Connect();
+                if (RntCode != 0)
+                {
+                    string errMsg = string.Format("ErrorCode:[{0}],ErrrMsg:[{1}];", company.GetLastErrorCode(), company.GetLastErrorDescription());
+                    Logger.Writer(errMsg);
+                    throw new Exception(errMsg);
+                }
+                Logger.Writer("已连接 " + company.CompanyName);
+            }
+            catch (Exception ex)
+            {
+                Logger.Writer(ex.Message);
+            }
+            return company;
+            /*
             SAPbobsCOM.Company b1Company = new SAPbobsCOM.Company();
             try
             {
@@ -196,6 +238,7 @@ namespace BizSys.IntegrateManagement.ServiceTest
                 Logger.Writer(ex.Message);
             }
             return b1Company;
+            */
         }
 
         private void button19_Click(object sender, EventArgs e)
