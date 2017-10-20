@@ -32,41 +32,48 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
                     BusinessObjectCode = null,
                     Conditions = new List<Conditions>()
                     {
-                        new Conditions()
-                         {
-                             Alias="U_SBOSynchronization",
-                             Operation = "co_IS_NULL",
-                             BracketOpenNum = 1
-                         },
-                         new Conditions()
-                         {
-                             Alias="U_SBOSynchronization",
-                             CondVal="",
-                            Operation = "co_EQUAL",
-                            Relationship = "cr_OR",
-                             BracketCloseNum = 1
-                         },
-                         new Conditions(){
-                             Alias="U_SBOCallbackDate",
-                             Operation = "co_LESS_THAN",
-                             ComparedAlias = "UpdateDate",
-                             Relationship="cr_OR",
-                             BracketOpenNum = 1
-                        },
-                        new Conditions(){
-                             Alias="UpdateDate",
-                             Operation = "co_EQUAL",
-                             ComparedAlias = "U_SBOCallbackDate",
-                             Relationship="cr_OR",
-                              BracketOpenNum = 1
-                        },
-                        new Conditions(){
-                             Alias="U_SBOCallbackTime",
-                             Operation = "co_LESS_EQUAL",
-                             ComparedAlias = "UpdateTime",
-                             Relationship="cr_AND",
-                             BracketCloseNum = 2
+                        //new Conditions()
+                        // {
+                        //     Alias="U_SBOSynchronization",
+                        //     Operation = "co_IS_NULL",
+                        //     BracketOpenNum = 1
+                        // },
+                        // new Conditions()
+                        // {
+                        //     Alias="U_SBOSynchronization",
+                        //     CondVal="",
+                        //    Operation = "co_EQUAL",
+                        //    Relationship = "cr_OR",
+                        //     BracketCloseNum = 1
+                        // },
+                        new Conditions ()
+                        {
+                            Alias="U_SBOSynchronization",
+                             CondVal="Y",
+                            Operation = "co_NOT_EQUAL",
                         }
+                         
+                        // new Conditions(){
+                        //     Alias="U_SBOCallbackDate",
+                        //     Operation = "co_LESS_THAN",
+                        //     ComparedAlias = "UpdateDate",
+                        //     Relationship="cr_OR",
+                        //     BracketOpenNum = 1
+                        //},
+                        //new Conditions(){
+                        //     Alias="UpdateDate",
+                        //     Operation = "co_EQUAL",
+                        //     ComparedAlias = "U_SBOCallbackDate",
+                        //     Relationship="cr_OR",
+                        //      BracketOpenNum = 1
+                        //},
+                        //new Conditions(){
+                        //     Alias="U_SBOCallbackTime",
+                        //     Operation = "co_LESS_EQUAL",
+                        //     ComparedAlias = "UpdateTime",
+                        //     Relationship="cr_AND",
+                        //     BracketCloseNum = 2
+                        //}
                     },
                     Sorts = new List<Sorts>(){
                         new Sorts(){

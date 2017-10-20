@@ -9,20 +9,12 @@ using System.Threading.Tasks;
 
 namespace BizSys.OmniChannelToSAP.Service.B1Common
 {
-    public class SAPCompanyPool
+    public static class SAPCompanyPool
     {
         private static object Locked = new object();
 
         private static string[] CompanySign = ConfigurationManager.AppSettings["B1CompanySigns"].ToUpper().Split(',');
 
-        public SAPCompanyPool()
-        {
-            if (_AllCompany == null || _AllCompany.Count == 0)
-            {
-                _AllCompany = new Dictionary<string, SAPbobsCOM.Company>();
-                Init();
-            }
-        }
 
         private static Dictionary<string, SAPbobsCOM.Company> _AllCompany;
         public static Dictionary<string, SAPbobsCOM.Company> AllCompany()
@@ -30,7 +22,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             return _AllCompany;
         }
 
-        private void Init()
+        private static void Init()
         {
 
             foreach (var item in CompanySign)
@@ -144,6 +136,11 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
         public static SAPbobsCOM.Company GetSAPCompany(string CompanyKey)
         {
+            if (_AllCompany == null || _AllCompany.Count == 0)
+            {
+                _AllCompany = new Dictionary<string, SAPbobsCOM.Company>();
+                Init();
+            }
             if (_AllCompany.ContainsKey(CompanyKey))
             {
                 return _AllCompany[CompanyKey];
@@ -152,6 +149,8 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             {
                 return null;
             }
+
+
         }
 
     }

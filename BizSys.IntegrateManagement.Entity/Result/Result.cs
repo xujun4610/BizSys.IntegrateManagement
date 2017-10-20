@@ -11,6 +11,8 @@ namespace BizSys.IntegrateManagement.Entity.Result
         public Result()
         {
             _ErrorList = new ErrorOrderList();
+            //customed for meffert
+            _CallBackDataList = new CallBackDataList();
         }
         public ResultType ResultValue { get; set; }
 

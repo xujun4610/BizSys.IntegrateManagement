@@ -65,7 +65,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                     new Sorts(){
                          __type="Sort",
                          Alias="DocEntry",
-                         SortType="st_Asccending"
+                         SortType="st_Descending"
                     }
                 },
                 ChildCriterias = new List<ChildCriterias>()

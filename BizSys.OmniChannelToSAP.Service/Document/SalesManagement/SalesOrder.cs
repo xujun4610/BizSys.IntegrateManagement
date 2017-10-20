@@ -35,7 +35,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 result.DocEntry = order.DocEntry.ToString();
                 return result;
             }
-            if (!order.Salesperson.ToUpper().Contains("XZ") || !order.Salesperson.ToUpper().Contains("BJ"))
+            if (!order.Salesperson.ToUpper().Contains("XZ") && !order.Salesperson.ToUpper().Contains("BJ"))
             {
                 result.ResultValue = ResultType.False;
                 result.ResultMessage = string.Format("OCM销售订单[{0}]，销售员[{1}]，无法区分所属分支。", order.DocEntry.ToString(), order.Salesperson);
@@ -44,7 +44,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             }
 
             string B1DocEntry = string.Empty;
-            string B1DlftWhsCode = "01"; //别的项目请修改这里
+            string B1DlftWhsCode = "W0101"; //别的项目请修改这里
             string B1AccountCode = "6001"; //总账科目
             string B1SaleCostCode = "640101"; //销货成本
             //销售员标识
@@ -54,7 +54,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             //if (BOneCommon.IsMainStore(order.SalesOrderItems.FirstOrDefault().Warehouse))
             //{
             //生成销售订单
-            
+
             if (B1Common.BOneCommon.IsExistDocument4MFT(slpCodeSign, "ORDR", order.DocEntry.ToString(), out B1DocEntry))
             {
                 order.B1DocEntry = B1DocEntry;
@@ -69,7 +69,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
 
             SAPbobsCOM.Documents myDocuments = SAPCompanyPool.GetSAPCompany(slpCodeSign).GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders);
 
-            myDocuments.Series = B1Common.BOneCommon.GetB1DocEntrySeries4MFT(slpCodeSign,"17");
+            myDocuments.Series = B1Common.BOneCommon.GetB1DocEntrySeries4MFT(slpCodeSign, "17");
             myDocuments.CardCode = order.BusinessPartnerCode;
             myDocuments.CardName = order.BusinessPartnerName;
             //myDocuments.Reference1 = order.Reference1;
@@ -78,17 +78,18 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.DocDueDate = order.DeliveryDate;
             myDocuments.TaxDate = order.DocumentDate;
             myDocuments.Comments = order.Remarks;
-
-            string[] textArray1 = new string[] { "CN", order.Province, order.City, order.County, order.Town, order.ShipTo };
-            myDocuments.Address2 = string.Concat(textArray1);
+            //地址
+            //string[] textArray1 = new string[] { "CN", order.Province, order.City, order.County, order.Town, order.ShipTo };
+            //myDocuments.Address2 = string.Concat(textArray1);
             //myDocuments.Address = order.DetailedAddress;
             myDocuments.DocCurrency = "RMB";
             //梅菲特定制区域
             myDocuments.UserFields.Fields.Item("U_101").Value = order.DocumentType; //11，12 仅限可选值 单据类型
-            myDocuments.UserFields.Fields.Item("U_BillType").Value = order.BillType; //11，12 仅限可选值 开票类型
-            myDocuments.UserFields.Fields.Item("U_Voucher").Value = order.MSNMoney; //代金券金额 ，double类型 注意
-            myDocuments.UserFields.Fields.Item("U_PrmtsContent").Value =order.PrmtsContent; //促销活动内容
-            myDocuments.UserFields.Fields.Item("U_OCM_DocEntry").Value = order.DocEntry; //同步过来的OCM订单编号
+            myDocuments.UserFields.Fields.Item("U_BillType").Value = order.BillType.ToUpper() == "COMMON" ? "11" : "12"; //11，12 仅限可选值 开票类型
+            myDocuments.UserFields.Fields.Item("U_Voucher").Value = order.ServiceNumberManagementMoney; //代金券金额 ，double类型 注意
+            if (!string.IsNullOrWhiteSpace(order.PrmtsContent))
+                myDocuments.UserFields.Fields.Item("U_PrmtsContent").Value = order.PrmtsContent; //促销活动内容
+            myDocuments.UserFields.Fields.Item("U_OCM_DocEntry").Value = order.DocEntry.ToString(); //同步过来的OCM订单编号
 
             foreach (var item in order.SalesOrderItems)
             {
@@ -102,20 +103,20 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 {
                     myDocuments.Lines.DiscountPercent = double.Parse(item.DiscountPerLine);//折扣率
                 }
-                myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate4MFT(slpCodeSign,item.TaxRatePerLine,"O");
-                myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse4MFT(slpCodeSign,item.Warehouse)== true? item.Warehouse: B1DlftWhsCode ;
+                myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate4MFT(slpCodeSign, item.TaxRatePerLine, "O");
+                myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse4MFT(slpCodeSign, item.Warehouse) == true ? item.Warehouse : B1DlftWhsCode;
                 myDocuments.Lines.UnitPrice = item.UnitPrice;
                 myDocuments.Lines.PriceAfterVAT = item.GrossPrice;
-                //单位？？？？
+                //单位？？？？(物料自动填写)
                 //梅菲特 定制字段
                 myDocuments.Lines.UserFields.Fields.Item("U_YSMJ").Value = item.GrossPriceTemp; //原始毛价
                 myDocuments.Lines.UserFields.Fields.Item("U_001").Value = item.Reference1; //注释
                 myDocuments.Lines.UserFields.Fields.Item("U_Rebate").Value = item.Reference2; //返利情况
 
                 //其他
-                myDocuments.Lines.UserFields.Fields.Item("U_IM_DocEntry").Value = item.DocEntry;
-                myDocuments.Lines.UserFields.Fields.Item("U_IM_LineId").Value = item.LineId;
-               
+                myDocuments.Lines.UserFields.Fields.Item("U_OCM_DocEntry").Value = item.DocEntry.ToString();
+                myDocuments.Lines.UserFields.Fields.Item("U_OCM_LineId").Value = item.LineId;
+
                 myDocuments.Lines.Add();
 
             }

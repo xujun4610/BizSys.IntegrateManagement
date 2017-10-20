@@ -31,13 +31,13 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.EmailAddress = customer.Email;
             myBP.CreditLimit = customer.PaidToCredit;
             //myBP.SalesPersonCode = -1; //销售员修改；
-            myBP.Territory = B1Common.BOneCommon.GetTerritoryId4MFT(b1CpySign, customer.ChannelType); //-2; //区域修改，默认值
+            myBP.Territory = B1Common.BOneCommon.CheckTerritoryId4MFT(b1CpySign, customer.ChannelType); //-2; //区域修改，默认值
 
             //myBP.PayTermsGrpCode = -1; //付款条件修改
             myBP.PriceListNum = (customer.PriceListNumber == 0) ? 1 : customer.PriceListNumber; //1; //默认价格清单修改
             myBP.DebitorAccount = "1122";
 
-            if(customer.Activation == "Yes")
+            if (customer.Activation == "Yes")
             {
                 myBP.Valid = BoYesNoEnum.tYES;
                 myBP.Frozen = BoYesNoEnum.tNO;
@@ -72,7 +72,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                 for (int i = 0; i < oldContractsCount; i++)
                 {
                     ce.SetCurrentLine(i);
-                    if (customer.CustomerItems.Count(ocm => ocm.ContactPerson.Equals(ce.Name)) == 0)
+                    var name = ce.Name;
+                    
+                    if (customer.CustomerItems.Count(ocm => ocm.ContactPerson.Equals(name)) == 0)
                     {
                         //add & disable b1
                         //item.isNew = false.ToString();
@@ -81,31 +83,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                     }
                     else
                     {
-                        
-                        var item = customer.CustomerItems.Where<CustomerItems>(c => c.ContactPerson.Equals(ce.Name)).FirstOrDefault(); //.isNew = false.ToString();
-                        string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
-                        ce.Address = string.Concat(addressName);
-                        ce.Active = BoYesNoEnum.tYES;
-                        ce.Phone1 = item.Telephone1;
-                        if (item.DefaltAddress.Equals("Y"))
-                        {
-                            myBP.ContactPerson = item.ContactPerson;
-                        }
-                        //存在的记录排除打标记，不是新的
-                        item.isNew = false.ToString();
-                    }
-                }
-                //add new
-                if (customer.CustomerItems.Count(c=>c.isNew != false.ToString()) > 0)
-                {
-                    var new_OCM_items = customer.CustomerItems.Where<CustomerItems>(c => c.isNew != false.ToString());
-                    foreach (var item in new_OCM_items)
-                    {
-                        string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
 
-                        //SAPbobsCOM.ContactEmployees ce = myBP.ContactEmployees;
-                        ce.SetCurrentLine(ce.Count); //往后添加
-                        ce.Name = item.ContactPerson;
+                        var item = customer.CustomerItems.Where<CustomerItems>(c => c.ContactPerson.Equals(ce.Name)).FirstOrDefault(); //.isNew = false.ToString();
+                        //string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
+                        string[] addressName = { item.BillToStreet };
                         ce.Address = string.Concat(addressName);
                         ce.Active = BoYesNoEnum.tYES;
                         ce.Phone1 = item.Telephone1;
@@ -114,9 +95,34 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                             myBP.ContactPerson = item.ContactPerson;
                         }
                         ce.Add();
+                        //存在的记录排除打标记，反向理解（new == true 意味着这是旧的数据，反之false是新加的）
+                        item.isNew = true.ToString();
                     }
                 }
-                
+                //add new
+                if (customer.CustomerItems.Count(c => c.isNew == false.ToString()) > 0)
+                {
+                    var new_OCM_items = customer.CustomerItems.Where<CustomerItems>(c => c.isNew == false.ToString());
+                    foreach (var item in new_OCM_items)
+                    {
+                        //string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
+                        string[] addressName = { item.BillToStreet };
+
+                        SAPbobsCOM.ContactEmployees ce2 = myBP.ContactEmployees;
+                        ce2.Name = item.ContactPerson;
+                        //ce2.SetCurrentLine(ce.Count); //往后添加
+                        //ce2.Name = item.ContactPerson;
+                        ce2.Address = string.Concat(addressName);
+                        ce2.Active = BoYesNoEnum.tYES;
+                        ce2.Phone1 = item.Telephone1;
+                        if (item.DefaltAddress.Equals("Y"))
+                        {
+                            myBP.ContactPerson = item.ContactPerson;
+                        }
+                        ce2.Add();
+                    }
+                }
+
             }
             else
             {
@@ -124,7 +130,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                 for (int i = 0; i < customer.CustomerItems.Count; i++)
                 {
                     CustomerItems item = customer.CustomerItems[i];
-                    string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
+                    //string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
+                    string[] addressName = { item.BillToStreet };
+
                     if (!string.IsNullOrEmpty(string.Concat(addressName)))
                     {
                         /*
@@ -178,7 +186,18 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             {
                 result.ResultValue = ResultType.True;
                 //回写
-                result.CallBackDataList.AddRange(B1Common.BOneCommon.GetBPContractCode4MFT(b1CpySign, myBP.CardCode));
+                var a = B1Common.BOneCommon.GetBPContractCode4MFT(b1CpySign, myBP.CardCode);
+                if (a != null)
+                {
+                    foreach (var it_a in a)
+                    {
+                        var b = result.CallBackDataList.New();
+                        b.Key = it_a.Key;
+                        b.Value = it_a.Value;
+                    }
+
+                    //result.CallBackDataList.AddRange(B1Common.BOneCommon.GetBPContractCode4MFT(b1CpySign, myBP.CardCode));
+                }
                 result.ResultMessage = "【" + customer.CustomerCode + "】客户处理成功，系统数据：" + SAPCompanyPool.GetSAPCompany(b1CpySign).GetNewObjectKey();
             }
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(myBP);

@@ -1079,6 +1079,39 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
         }
 
         /// <summary>
+        /// 检查并获取 业务伙伴区域编号
+        /// </summary>
+        /// <param name="CompanyKey">账套标识</param>
+        /// <param name="AreaDescription">地区描述</param>
+        /// <returns></returns>
+        public static int CheckTerritoryId4MFT(string CompanyKey, string AreaID)
+        {
+            int areaID = default(int);
+            if (!Int32.TryParse(AreaID, out areaID))
+            {
+                throw new Exception($"该区域ID不是数值类型，请检查[{AreaID}]");
+            }
+            SAPbobsCOM.Recordset res = SAPCompanyPool.GetSAPCompany(CompanyKey).GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"SELECT TOP 1 territryID FROM [OTER] WHERE territryID = '{AreaID}'";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    if (Convert.ToInt32(AreaID) == 0) return -2; else throw new Exception($"B1中没有此区域编号[{AreaID}]");
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
+        /// <summary>
         /// 查询仓库是否存在
         /// </summary>
         /// <param name="WhsCode"></param>

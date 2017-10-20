@@ -200,11 +200,15 @@ namespace BizSys.IntegrateManagement.Common
                     }
                 }
             };
-            callBackRootObject.b1_contact = new List<b1_contact>();
-            foreach (var it_cbdl in cbdl)
+            if (cbdl != null)
             {
-                callBackRootObject.b1_contact.Add(new b1_contact() { Key = it_cbdl.Key, Text = it_cbdl.Value });
+                callBackRootObject.b1_contact = new List<b1_contact>();
+                foreach (var it_cbdl in cbdl)
+                {
+                    callBackRootObject.b1_contact.Add(new b1_contact() { Key = it_cbdl.Key, Text = it_cbdl.Value });
+                }
             }
+
             return JsonConvert.SerializeObject(callBackRootObject);
         }
 
