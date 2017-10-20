@@ -29,7 +29,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
 
             myBP.ZipCode = customer.BillToZipCode;
             myBP.EmailAddress = customer.Email;
-            myBP.CreditLimit = customer.PaidToCredit;
+            //myBP.CreditLimit = customer.PaidToCredit;
             //myBP.SalesPersonCode = -1; //销售员修改；
             myBP.Territory = B1Common.BOneCommon.CheckTerritoryId4MFT(b1CpySign, customer.ChannelType); //-2; //区域修改，默认值
 
@@ -55,8 +55,8 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.Cellular = customer.MobilePhone;
             myBP.Phone1 = customer.Telephone1;
             myBP.Phone2 = customer.Telephone2;
-            myBP.Currency = customer.BPCurrency;
-            myBP.FreeText = customer.Remarks;
+            //myBP.Currency = string.IsNullOrWhiteSpace(customer.BPCurrency) ? "RMB": customer.BPCurrency;
+            //myBP.FreeText = customer.Remarks; //备注
 
             //if(!string.IsNullOrEmpty(customer.TaxNumber))
             //myBP.GTSRegNo = customer.TaxNumber;
