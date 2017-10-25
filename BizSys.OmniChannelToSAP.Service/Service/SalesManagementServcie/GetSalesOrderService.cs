@@ -104,6 +104,10 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
             {
                 try
                 {
+                    if (!item.Salesperson.Substring(0, 2).ToUpper().Contains("XZ,BJ)")){
+                        //不是北京西藏开头的就别管！给我继续
+                        continue;
+                    }
                     var documentResult = Document.SalesManagement.SalesOrder.CreateSalesOrder(item);
                     if (documentResult.ResultValue == ResultType.True)
                     {

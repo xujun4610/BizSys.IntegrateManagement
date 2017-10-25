@@ -144,8 +144,10 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
                     var documentResult = Document.MasterDataManagement.Customer.CreateCustomer(item);
                     if (documentResult.ResultValue == ResultType.True)
                     {
-                        string callBackJsonString = JsonObject.GetCallBackJsonString4MFT_B1Customer(item.ObjectCode, "ObjectKey", item.ObjectKey, item.ObjectKey, syncDateTime, documentResult.CallBackDataList);
+                        string callBackJsonString = JsonObject.GetCallBackJsonString4MFT_B1Customer(item.ObjectCode, "ObjectKey", item.ObjectKey, documentResult.DocEntry, syncDateTime, documentResult.CallBackDataList);
                         string callBackResultStr = await BaseHttpClient.HttpCallBackAsync(callBackJsonString);
+                        Logger.Writer(guid, QueueStatus.Open, string.Format("回写数据：{0}", callBackResultStr) );
+
                         var callBackResult = await JsonConvert.DeserializeObjectAsync<CallBackResult>(callBackResultStr);
                         if (callBackResult.ResultCode == 0)
                             mSuccessCount++;

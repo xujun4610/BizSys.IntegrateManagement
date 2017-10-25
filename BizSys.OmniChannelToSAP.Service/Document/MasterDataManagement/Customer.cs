@@ -27,8 +27,8 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             myBP.CompanyPrivate = BoCardCompanyTypes.cCompany;
 
 
-            myBP.ZipCode = customer.BillToZipCode;
-            myBP.EmailAddress = customer.Email;
+            //myBP.ZipCode = customer.BillToZipCode;
+            //myBP.EmailAddress = customer.Email;
             //myBP.CreditLimit = customer.PaidToCredit;
             //myBP.SalesPersonCode = -1; //销售员修改；
             myBP.Territory = B1Common.BOneCommon.CheckTerritoryId4MFT(b1CpySign, customer.ChannelType); //-2; //区域修改，默认值
@@ -52,9 +52,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             //myBP.Frozen = customer.Inactive == "No" ? BoYesNoEnum.tNO : BoYesNoEnum.tYES;
             //myBP.FrozenFrom = Convert.ToDateTime(customer.InactiveFrom);
             //myBP.FrozenTo = Convert.ToDateTime(customer.InactiveTo);
-            myBP.Cellular = customer.MobilePhone;
-            myBP.Phone1 = customer.Telephone1;
-            myBP.Phone2 = customer.Telephone2;
+            //myBP.Cellular = customer.MobilePhone;
+            //myBP.Phone1 = customer.Telephone1;
+            //myBP.Phone2 = customer.Telephone2;
             //myBP.Currency = string.IsNullOrWhiteSpace(customer.BPCurrency) ? "RMB": customer.BPCurrency;
             //myBP.FreeText = customer.Remarks; //备注
 
