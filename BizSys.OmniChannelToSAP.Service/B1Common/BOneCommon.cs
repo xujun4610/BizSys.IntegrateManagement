@@ -840,7 +840,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 {
                     while (!res.EoF)
                     {
-                        list.Add(new CallBackData() { Key= (Convert.ToInt32(res.Fields.Item("CntctCode").Value)).ToString(), Value = res.Fields.Item("Name").Value });
+                        list.Add(new CallBackData() { Value= (Convert.ToInt32(res.Fields.Item("CntctCode").Value)).ToString(), Key = res.Fields.Item("Name").Value });
                         res.MoveNext();
                     }
                     return list;
