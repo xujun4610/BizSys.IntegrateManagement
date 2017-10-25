@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -60,6 +61,46 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string GetToken()
         {
+            //try
+            //{
+            //    string url = $"systemcenter/services/json/userConnect?user={user}&password={password}";
+            //    HttpWebRequest wreq = WebRequest.CreateHttp(new Uri(new Uri(BaseUrl), url));
+            //    wreq.ContentType = "application/json;charset=UTF-8";
+            //    wreq.MediaType = "application/json";
+            //    wreq.Method = HttpMethod.Post.Method;
+            //    wreq.AutomaticDecompression = DecompressionMethods.GZip;
+            //    wreq.Timeout = 60 * 1000; //一分钟
+            //    HttpWebResponse wrsp = wreq.GetResponse() as HttpWebResponse;
+            //    TokenRootObject token = null;
+            //    if (wrsp.StatusCode == HttpStatusCode.OK)
+            //    {
+            //        using (Stream st = wrsp.GetResponseStream())
+            //        {
+            //            StreamReader sr = new StreamReader(st, Encoding.UTF8);
+            //            try
+            //            {
+            //                var str_sr = sr.ReadToEnd();
+            //                token = JsonConvert.DeserializeObject<TokenRootObject>(str_sr);
+            //                return token.UserSign;
+            //            }
+            //            catch (Exception)
+            //            {
+            //                return null;
+            //            }
+            //        }
+            //    }
+
+            //}
+            //catch (WebException wex)
+            //{
+            //    throw wex;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex
+            //}
+
+
             HttpContent httpContent = new StringContent("", Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
             string resultJson;
@@ -206,7 +247,7 @@ namespace BizSys.IntegrateManagement.Common
                 jsonResult = await response.Content.ReadAsStringAsync();
             }
             return jsonResult;
-           // string requestJson1 = "{\"ObjectId\":\"AVA_BP_CUSTOMER\",\"QueryParameters\":[{\"Key\":\"ObjectKey\",\"Text\":\"6939\"}],\"Data\":[{\"Key\":\"U_SBOSynchronization\",\"Text\":\"Y\"},{\"Key\":\"U_SBOCallbackDate\",\"Text\":\"2017/2/10 9:43:34\"},{\"Key\":\"U_SBOId\",\"Text\":\"6939\"}]}";
+            // string requestJson1 = "{\"ObjectId\":\"AVA_BP_CUSTOMER\",\"QueryParameters\":[{\"Key\":\"ObjectKey\",\"Text\":\"6939\"}],\"Data\":[{\"Key\":\"U_SBOSynchronization\",\"Text\":\"Y\"},{\"Key\":\"U_SBOCallbackDate\",\"Text\":\"2017/2/10 9:43:34\"},{\"Key\":\"U_SBOId\",\"Text\":\"6939\"}]}";
 
         }
         /// <summary>
@@ -312,7 +353,7 @@ namespace BizSys.IntegrateManagement.Common
                 case DocumentType.ORGANIZATION:
                     return "systemapplicationcenter/services/json/fetchOrganization?token=";
                 case DocumentType.CUSTOMERSERVICE:
-                    return "customerservicecenter/services/json/fetchApplication?token=";                    
+                    return "customerservicecenter/services/json/fetchApplication?token=";
             }
             throw new ArgumentNullException(string.Format("can't get url by OrderType [{0}]", OrderType));
         }

@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.SAPbobsCOM">
-      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\DLL\Interop.SAPbobsCOM.dll</HintPath>
+      <HintPath>..\BizSys.IntegrateManagement.ServiceTest\refs\Interop.SAPbobsCOM.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="MagicBox.Common">
@@ -141,7 +141,6 @@
     <Compile Include="Task\ReceiptPayment\PaymentService.cs" />
     <Compile Include="Task\SalesManagement\SalesOrderService.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BizSys.IntegrateManagement.Common\BizSys.IntegrateManagement.Common.csproj">
       <Project>{4d274d71-f4a6-44fc-91ce-7a05c7b7501d}</Project>

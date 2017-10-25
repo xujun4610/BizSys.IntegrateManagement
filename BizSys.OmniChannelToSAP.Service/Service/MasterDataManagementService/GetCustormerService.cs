@@ -15,7 +15,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
     public class GetCustormerService
     {
 
-        public async static void GetCustomer(string CardCode = null)
+        public static void GetCustomer(string CardCode = null)
         {
             int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 30);
             string guid = "Customer-" + Guid.NewGuid();
@@ -109,12 +109,12 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
             }
 
             //序列化json对象
-            string requestJson = await JsonConvert.SerializeObjectAsync(cri);
+            string requestJson = JsonConvert.SerializeObject(cri);
             #endregion
             #region 调用接口
             try
             {
-                resultJson = await BaseHttpClient.HttpFetchAsync(DocumentType.CUSTOMER, requestJson);
+                resultJson = BaseHttpClient.HttpFetch(DocumentType.CUSTOMER, requestJson);
             }
             catch (Exception ex)
             {
@@ -138,8 +138,8 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
                     if (documentResult.ResultValue == ResultType.True)
                     {
                         string callBackJsonString = JsonObject.GetCallBackJsonString(item.ObjectCode, "ObjectKey", item.ObjectKey, item.ObjectKey, syncDateTime);
-                        string callBackResultStr = await BaseHttpClient.HttpCallBackAsync(callBackJsonString);
-                        var callBackResult = await JsonConvert.DeserializeObjectAsync<CallBackResult>(callBackResultStr);
+                        string callBackResultStr = BaseHttpClient.HttpCallBack(callBackJsonString);
+                        var callBackResult = JsonConvert.DeserializeObject<CallBackResult>(callBackResultStr);
                         if (callBackResult.ResultCode == 0)
                             mSuccessCount++;
                         else
@@ -153,6 +153,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
                 }
             }
             Logger.Writer(guid, QueueStatus.Close, "[" + mSuccessCount + "]条客户主数据处理成功。");
+            GC.Collect();
             #endregion
         }
 

@@ -20,7 +20,7 @@ using BizSys.OmniChannelToSAP.Service.Task.StockManagement;
 
 namespace BizSys.IntegrateManagement.ServiceTest
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IDisposable
     {
         public Form1()
         {
@@ -167,8 +167,14 @@ namespace BizSys.IntegrateManagement.ServiceTest
             SAPbobsCOM.Company cmy = CreateConnect();
             if (cmy.Connected)
             {
-                MessageBox.Show("B1连接成功！");
+                MessageBox.Show(string.Format("B1连接成功！连接账套：{0}--{1}",cmy.CompanyDB,cmy.CompanyName));
             }
+            if (cmy.Connected)
+            {
+                cmy.Disconnect();
+            }
+            System.Runtime.InteropServices.Marshal.FinalReleaseComObject((object)cmy);
+            GC.Collect();
         }
 
         public static SAPbobsCOM.Company CreateConnect()

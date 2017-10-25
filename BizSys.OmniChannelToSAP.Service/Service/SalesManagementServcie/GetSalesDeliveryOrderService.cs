@@ -91,7 +91,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
             #region 调用接口
             try
             {
-                resultJson = BaseHttpClient.HttpFetch(DocumentType.SALESDELIVERYORDER, requestJson);
+                resultJson = await BaseHttpClient.HttpFetchAsync(DocumentType.SALESDELIVERYORDER, requestJson);
             }
             catch (Exception ex)
             {
@@ -137,6 +137,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 }
             }
             Logger.Writer(guid, QueueStatus.Close, "[" + mSuccessCount + "]条销售交货订单处理成功。");
+            GC.Collect();
             #endregion
         
         }
