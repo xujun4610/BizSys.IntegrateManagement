@@ -83,10 +83,13 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
 
                 },
                 NotLoadedChildren = false,
-                Remarks = null
+                //Remarks = null
             };
             //序列化json对象
-            string requestJson = JsonConvert.SerializeObject(cri);
+            //Logger.Writer("序列化json");
+            string requestJson = await JsonConvert.SerializeObjectAsync(cri);
+            //Logger.Writer("序列化json完毕");
+
             #endregion
             #region 调用接口
             try
@@ -95,15 +98,15 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
             }
             catch (Exception ex)
             {
-                Logger.Writer("销售交货订单服务-网络请求出错，错误信息：" + ex.Message);
+                Logger.Writer("销售交货订单服务-网络请求出错，错误信息：" + ex.InnerException.Message + ex.Message);
                 return;
             }
-            if (string.IsNullOrEmpty(resultJson)) Logger.Writer("销售交货订单查询服务出错，查询结果为null。");
+            if (string.IsNullOrEmpty(resultJson)) { Logger.Writer("销售交货订单查询服务出错，查询结果为null。"); return; }
             #endregion
             #region 订单处理
             //反序列化
-            SalesDeliveryOrderRootObject salesDeliveryOrder = JsonConvert.DeserializeObject<SalesDeliveryOrderRootObject>(resultJson);
-            if (salesDeliveryOrder.ResultObjects.Count == 0) return;
+            SalesDeliveryOrderRootObject salesDeliveryOrder = await JsonConvert.DeserializeObjectAsync<SalesDeliveryOrderRootObject>(resultJson);
+            if (salesDeliveryOrder.ResultObjects.Count == 0)             Logger.Writer("此次同步没有符合条件的交货单据！");
             DateTime syncDateTime = DateTime.Now;
             Logger.Writer(guid, QueueStatus.Open, "[" + salesDeliveryOrder.ResultObjects.Count + "]条销售交货订单开始处理。");
             Logger.Writer(guid, QueueStatus.Open, "订单信息：\r\n" + resultJson);
@@ -123,7 +126,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         {
                             string callBackJsonString = JsonObject.GetCallBackJsonString(item.ObjectCode, item.DocEntry.ToString(), rt.DocEntry, syncDateTime);
                             string callBackResultStr = await BaseHttpClient.HttpCallBackAsync(callBackJsonString);
-                            var callBackResult = JsonConvert.DeserializeObject<CallBackResult>(callBackResultStr);
+                            var callBackResult = await JsonConvert.DeserializeObjectAsync<CallBackResult>(callBackResultStr);
                             if (callBackResult.ResultCode == 0)
                                 mSuccessCount++;
                         }

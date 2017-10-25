@@ -1,4 +1,5 @@
 ﻿using BizSys.IntegrateManagement.Entity.Token;
+using MagicBox.Log;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
