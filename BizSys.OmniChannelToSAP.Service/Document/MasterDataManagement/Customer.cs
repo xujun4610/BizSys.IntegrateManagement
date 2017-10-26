@@ -65,6 +65,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
             if (IsExists)
             {
                 //update
+                //bool isB1EmptyLine = false; //更新后，B1的空行flag！
                 int index = default(int);
                 int oldContractsCount = default(int); //原来的集合数量
                 SAPbobsCOM.ContactEmployees ce = myBP.ContactEmployees;
@@ -73,30 +74,53 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                 {
                     ce.SetCurrentLine(i);
                     var name = ce.Name;
-                    
-                    if (customer.CustomerItems.Count(ocm => ocm.ContactPerson.Equals(name)) == 0)
+                    if (!string.IsNullOrWhiteSpace(name))
                     {
-                        //add & disable b1
-                        //item.isNew = false.ToString();
-                        ce.Active = BoYesNoEnum.tNO;
-                    }
-                    else
-                    {
-
-                        var item = customer.CustomerItems.Where<CustomerItems>(c => c.ContactPerson.Equals(ce.Name)).FirstOrDefault(); //.isNew = false.ToString();
-                        //string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
-                        string[] addressName = { item.BillToStreet };
-                        ce.Address = string.Concat(addressName);
-                        ce.Active = BoYesNoEnum.tYES;
-                        ce.Phone1 = item.Telephone1;
-                        if (item.DefaltAddress.Equals("Y"))
+                        if (customer.CustomerItems.Count(ocm => ocm.ContactPerson.Equals(name)) == 0)
                         {
-                            myBP.ContactPerson = item.ContactPerson;
+                            //add & disable b1
+                            //item.isNew = false.ToString();
+                            ce.Active = BoYesNoEnum.tNO;
                         }
+                        else
+                        {
 
-                        //存在的记录排除打标记，反向理解（new == true 意味着这是旧的数据，反之false是新加的）
-                        item.isNew = true.ToString();
+                            var item = customer.CustomerItems.Where<CustomerItems>(c => c.ContactPerson.Equals(ce.Name)).FirstOrDefault(); //.isNew = false.ToString();
+                                                                                                                                           //string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
+                            string[] addressName = { item.BillToStreet };
+                            ce.Address = string.Concat(addressName);
+                            ce.Active = BoYesNoEnum.tYES;
+                            ce.Phone1 = item.Telephone1;
+                            if (item.DefaltAddress.Equals("Yes"))
+                            {
+                                myBP.ContactPerson = item.ContactPerson;
+                            }
+
+                            //存在的记录排除打标记，反向理解（new == true 意味着这是旧的数据，反之false是新加的）
+                            item.isNew = true.ToString();
+                        }
+                    }else
+                    {
+                        //代表B1 空 行数据
+                        if (i == 0 && oldContractsCount == 1)
+                        {
+                            if (customer.CustomerItems != null || customer.CustomerItems.Count > 0)
+                            {
+                                var item = customer.CustomerItems.FirstOrDefault();
+                                string[] addressName = { item.BillToStreet };
+                                ce.Name = item.ContactPerson;
+                                ce.Address = string.Concat(addressName);
+                                ce.Active = BoYesNoEnum.tYES;
+                                ce.Phone1 = item.Telephone1;
+                                if (item.DefaltAddress.Equals("Yes"))
+                                {
+                                    myBP.ContactPerson = item.ContactPerson;
+                                }
+                                item.isNew = true.ToString();
+                            }
+                        }
                     }
+
                 }
                 //add new
                 if (customer.CustomerItems.Count(c => c.isNew == false.ToString()) > 0)
@@ -107,15 +131,16 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                         //string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
                         string[] addressName = { item.BillToStreet };
                         
-                        SAPbobsCOM.ContactEmployees ce2 = myBP.ContactEmployees;
-                        ce2.Add();
-                        ce2.Name = item.ContactPerson;
-                        //ce2.SetCurrentLine(ce.Count); //往后添加
-                        //ce2.Name = item.ContactPerson;
-                        ce2.Address = string.Concat(addressName);
-                        ce2.Active = BoYesNoEnum.tYES;
-                        ce2.Phone1 = item.Telephone1;
-                        if (item.DefaltAddress.Equals("Y"))
+                        //SAPbobsCOM.ContactEmployees ce2 = myBP.ContactEmployees;
+                        //if (ce2.Count )
+                        //ce2.SetCurrentLine(0);
+                        //if ()
+                        ce.Add();
+                        ce.Name = item.ContactPerson;
+                        ce.Address = string.Concat(addressName);
+                        ce.Active = BoYesNoEnum.tYES;
+                        ce.Phone1 = item.Telephone1;
+                        if (item.DefaltAddress.Equals("Yes"))
                         {
                             myBP.ContactPerson = item.ContactPerson;
                         }
@@ -161,7 +186,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                         ce.Address = string.Concat(addressName);
                         ce.Active = BoYesNoEnum.tYES;
                         ce.Phone1 = item.Telephone1;
-                        if (item.DefaltAddress.Equals("Y"))
+                        if (item.DefaltAddress.Equals("Yes"))
                         {
                             myBP.ContactPerson = item.ContactPerson;
                         }
