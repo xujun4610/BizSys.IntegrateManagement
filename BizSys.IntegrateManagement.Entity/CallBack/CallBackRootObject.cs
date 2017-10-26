@@ -12,7 +12,7 @@ namespace BizSys.IntegrateManagement.Entity.CallBack
         public List<QueryParameters> QueryParameters { get; set; }
         public List<Data> Data { get; set; }
         // customed for meffert
-        public List<B1_contact> b1_contact { get; set; }
+        public List<B1_contact> B1_contact { get; set; }
     }
     public class QueryParameters
     {

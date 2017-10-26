@@ -79,7 +79,6 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                         //add & disable b1
                         //item.isNew = false.ToString();
                         ce.Active = BoYesNoEnum.tNO;
-                        ce.Add();
                     }
                     else
                     {
@@ -94,7 +93,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                         {
                             myBP.ContactPerson = item.ContactPerson;
                         }
-                        ce.Add();
+
                         //存在的记录排除打标记，反向理解（new == true 意味着这是旧的数据，反之false是新加的）
                         item.isNew = true.ToString();
                     }
@@ -107,8 +106,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                     {
                         //string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
                         string[] addressName = { item.BillToStreet };
-
+                        
                         SAPbobsCOM.ContactEmployees ce2 = myBP.ContactEmployees;
+                        ce2.Add();
                         ce2.Name = item.ContactPerson;
                         //ce2.SetCurrentLine(ce.Count); //往后添加
                         //ce2.Name = item.ContactPerson;
@@ -119,7 +119,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                         {
                             myBP.ContactPerson = item.ContactPerson;
                         }
-                        ce2.Add();
+                        
                     }
                 }
 
@@ -153,7 +153,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                         */
 
                         SAPbobsCOM.ContactEmployees ce = myBP.ContactEmployees;
-                        ce.SetCurrentLine(i);
+                        if (i > 0)
+                        {
+                            ce.Add();
+                        }
                         ce.Name = item.ContactPerson;
                         ce.Address = string.Concat(addressName);
                         ce.Active = BoYesNoEnum.tYES;
@@ -162,7 +165,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                         {
                             myBP.ContactPerson = item.ContactPerson;
                         }
-                        ce.Add();
+                        
                     }
 
                 }

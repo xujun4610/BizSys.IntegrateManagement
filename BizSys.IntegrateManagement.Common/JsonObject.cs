@@ -202,10 +202,10 @@ namespace BizSys.IntegrateManagement.Common
             };
             if (cbdl != null)
             {
-                callBackRootObject.b1_contact = new List<B1_contact>();
+                callBackRootObject.B1_contact = new List<B1_contact>();
                 foreach (var it_cbdl in cbdl)
                 {
-                    callBackRootObject.b1_contact.Add(new B1_contact() { Key = it_cbdl.Key, Text = it_cbdl.Value });
+                    callBackRootObject.B1_contact.Add(new B1_contact() { Key = it_cbdl.Key, Text = it_cbdl.Value });
                 }
             }
 
