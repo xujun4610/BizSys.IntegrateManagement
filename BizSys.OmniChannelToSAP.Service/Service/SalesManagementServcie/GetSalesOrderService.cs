@@ -15,7 +15,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
     {
         public async static void GetSalesOrder(int LastResultCount = -1, string LastDocEntry = null)
         {
-            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 1);
+            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 5);
             string guid = "SalesOrder-" + Guid.NewGuid();
             string resultJson = string.Empty;
             #region 查找条件
