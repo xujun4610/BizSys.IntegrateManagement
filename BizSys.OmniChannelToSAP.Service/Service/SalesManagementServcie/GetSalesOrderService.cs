@@ -13,13 +13,14 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
 {
     public class GetSalesOrderService
     {
-        public async static void GetSalesOrder()
+        public async static void GetSalesOrder(int LastResultCount = -1, string LastDocEntry = null)
         {
-            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 20);
+            int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 1);
             string guid = "SalesOrder-" + Guid.NewGuid();
             string resultJson = string.Empty;
             #region 查找条件
-            Criteria cri = new Criteria()
+            #region 基础 Criteria
+            Criteria commonCri = new Criteria()
             {
                 __type = "Criteria",
                 ResultCount = resultCount,
@@ -59,13 +60,27 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Operation = "co_EQUAL",
                         Relationship = "cr_OR",
                         BracketCloseNum = 1
+                    },
+                    new Conditions {
+                        Alias = "SalesPerson",
+                        CondVal = "bj",
+                        Operation = "co_CONTAIN",
+                        BracketOpenNum = 1,
+                        Relationship = "cr_AND"
+                    },
+                    new Conditions {
+                        Alias = "SalesPerson",
+                        CondVal = "xz",
+                        Operation = "co_CONTAIN",
+                        Relationship = "cr_OR",
+                        BracketCloseNum = 1
                     }
                 },
                 Sorts = new List<Sorts>(){
                     new Sorts(){
                          __type="Sort",
                          Alias="DocEntry",
-                         SortType="st_Descending"
+                         SortType="st_Ascending"
                     }
                 },
                 ChildCriterias = new List<ChildCriterias>()
@@ -76,8 +91,27 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
 
                 Remarks = null
             };
+
+            #endregion
+            if (!(LastResultCount == -1 && string.IsNullOrWhiteSpace(LastDocEntry)))
+            {//意味着这不是全新的（不是第一页）
+                var extraCris = new List<Conditions>();
+                var exCri = new Conditions();
+                exCri.Alias = "DocEntry";
+                exCri.CondVal = LastDocEntry;
+                exCri.Operation = "co_GRATER_THAN";
+                exCri.Relationship = "cr_AND";
+                extraCris.Add(exCri);
+                commonCri.Conditions.AddRange(extraCris);
+            }
+            //if (LastResultCount >= 0 && LastResultCount < resultCount)
+            //{
+            //    Logger.Writer(guid, QueueStatus.Open, "结束分页数据扫描!");
+            //    return;
+            //}
+
             //序列化json对象
-            string requestJson = await JsonConvert.SerializeObjectAsync(cri);
+            string requestJson = await JsonConvert.SerializeObjectAsync(commonCri);
             #endregion
             #region 调用接口
             try
@@ -104,7 +138,8 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
             {
                 try
                 {
-                    if (!item.Salesperson.Substring(0, 2).ToUpper().Contains("XZ,BJ)")){
+                    if (!item.Salesperson.Substring(0, 2).ToUpper().Contains("XZ,BJ)"))
+                    {
                         //不是北京西藏开头的就别管！给我继续
                         continue;
                     }
@@ -123,6 +158,14 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 }
             }
             Logger.Writer(guid, QueueStatus.Close, "[" + mSuccessCount + "]条销售订单处理成功。");
+
+            //执行分页操作
+            if (salesOrder.ResultObjects.Count == resultCount)
+            {
+                //下一页
+                GetSalesOrder(salesOrder.ResultObjects.Count, salesOrder.ResultObjects[salesOrder.ResultObjects.Count - 1].DocEntry.ToString());
+            }
+
             #endregion
         }
     }

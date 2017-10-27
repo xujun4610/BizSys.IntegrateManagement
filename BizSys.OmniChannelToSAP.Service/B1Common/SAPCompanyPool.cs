@@ -136,9 +136,12 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
         public static SAPbobsCOM.Company GetSAPCompany(string CompanyKey)
         {
-            if (_AllCompany == null || _AllCompany.Count == 0)
+            if (_AllCompany == null)
             {
                 _AllCompany = new Dictionary<string, SAPbobsCOM.Company>();
+                Init();
+            }else
+            {
                 Init();
             }
             if (_AllCompany.ContainsKey(CompanyKey))
