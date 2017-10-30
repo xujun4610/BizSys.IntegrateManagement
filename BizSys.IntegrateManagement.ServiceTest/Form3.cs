@@ -51,6 +51,10 @@ namespace BizSys.IntegrateManagement.ServiceTest
         private void button1_Click(object sender, EventArgs e)
         {
             //回写测试，采用传统的httpwebRequst
+            string json = string.Concat(this.txtJSONStr.Lines).Trim();
+            var callbackStr = BizSys.IntegrateManagement.Common.BaseHttpClient.HttpCallBack(json);
+            MessageBox.Show(callbackStr);
+            //string callBackJsonString = JsonObject.GetCallBackJsonString4MFT_B1Customer(item.ObjectCode, "DocEntry", item.DocEntry.ToString(), documentResult.DocEntry, System.DateTime.Now, documentResult.CallBackDataList);
         }
     }
 }

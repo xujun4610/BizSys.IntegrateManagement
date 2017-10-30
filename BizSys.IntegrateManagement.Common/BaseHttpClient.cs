@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -60,6 +61,12 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string GetToken()
         {
+            string url = $"systemcenter/services/json/userConnect?user={user}&password={password}";
+            string responseJson = RequestHeaderBuilder(@BaseUrl, url);
+
+            TokenRootObject token = JsonConvert.DeserializeObject<TokenRootObject>(responseJson);
+            return token.UserSign;
+            /*
             HttpContent httpContent = new StringContent("", Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
             string resultJson;
@@ -74,6 +81,7 @@ namespace BizSys.IntegrateManagement.Common
 
             TokenRootObject token = JsonConvert.DeserializeObject<TokenRootObject>(resultJson);
             return token.UserSign;
+            */
         }
         #endregion
 
@@ -199,7 +207,7 @@ namespace BizSys.IntegrateManagement.Common
                 jsonResult = await response.Content.ReadAsStringAsync();
             }
             return jsonResult;
-           // string requestJson1 = "{\"ObjectId\":\"AVA_BP_CUSTOMER\",\"QueryParameters\":[{\"Key\":\"ObjectKey\",\"Text\":\"6939\"}],\"Data\":[{\"Key\":\"U_SBOSynchronization\",\"Text\":\"Y\"},{\"Key\":\"U_SBOCallbackDate\",\"Text\":\"2017/2/10 9:43:34\"},{\"Key\":\"U_SBOId\",\"Text\":\"6939\"}]}";
+            // string requestJson1 = "{\"ObjectId\":\"AVA_BP_CUSTOMER\",\"QueryParameters\":[{\"Key\":\"ObjectKey\",\"Text\":\"6939\"}],\"Data\":[{\"Key\":\"U_SBOSynchronization\",\"Text\":\"Y\"},{\"Key\":\"U_SBOCallbackDate\",\"Text\":\"2017/2/10 9:43:34\"},{\"Key\":\"U_SBOId\",\"Text\":\"6939\"}]}";
 
         }
         /// <summary>
@@ -209,6 +217,44 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string HttpCallBack(string requestJson)
         {
+            string _token = GetToken();
+            return RequestHeaderBuilder(BaseUrl, CallBackUrl+_token, requestJson);
+            /*
+            string responseData = string.Empty;
+            byte[] bs = Encoding.UTF8.GetBytes(requestJson);
+            Uri cbUrl = new Uri(new Uri(BaseUrl), CallBackUrl);
+
+            HttpWebRequest wreq = WebRequest.CreateHttp(cbUrl);
+            wreq.ContentType = "application/json;charset=UTF-8";
+            wreq.AutomaticDecompression = DecompressionMethods.GZip;
+            wreq.Method = HttpMethod.Post.Method;
+            wreq.Accept = "application/json, text/javascript 
+            wreq.MediaType = "application/json";
+            wreq.ContentLength = bs.Length;
+            using (Stream st = wreq.GetRequestStream())
+            {
+                st.Write(bs, 0, bs.Length);
+                st.Close();
+            }
+            using (HttpWebResponse response = (HttpWebResponse)wreq.GetResponse())
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                    {
+                        responseData = reader.ReadToEnd().ToString();
+                        reader.Close();
+                    }
+                }
+                else
+                {
+                    string responseMsg = string.Format("[{0}]{1}", response.StatusCode, response.StatusDescription);
+                    throw new Exception(responseMsg);
+                }
+            }
+            return responseData;
+            */
+            /*
             HttpContent httpContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
             string jsonResult;
@@ -222,7 +268,7 @@ namespace BizSys.IntegrateManagement.Common
             }
             return jsonResult;
             // string requestJson1 = "{\"ObjectId\":\"AVA_BP_CUSTOMER\",\"QueryParameters\":[{\"Key\":\"ObjectKey\",\"Text\":\"6939\"}],\"Data\":[{\"Key\":\"U_SBOSynchronization\",\"Text\":\"Y\"},{\"Key\":\"U_SBOCallbackDate\",\"Text\":\"2017/2/10 9:43:34\"},{\"Key\":\"U_SBOId\",\"Text\":\"6939\"}]}";
-
+            */
         }
 
         #endregion 
@@ -305,7 +351,7 @@ namespace BizSys.IntegrateManagement.Common
                 case DocumentType.ORGANIZATION:
                     return "systemapplicationcenter/services/json/fetchOrganization?token=";
                 case DocumentType.CUSTOMERSERVICE:
-                    return "customerservicecenter/services/json/fetchApplication?token=";                    
+                    return "customerservicecenter/services/json/fetchApplication?token=";
             }
             throw new ArgumentNullException(string.Format("can't get url by OrderType [{0}]", OrderType));
         }
@@ -385,5 +431,52 @@ namespace BizSys.IntegrateManagement.Common
             }
             throw new ArgumentNullException(string.Format("can't get url by OrderType [{0}]", OrderType));
         }
+
+        public static string RequestHeaderBuilder(string baseUrl, string relativeUrl, string requestJsonData = null)
+        {
+            //相应数据
+            string responseData = string.Empty;
+
+            byte[] bs = null;
+            Uri absUrl = new Uri(new Uri(BaseUrl), relativeUrl);
+
+            HttpWebRequest wreq = WebRequest.CreateHttp(absUrl);
+            wreq.ContentType = "application/json;charset=UTF-8";
+            wreq.AutomaticDecompression = DecompressionMethods.GZip;
+            wreq.Method = HttpMethod.Post.Method;
+            wreq.Accept = "application/json, text/javascript, */*;";
+            wreq.MediaType = "application/json";
+            wreq.Timeout = 60 * 1000; //(1min)
+            if (!string.IsNullOrWhiteSpace(requestJsonData))
+            {
+                bs = Encoding.UTF8.GetBytes(requestJsonData);
+                using (Stream st = wreq.GetRequestStream())
+                {
+                    st.Write(bs, 0, bs.Length);
+                    st.Close();
+                }
+                //wreq.ContentLength = bs == null ? 0 : bs.Length;
+            }
+
+            using (HttpWebResponse response = (HttpWebResponse)wreq.GetResponse())
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                    {
+                        responseData = reader.ReadToEnd().ToString();
+                        reader.Close();
+                    }
+                }
+                else
+                {
+                    string responseMsg = string.Format("[{0}]{1}", response.StatusCode, response.StatusDescription);
+                    throw new Exception(responseMsg);
+                }
+            }
+            return responseData;
+        }
+
+
     }
 }
