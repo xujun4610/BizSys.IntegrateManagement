@@ -100,6 +100,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.rbtn_XZ = new System.Windows.Forms.RadioButton();
             this.rbtn_BJ = new System.Windows.Forms.RadioButton();
+            this.button50 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -500,6 +501,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button50);
             this.groupBox2.Controls.Add(this.button49);
             this.groupBox2.Controls.Add(this.button42);
             this.groupBox2.Controls.Add(this.button25);
@@ -960,6 +962,17 @@
             this.rbtn_BJ.Text = "北京账套";
             this.rbtn_BJ.UseVisualStyleBackColor = true;
             // 
+            // button50
+            // 
+            this.button50.Location = new System.Drawing.Point(282, 47);
+            this.button50.Margin = new System.Windows.Forms.Padding(2);
+            this.button50.Name = "button50";
+            this.button50.Size = new System.Drawing.Size(97, 29);
+            this.button50.TabIndex = 8;
+            this.button50.Text = "单据分页测试";
+            this.button50.UseVisualStyleBackColor = true;
+            this.button50.Click += new System.EventHandler(this.button50_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1065,6 +1078,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RadioButton rbtn_XZ;
         private System.Windows.Forms.RadioButton rbtn_BJ;
+        private System.Windows.Forms.Button button50;
     }
 }
 

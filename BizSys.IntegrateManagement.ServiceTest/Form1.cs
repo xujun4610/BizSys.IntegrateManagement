@@ -374,5 +374,10 @@ namespace BizSys.IntegrateManagement.ServiceTest
         {
             GetCancelOrCloseSalesOrderService.GetCancelSalesOrder();
         }
+
+        private void button50_Click(object sender, EventArgs e)
+        {
+            GetSalesOrderService.GetSalesOrder4Test();
+        }
     }
 }

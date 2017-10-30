@@ -47,5 +47,10 @@ namespace BizSys.IntegrateManagement.ServiceTest
             }
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //回写测试，采用传统的httpwebRequst
+        }
     }
 }
