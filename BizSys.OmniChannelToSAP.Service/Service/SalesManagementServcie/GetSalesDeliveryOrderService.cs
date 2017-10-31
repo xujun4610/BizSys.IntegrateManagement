@@ -109,7 +109,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
             if (salesDeliveryOrder.ResultObjects.Count == 0)             Logger.Writer("此次同步没有符合条件的交货单据！");
             DateTime syncDateTime = DateTime.Now;
             Logger.Writer(guid, QueueStatus.Open, "[" + salesDeliveryOrder.ResultObjects.Count + "]条销售交货订单开始处理。");
-            Logger.Writer(guid, QueueStatus.Open, "订单信息：\r\n" + resultJson);
+            //Logger.Writer(guid, QueueStatus.Open, "订单信息：\r\n" + resultJson);
             //生成销售交货
             int mSuccessCount = 0;
             foreach (var item in salesDeliveryOrder.ResultObjects)
@@ -140,7 +140,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 }
             }
             Logger.Writer(guid, QueueStatus.Close, "[" + mSuccessCount + "]条销售交货订单处理成功。");
-            GC.Collect();
+            
             #endregion
         
         }

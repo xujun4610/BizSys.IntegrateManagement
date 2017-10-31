@@ -16,6 +16,7 @@ namespace BizSys.OmniChannelToSAP.Service.Task.SalesManagement
         {
             Logger.Writer(string.Format("开始执行【销售交货】同步"));
             GetSalesDeliveryOrderService.GetSalesDeliveryOrder();
+            GC.Collect();
         }
 
         public void Stop()
