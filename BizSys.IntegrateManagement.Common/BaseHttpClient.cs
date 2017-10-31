@@ -120,6 +120,9 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string HttpFetch(DocumentType OrderType, string requestJson)
         {
+            string url = @GetFetchOrderUrl(OrderType) + GetToken();
+            return RequestHeaderBuilder(url, requestJson);
+            /*
             HttpContent httpContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
             string resutlJson;
@@ -137,6 +140,7 @@ namespace BizSys.IntegrateManagement.Common
             }
 
             return resutlJson;
+            */
         }
         #endregion
 
@@ -178,10 +182,14 @@ namespace BizSys.IntegrateManagement.Common
             {
                 http.BaseAddress = new Uri(@BaseUrl);
                 string url = @GetSaveOrderUrl(OrderType) + Token;
+                http.PostAsync(url, httpContent).Start();
                 var response = http.PostAsync(url, httpContent).Result;
                 response.EnsureSuccessStatusCode();//
                 //if(response.StatusCode == HttpStatusCode.OK)
+                response.Content.ReadAsStringAsync().Start();
                 jsonResult = response.Content.ReadAsStringAsync().Result;
+                response.Content.ReadAsStringAsync().Dispose();
+                response.Dispose();
             }
             return jsonResult;
         }
@@ -218,7 +226,7 @@ namespace BizSys.IntegrateManagement.Common
         public static string HttpCallBack(string requestJson)
         {
             string _token = GetToken();
-            return RequestHeaderBuilder(BaseUrl, CallBackUrl+_token, requestJson);
+            return RequestHeaderBuilder(CallBackUrl + _token, requestJson);
             /*
             string responseData = string.Empty;
             byte[] bs = Encoding.UTF8.GetBytes(requestJson);
@@ -432,34 +440,38 @@ namespace BizSys.IntegrateManagement.Common
             throw new ArgumentNullException(string.Format("can't get url by OrderType [{0}]", OrderType));
         }
 
-        public static string RequestHeaderBuilder(string baseUrl, string relativeUrl, string requestJsonData = null)
+        public static string RequestHeaderBuilder(string relativeUrl, string requestJsonData = null)
         {
-            //相应数据
-            string responseData = string.Empty;
 
-            byte[] bs = null;
-            Uri absUrl = new Uri(new Uri(BaseUrl), relativeUrl);
-
-            HttpWebRequest wreq = WebRequest.CreateHttp(absUrl);
-            wreq.ContentType = "application/json;charset=UTF-8";
-            wreq.AutomaticDecompression = DecompressionMethods.GZip;
-            wreq.Method = HttpMethod.Post.Method;
-            wreq.Accept = "application/json, text/javascript, */*;";
-            wreq.MediaType = "application/json";
-            wreq.Timeout = 60 * 1000; //(1min)
-            if (!string.IsNullOrWhiteSpace(requestJsonData))
+            try
             {
-                bs = Encoding.UTF8.GetBytes(requestJsonData);
-                using (Stream st = wreq.GetRequestStream())
+                //相应数据
+                string responseData = string.Empty;
+
+                byte[] bs = null;
+                Uri absUrl = new Uri(new Uri(BaseUrl), relativeUrl);
+
+                HttpWebRequest wreq = WebRequest.CreateHttp(absUrl);
+                wreq.ContentType = "application/json;charset=UTF-8";
+                wreq.AutomaticDecompression = DecompressionMethods.GZip;
+                wreq.Method = HttpMethod.Post.Method;
+                wreq.Accept = "application/json, text/javascript, */*;";
+                wreq.MediaType = "application/json";
+                wreq.Timeout = 60 * 1000; //(1min)
+                wreq.KeepAlive = true;
+                if (!string.IsNullOrWhiteSpace(requestJsonData))
                 {
-                    st.Write(bs, 0, bs.Length);
-                    st.Close();
+                    bs = Encoding.UTF8.GetBytes(requestJsonData);
+                    using (Stream st = wreq.GetRequestStream())
+                    {
+                        st.Write(bs, 0, bs.Length);
+                        st.Close();
+                    }
+                    //wreq.ContentLength = bs == null ? 0 : bs.Length;
                 }
-                //wreq.ContentLength = bs == null ? 0 : bs.Length;
-            }
+                HttpWebResponse response = (HttpWebResponse)wreq.GetResponse();
 
-            using (HttpWebResponse response = (HttpWebResponse)wreq.GetResponse())
-            {
+
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
@@ -468,13 +480,24 @@ namespace BizSys.IntegrateManagement.Common
                         reader.Close();
                     }
                 }
-                else
-                {
-                    string responseMsg = string.Format("[{0}]{1}", response.StatusCode, response.StatusDescription);
-                    throw new Exception(responseMsg);
-                }
+                //else
+                //{
+                //    throw new WebException(response.StatusDescription );
+                //}
+                return responseData;
             }
-            return responseData;
+            catch (WebException ex)
+            {
+                string responseMsg = string.Format("[{0}]{1}", ex.Status, ex.Message);
+                throw new Exception(responseMsg);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+            
         }
 
 
