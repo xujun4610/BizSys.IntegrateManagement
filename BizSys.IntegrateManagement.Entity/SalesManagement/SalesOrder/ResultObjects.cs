@@ -95,6 +95,8 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder
         public string DocumentType { get; set; } //订单类型
         public double ServiceNumberManagementMoney { get; set; }  //代金券金额
         public string PrmtsContent { get; set; } //促销活动内容
+        //b1 联系人
+        public string B1CntctCode { get; set; }
 
     }
 }

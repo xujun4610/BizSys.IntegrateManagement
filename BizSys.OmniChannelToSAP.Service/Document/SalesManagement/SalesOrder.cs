@@ -78,6 +78,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.DocDueDate = order.DeliveryDate;
             myDocuments.TaxDate = order.DocumentDate;
             myDocuments.Comments = order.Remarks;
+            myDocuments.ContactPersonCode = DataConvert.ConvertToIntEx(order.B1CntctCode, 0);
             //地址
             //string[] textArray1 = new string[] { "CN", order.Province, order.City, order.County, order.Town, order.ShipTo };
             //myDocuments.Address2 = string.Concat(textArray1);
