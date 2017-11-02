@@ -1,10 +1,12 @@
-﻿using BizSys.IntegrateManagement.Entity.BatchNumber;
+﻿using BizSys.IntegrateManagement.Common;
+using BizSys.IntegrateManagement.Entity.BatchNumber;
 using BizSys.IntegrateManagement.Entity.Result;
 using BizSys.IntegrateManagement.Entity.SalesManagement.SalesDeliveryOrder;
 using BizSys.OmniChannelToSAP.Service.B1Common;
 using SAPbobsCOM;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,7 +106,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
         /// <returns></returns>
         public static Result CreateSalesDeliveryOrder(ResultObjects order)
         {
-            string B1DocEntry;
+            //b1过期日期
+            int B1DocDueDate = Convert.ToInt32(ConfigurationManager.AppSettings["DocDueDate"], 25);
+            //b1默认字段
+            string B1DocEntry = string.Empty;
             string B1DlftWhsCode = "W03";
             string B1DlftSaleCostCode = string.Empty;
             string B1DlftFIAccount = string.Empty;
@@ -139,6 +144,16 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
 
             //myDocuments.Reference1 = order.Reference1;
             //myDocuments.Reference2 = order.Reference2;
+            myDocuments.DocDate = Convert.ToDateTime(order.PostingDate);
+            myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
+            myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate);
+            
+            if (order.DeliveryDate.Day >= 25)
+            {
+                myDocuments.DocDate = Convert.ToDateTime(order.PostingDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+            }
             myDocuments.DocDate = Convert.ToDateTime(order.PostingDate);
             myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
             myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate);

@@ -106,7 +106,8 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
             #region 订单处理
             //反序列化
             SalesDeliveryOrderRootObject salesDeliveryOrder = await JsonConvert.DeserializeObjectAsync<SalesDeliveryOrderRootObject>(resultJson);
-            if (salesDeliveryOrder.ResultObjects.Count == 0)             Logger.Writer("此次同步没有符合条件的交货单据！");
+            if (salesDeliveryOrder.ResultObjects.Count == 0)
+                Logger.Writer("此次同步没有符合条件的交货单据！");
             DateTime syncDateTime = DateTime.Now;
             Logger.Writer(guid, QueueStatus.Open, "[" + salesDeliveryOrder.ResultObjects.Count + "]条销售交货订单开始处理。");
             //Logger.Writer(guid, QueueStatus.Open, "订单信息：\r\n" + resultJson);
