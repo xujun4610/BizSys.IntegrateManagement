@@ -26,7 +26,7 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder
         public string ContactPerson { get; set; }
         public string County { get; set; }
         public string CreateActionId { get; set; }
-        public string CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public string CreateTime { get; set; }
         public string CreateUserSign { get; set; }
         public string CustomType { get; set; }
@@ -86,7 +86,7 @@ namespace BizSys.IntegrateManagement.Entity.SalesManagement.SalesOrder
         public string Town { get; set; }
         public string Transfered { get; set; }
         public string UpdateActionId { get; set; }
-        public string UpdateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
         public string UpdateTime { get; set; }
         public string UpdateUserSign { get; set; }
         public List<UserFieldsItem> UserFields { get; set; }

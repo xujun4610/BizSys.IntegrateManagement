@@ -74,9 +74,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.CardName = order.BusinessPartnerName;
             //myDocuments.Reference1 = order.Reference1;
             //myDocuments.Reference2 = order.Reference2;
-            myDocuments.DocDate = order.PostingDate;
-            myDocuments.DocDueDate = order.DeliveryDate;
-            myDocuments.TaxDate = order.DocumentDate;
+            myDocuments.DocDate = order.UpdateDate;        //order.PostingDate;
+            myDocuments.DocDueDate = order.UpdateDate;       //order.DeliveryDate;
+            myDocuments.TaxDate = order.UpdateDate;       //order.DocumentDate;
             myDocuments.Comments = order.Remarks;
             myDocuments.ContactPersonCode = DataConvert.ConvertToIntEx(order.B1CntctCode, 0);
             //地址
