@@ -223,7 +223,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry from {0} where U_OCM_DocEntry = '{1}'", tableName, DocEntry);
+                string sql = string.Format(@"select DocEntry from {0} where U_OCMDocEntry = '{1}'", tableName, DocEntry);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {
@@ -258,7 +258,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry from {0} where U_OCM_DocEntry = '{1}'", tableName, DocEntry);
+                string sql = string.Format(@"select DocEntry from {0} where U_OCMDocEntry = '{1}'", tableName, DocEntry);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {

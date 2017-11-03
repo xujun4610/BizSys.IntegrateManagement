@@ -104,30 +104,38 @@ namespace BizSys.OmniChannelToSAP.Service.Document.MasterDataManagement
                         //代表B1 空 行数据
                         if (i == 0 && oldContractsCount == 1)
                         {
-                            if (customer.CustomerItems != null || customer.CustomerItems.Count > 0)
+                            if (customer.CustomerItems != null || customer.CustomerItems.Count != 0)
                             {
                                 var item = customer.CustomerItems.FirstOrDefault();
-                                string[] addressName = { item.BillToStreet };
-                                ce.Name = item.ContactPerson;
-                                ce.Address = string.Concat(addressName);
-                                ce.Active = BoYesNoEnum.tYES;
-                                ce.Phone1 = item.Telephone1;
-                                if (item.DefaltAddress.Equals("Yes"))
+                                if (item != null)
                                 {
-                                    myBP.ContactPerson = item.ContactPerson;
+                                    string[] addressName = { item.BillToStreet };
+                                    ce.Name = item.ContactPerson;
+                                    ce.Address = string.Concat(addressName);
+                                    ce.Active = BoYesNoEnum.tYES;
+                                    ce.Phone1 = item.Telephone1;
+                                    if (item.DefaltAddress.Equals("Yes"))
+                                    {
+                                        myBP.ContactPerson = item.ContactPerson;
+                                    }
+                                    item.isNew = true.ToString();
                                 }
-                                item.isNew = true.ToString();
+
                             }
                         }
                     }
 
                 }
                 //add new
-                if (customer.CustomerItems.Count(c => c.isNew == false.ToString()) > 0)
+                if (customer.CustomerItems.Count(c => c.isNew == false.ToString()) != 0)
                 {
                     var new_OCM_items = customer.CustomerItems.Where<CustomerItems>(c => c.isNew == false.ToString());
                     foreach (var item in new_OCM_items)
                     {
+                        if (string.IsNullOrEmpty(item.ContactPerson))
+                        {
+                            continue;
+                        }
                         //string[] addressName = { "CN", item.Province, item.City, item.County, item.Town, item.BillToStreet };
                         string[] addressName = { item.BillToStreet };
                         
