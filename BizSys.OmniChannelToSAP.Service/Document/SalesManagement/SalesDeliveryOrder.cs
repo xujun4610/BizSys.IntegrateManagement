@@ -107,7 +107,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
         public static Result CreateSalesDeliveryOrder(ResultObjects order)
         {
             //b1过期日期
-            int B1DocDueDate = Convert.ToInt32(ConfigurationManager.AppSettings["DocDueDate"], 25);
+            int B1DocDueDate = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["DocDueDate"], 25);
             //b1默认字段
             string B1DocEntry = string.Empty;
             string B1DlftWhsCode = "W03";
@@ -144,19 +144,18 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
 
             //myDocuments.Reference1 = order.Reference1;
             //myDocuments.Reference2 = order.Reference2;
-            myDocuments.DocDate = Convert.ToDateTime(order.PostingDate);
+            //myDocuments.DocDate = Convert.ToDateTime(order.PostingDate);
+            //myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
+            //myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate);
+            myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate);
             myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
-            myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate);
-            
-            if (order.DeliveryDate.Day >= 25)
+            myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate);
+            if (order.DeliveryDate.Day >= B1DocDueDate)
             {
-                myDocuments.DocDate = Convert.ToDateTime(order.PostingDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
-                myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
-                myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                //myDocuments.DocDate = Convert.ToDateTime(order.PostingDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                //myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
             }
-            myDocuments.DocDate = Convert.ToDateTime(order.PostingDate);
-            myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
-            myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate);
             myDocuments.Comments = order.Remarks;
             myDocuments.CardCode = order.BusinessPartnerCode;
             myDocuments.CardName = order.BusinessPartnerName;
