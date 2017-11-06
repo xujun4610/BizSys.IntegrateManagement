@@ -934,5 +934,32 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             }
         }
 
+        /// <summary>
+        /// 根据B1业务伙伴编号 获取 销售员编号
+        /// </summary>
+        /// <param name="CardCode">业务伙伴编号</param>
+        /// <returns></returns>
+        public static int GetSalesPersonCodeByCardCode(string CardCode)
+        {
+            SAPbobsCOM.Recordset res = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            try
+            {
+                string sql = $"SELECT TOP 1 SlpCode FROM [OCRD] WHERE CardCode = '{CardCode}' ";
+                res.DoQuery(sql);
+                if (res.RecordCount == 0)
+                    return -1; //无销售员工
+                else
+                    return res.Fields.Item(0).Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(res);
+            }
+        }
+
     }
 }

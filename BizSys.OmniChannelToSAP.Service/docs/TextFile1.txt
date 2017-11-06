@@ -10,6 +10,8 @@ B1存储过程 -- 客户同步
 		--客户
 	IF  @object_type=N'2' 
 	BEGIN
+			--多用户模式 开
+			set  XACT_ABORT  on  
 			declare @ObjectKey int = 0; --OCM ObjectKey
 			declare @CardName nvarchar(100)
 			declare @GroupCode int = 0;
@@ -26,9 +28,9 @@ B1存储过程 -- 客户同步
 					if @transaction_type = N'A'
 					begin
 					--执行
-					select Top 1 @ObjectKey = AutoKey from [omni_channel_man].[dbo].[AVA_SYS_ONNM] where ObjectCode = 'AVA_BP_CUSTOMER'
+					select Top 1 @ObjectKey = AutoKey from  [omni_channel_man].[dbo].[AVA_SYS_ONNM] where ObjectCode = 'AVA_BP_CUSTOMER'
 
-					INSERT INTO [omni_channel_man].[dbo].[AVA_BP_OCUS]
+					INSERT INTO  [omni_channel_man].[dbo].[AVA_BP_OCUS]
 							   ([ObjectKey]
 							   ,[CardCode]
 							   ,[CardName]
@@ -186,16 +188,22 @@ B1存储过程 -- 客户同步
 							   ,DATEADD(year,1,GETDATE())	--<CreditValidTo, datetime,>
 							)
 							--update autokey
-							update [omni_channel_man].[dbo].[AVA_SYS_ONNM] set AutoKey = AutoKey+1 where ObjectCode = N'AVA_BP_CUSTOMER'
+							update  [omni_channel_man].[dbo].[AVA_SYS_ONNM] set AutoKey = AutoKey+1 where ObjectCode = N'AVA_BP_CUSTOMER'
 
 					end
 					if @transaction_type = N'U'
 					begin
-						update omni_channel_man.dbo.AVA_BP_OCUS set CardName = @CardName , GroupCode = @GroupCode, SlpCode = @SlpCode, activationFor = (case when (@ValidFlag = N'Y') then N'Y' when (@FrozenFlag = N'Y') then N'N' else N'Y' end ) , ListNum = @DlftPriceListNum  where CardCode = @list_of_cols_val_tab_del
+						update  [omni_channel_man].[dbo].[AVA_BP_OCUS] set 
+						[UpdateDate]= GETDATE(),[UpdateTime] =(DATENAME(HOUR,GETDATE())*100 + DATENAME(MINUTE,GETDATE())),
+						[LogInst] = [LogInst]+1, [UpdateActId] = NEWID(), [Updator] = [Creator],
+						CardName = @CardName , GroupCode = @GroupCode, SlpCode = @SlpCode, activationFor = (case when (@ValidFlag = N'Y') then N'Y' when (@FrozenFlag = N'Y') then N'N' else N'Y' end ) , ListNum = @DlftPriceListNum  where CardCode = @list_of_cols_val_tab_del
 					end
 					if @transaction_type = N'D'
 					begin
-						update omni_channel_man.dbo.AVA_BP_OCUS set activationFor = N'N' where CardCode = @list_of_cols_val_tab_del
+						update  [omni_channel_man].[dbo].[AVA_BP_OCUS] set
+						[UpdateDate]= GETDATE(),[UpdateTime] =(DATENAME(HOUR,GETDATE())*100 + DATENAME(MINUTE,GETDATE())),
+						[LogInst] = [LogInst]+1,  [UpdateActId] = NEWID(), [Updator] = [Creator],
+						 activationFor = N'N' where CardCode = @list_of_cols_val_tab_del
 					end
 
 			END
@@ -206,7 +214,8 @@ B1存储过程 -- 客户同步
 					set @error_message = n'b1系统存储过程执行【业务伙伴主数据】有误，请检查！'
 			end
 */
-
+			--多用户模式 关闭
+			set  XACT_ABORT  off  
 	END
 
 ---------------------------------------------------------------------------------------------------

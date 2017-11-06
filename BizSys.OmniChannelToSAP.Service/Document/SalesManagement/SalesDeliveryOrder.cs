@@ -160,6 +160,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.CardCode = order.BusinessPartnerCode;
             myDocuments.CardName = order.BusinessPartnerName;
             myDocuments.ContactPersonCode = B1Common.BOneCommon.GetBPContractCode(order.BusinessPartnerCode, order.ContactPerson);
+            myDocuments.SalesPersonCode = B1Common.BOneCommon.GetSalesPersonCodeByCardCode(order.BusinessPartnerCode);
             //收货地址
             string[] textArray1 = new string[] {order.Consignee, order.ContactNumber, "\n", "CN", order.Province, order.City, order.County, order.Town, order.DetailedAddress };
             myDocuments.Address2 = string.Concat(textArray1);
