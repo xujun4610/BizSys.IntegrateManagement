@@ -150,12 +150,19 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate);
             myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
             myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate);
-            if (order.DeliveryDate.Day >= B1DocDueDate)
+            if (B1Common.BOneCommon.GetCurrentPeriodStatus("DocDate",order.DocumentDate).Equals("Y")) //过账期间锁定
             {
-                //myDocuments.DocDate = Convert.ToDateTime(order.PostingDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
-                //myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
                 myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
+            }else
+            {
+                //if (order.DeliveryDate.Day >= B1DocDueDate)
+                //{
+                //    //myDocuments.DocDate = Convert.ToDateTime(order.PostingDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                //    //myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                //    myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
+                //}
             }
+
             myDocuments.Comments = order.Remarks;
             myDocuments.CardCode = order.BusinessPartnerCode;
             myDocuments.CardName = order.BusinessPartnerName;
