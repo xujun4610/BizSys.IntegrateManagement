@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static BizSys.IntegrateManagement.Common.Enumerator;
 
@@ -61,7 +62,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 return new Result()
                 {
                     ResultValue = ResultType.True,
-                    ResultMessage = "该订单已生成到B1"
+                    ResultMessage = "【"+order.DocEntry.ToString() + "】该订单已生成到B1，线程ID["+Thread.CurrentThread.ManagedThreadId.ToString() +"]"
                 };
             }
 
@@ -104,7 +105,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 //{
                 //    myDocuments.Lines.DiscountPercent = double.Parse(item.DiscountPerLine);//折扣率
                 //}
-                myDocuments.Lines.DiscountPercent = double.Parse(item.DiscountPerLine);//折扣率
+                //myDocuments.Lines.DiscountPercent = double.Parse(item.DiscountPerLine);//折扣率
                 myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate4MFT(slpCodeSign, item.TaxRatePerLine, "O");
                 myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse4MFT(slpCodeSign, item.Warehouse) == true ? item.Warehouse : B1DlftWhsCode;
                 myDocuments.Lines.UnitPrice = item.UnitPrice;
@@ -138,7 +139,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 result.ResultMessage = "【" + order.DocEntry.ToString() + "】销售订单处理成功，系统单据：" + result.DocEntry;
             }
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(myDocuments);
-            SAPCompanyPool.DisconnectAll();
+            //SAPCompanyPool.DisconnectAll();
 
             return result;
         }

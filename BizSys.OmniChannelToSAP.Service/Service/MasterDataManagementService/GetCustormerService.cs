@@ -51,6 +51,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
                             Alias="U_SBOSynchronization",
                              CondVal="Y",
                             Operation = "co_NOT_EQUAL",
+                            Relationship = "cr_AND",
                         }
                          
                         // new Conditions(){
