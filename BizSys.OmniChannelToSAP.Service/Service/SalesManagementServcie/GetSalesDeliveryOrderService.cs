@@ -15,14 +15,14 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
 {
     public class GetSalesDeliveryOrderService
     {
-        public async static void GetSalesDeliveryOrder()
+        public async static void GetSalesDeliveryOrder(int LastResultCount = -1, string LastDocEntry = null)
         {
             int resultCount = DataConvert.ConvertToIntEx(ConfigurationManager.AppSettings["ResultCount"], 30);
             string guid = "SalesDeliveryOrder-" + Guid.NewGuid();
 
             string resultJson = string.Empty;
             #region 查找条件
-            Criteria cri = new Criteria()
+            Criteria commonCri = new Criteria()
             {
                 __type = "Criteria",
                 ResultCount = resultCount,
@@ -50,6 +50,14 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_AND",
                         CondVal = "R"
                     },
+                    new Conditions ()
+                    {
+                        Alias="U_SBOSynchronization",
+                            CondVal="Y",
+                        Operation = "co_NOT_EQUAL",
+                        Relationship = "cr_AND",
+                    },
+                    /*
                     new Conditions {
                         Alias = "U_SBOSynchronization",
                         Operation = "co_IS_NULL",
@@ -63,6 +71,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_OR",
                         BracketCloseNum = 1
                     }
+                    */
                      // new Conditions()
                      //{
                      //   Alias="DataSource",
@@ -85,9 +94,21 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 NotLoadedChildren = false,
                 //Remarks = null
             };
+
+            if (!(LastResultCount == -1 && string.IsNullOrWhiteSpace(LastDocEntry)))
+            {//意味着这不是全新的（不是第一页）
+                var extraCris = new List<Conditions>();
+                var exCri = new Conditions();
+                exCri.Alias = "DocEntry";
+                exCri.CondVal = LastDocEntry;
+                exCri.Operation = "co_GRATER_THAN";
+                exCri.Relationship = "cr_AND";
+                extraCris.Add(exCri);
+                commonCri.Conditions.AddRange(extraCris);
+            }
             //序列化json对象
             //Logger.Writer("序列化json");
-            string requestJson = await JsonConvert.SerializeObjectAsync(cri);
+            string requestJson = await JsonConvert.SerializeObjectAsync(commonCri);
             //Logger.Writer("序列化json完毕");
 
             #endregion
@@ -141,9 +162,17 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 }
             }
             Logger.Writer(guid, QueueStatus.Close, "[" + mSuccessCount + "]条销售交货订单处理成功。");
-            
+
+            //执行分页操作
+            if (salesDeliveryOrder.ResultObjects.Count == resultCount)
+            {
+                //下一页
+                GetSalesDeliveryOrder(salesDeliveryOrder.ResultObjects.Count, salesDeliveryOrder.ResultObjects[salesDeliveryOrder.ResultObjects.Count - 1].DocEntry.ToString());
+            }
+
+            Logger.Writer(guid, QueueStatus.Close, string.Format("此次循环同步已结束！\n----------------------------------------------------------------------------------"));
             #endregion
-        
+
         }
     }
 }
