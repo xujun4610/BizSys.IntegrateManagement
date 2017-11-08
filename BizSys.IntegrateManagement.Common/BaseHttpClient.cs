@@ -62,7 +62,7 @@ namespace BizSys.IntegrateManagement.Common
         public static string GetToken()
         {
             string url = $"systemcenter/services/json/userConnect?user={user}&password={password}";
-            string responseJson = RequestHeaderBuilder(@BaseUrl, url);
+            string responseJson = RequestHeaderBuilder(url);
 
             TokenRootObject token = JsonConvert.DeserializeObject<TokenRootObject>(responseJson);
             return token.UserSign;
@@ -225,8 +225,8 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string HttpCallBack(string requestJson)
         {
-            string _token = GetToken();
-            return RequestHeaderBuilder(CallBackUrl + _token, requestJson);
+            //string _token = GetToken();
+            return RequestHeaderBuilder(CallBackUrl + _Token, requestJson);
             /*
             string responseData = string.Empty;
             byte[] bs = Encoding.UTF8.GetBytes(requestJson);

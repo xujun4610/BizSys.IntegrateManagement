@@ -61,6 +61,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.btnPurcaseOrder = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button50 = new System.Windows.Forms.Button();
             this.button49 = new System.Windows.Forms.Button();
             this.button42 = new System.Windows.Forms.Button();
             this.button25 = new System.Windows.Forms.Button();
@@ -100,7 +101,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.rbtn_XZ = new System.Windows.Forms.RadioButton();
             this.rbtn_BJ = new System.Windows.Forms.RadioButton();
-            this.button50 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -518,6 +518,17 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "销售";
+            // 
+            // button50
+            // 
+            this.button50.Location = new System.Drawing.Point(282, 47);
+            this.button50.Margin = new System.Windows.Forms.Padding(2);
+            this.button50.Name = "button50";
+            this.button50.Size = new System.Drawing.Size(118, 29);
+            this.button50.TabIndex = 8;
+            this.button50.Text = "销售单据分页测试";
+            this.button50.UseVisualStyleBackColor = true;
+            this.button50.Click += new System.EventHandler(this.button50_Click);
             // 
             // button49
             // 
@@ -961,17 +972,6 @@
             this.rbtn_BJ.TabStop = true;
             this.rbtn_BJ.Text = "北京账套";
             this.rbtn_BJ.UseVisualStyleBackColor = true;
-            // 
-            // button50
-            // 
-            this.button50.Location = new System.Drawing.Point(282, 47);
-            this.button50.Margin = new System.Windows.Forms.Padding(2);
-            this.button50.Name = "button50";
-            this.button50.Size = new System.Drawing.Size(97, 29);
-            this.button50.TabIndex = 8;
-            this.button50.Text = "单据分页测试";
-            this.button50.UseVisualStyleBackColor = true;
-            this.button50.Click += new System.EventHandler(this.button50_Click);
             // 
             // Form1
             // 

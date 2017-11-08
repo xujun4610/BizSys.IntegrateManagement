@@ -141,6 +141,7 @@
     <Compile Include="SalesManagement\InvoiceOrder\InvoiceOrderRootObject.cs" />
     <Compile Include="SalesManagement\InvoiceOrder\ReceivableItems.cs" />
     <Compile Include="SalesManagement\InvoiceOrder\ResultObjects.cs" />
+    <Compile Include="SalesManagement\SalesOrderQueue\SalesOrderQueue.cs" />
     <Compile Include="SalesManagement\SalesOrder\UserFieldsItem.cs" />
     <Compile Include="StockManagement\GoodsIssue\GoodsIssueLines.cs" />
     <Compile Include="StockManagement\GoodsIssue\GoodsIssueRootObject.cs" />

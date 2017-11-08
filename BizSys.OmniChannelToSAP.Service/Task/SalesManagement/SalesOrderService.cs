@@ -20,12 +20,16 @@ namespace BizSys.OmniChannelToSAP.Service.Task.SalesManagement
 {
     public class SalesOrderService:IWindowsService
     {
-       
+        private static object obj = new object();
         public void Run()
         {
             //销售订单
             // for 梅菲特
-            GetSalesOrderService.GetSalesOrder();
+            lock (obj)
+            {
+                GetSalesOrderService.GetSalesOrder();
+
+            }
             /*
             //销售退货单
             GetSalesReturnOderService.GetSalesReturnOder();

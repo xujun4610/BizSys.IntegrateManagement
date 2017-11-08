@@ -19,7 +19,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
     public class ServiceCommon
     {
         /// <summary>
-        /// 回调单据
+        /// callback 异步
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="callBackJsonString">回写数据</param>
@@ -41,6 +41,36 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 throw ex;
             }
             var callBackResult = await JsonConvert.DeserializeObjectAsync<CallBackResult>(callBackResultStr);
+            if (callBackResult.ResultCode == 0)
+                isCallBackSuccessful = true;
+            else
+                // Logger.Writer(guid, QueueStatus.Open, "【" + Order.DocEntry + "】回传错误:" + callBackResult.Message + "\r\n 回传内容为：" + callBackJsonString);
+                Logger.Writer(guid, QueueStatus.Open, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】回传错误：{callBackResult.Message},回传内容为{callBackJsonString}");
+            return isCallBackSuccessful;
+        }
+        /// <summary>
+        /// callback 同步方式
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="callBackJsonString"></param>
+        /// <param name="guid"></param>
+        /// <param name="Order"></param>
+        /// <returns></returns>
+        public static bool CallBackSync<T>(string callBackJsonString, string guid, T Order) where T : IBaseResultObjects
+        {
+            bool isCallBackSuccessful = false;
+
+            string callBackResultStr;
+            try
+            {
+                callBackResultStr = BaseHttpClient.HttpCallBack(callBackJsonString);
+            }
+            catch (Exception ex)
+            {
+                Logger.Writer(guid, QueueStatus.Open, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】已处理成功，在回调发生错误：{ex.Message}");
+                throw ex;
+            }
+            var callBackResult = JsonConvert.DeserializeObject<CallBackResult>(callBackResultStr);
             if (callBackResult.ResultCode == 0)
                 isCallBackSuccessful = true;
             else
