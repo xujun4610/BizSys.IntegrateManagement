@@ -377,7 +377,9 @@ namespace BizSys.IntegrateManagement.ServiceTest
 
         private void button50_Click(object sender, EventArgs e)
         {
-            GetSalesOrderService.GetSalesOrder4Sync();
+            //GetSalesOrderService.GetSalesOrder4Sync();
+            GetSalesOrderService.GetSalesOrder4Test();
+
         }
     }
 }

@@ -15,21 +15,24 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using BizSys.OmniChannelToSAP.Service.B1Common;
+using System.Threading;
 
 namespace BizSys.OmniChannelToSAP.Service.Task.SalesManagement
 {
-    public class SalesOrderService:IWindowsService
+    public class SalesOrderService : IWindowsService
     {
-        private static object obj = new object();
+        private readonly static object obj = new object();
         public void Run()
         {
             //销售订单
             // for 梅菲特
-            lock (obj)
-            {
-                GetSalesOrderService.GetSalesOrder();
+            //lock (obj)
+            //{
+            //    GetSalesOrderService.GetSalesOrder();
+            //}
+            GetSalesOrderService.GetSalesOrder4Test();
 
-            }
             /*
             //销售退货单
             GetSalesReturnOderService.GetSalesReturnOder();
@@ -48,13 +51,13 @@ namespace BizSys.OmniChannelToSAP.Service.Task.SalesManagement
 
         public void Stop()
         {
-           
+
         }
 
-       
 
-      
 
-       
+
+
+
     }
 }
