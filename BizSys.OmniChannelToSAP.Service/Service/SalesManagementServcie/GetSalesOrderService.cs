@@ -13,7 +13,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
 {
     public class GetSalesOrderService
     {
-        static object obj = new object();
+        //static object obj = new object();
 
         public async static void GetSalesOrder(int LastResultCount = -1, string LastDocEntry = null)
         {
@@ -148,10 +148,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         continue;
                     }
                     Result documentResult = null;
-                    lock (obj)
-                    {
-                        documentResult = Document.SalesManagement.SalesOrder.CreateSalesOrder(item);
-                    }
+                    documentResult = Document.SalesManagement.SalesOrder.CreateSalesOrder(item);
                     if (documentResult.ResultValue == ResultType.True)
                     {
                         var callBackJsonString = JsonObject.GetCallBackJsonString(item.ObjectCode, item.DocEntry.ToString(), item.B1DocEntry, syncDateTime);

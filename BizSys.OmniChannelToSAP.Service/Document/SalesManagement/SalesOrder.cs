@@ -62,8 +62,9 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 return new Result()
                 {
                     ResultValue = ResultType.True,
-                    ResultMessage = "【"+order.DocEntry.ToString() + "】该订单已生成到B1，线程ID["+Thread.CurrentThread.ManagedThreadId.ToString() +"]"
+                    ResultMessage = "【"+order.DocEntry.ToString() + "】该订单已生成到B1!"
                 };
+                //线程ID["+Thread.CurrentThread.ManagedThreadId.ToString() +"]
             }
 
             //SAPCompanyPool.AllCompany();
@@ -108,7 +109,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 //myDocuments.Lines.DiscountPercent = double.Parse(item.DiscountPerLine);//折扣率
                 myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate4MFT(slpCodeSign, item.TaxRatePerLine, "O");
                 myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse4MFT(slpCodeSign, item.Warehouse) == true ? item.Warehouse : B1DlftWhsCode;
-                myDocuments.Lines.UnitPrice = item.UnitPrice;
+                //myDocuments.Lines.UnitPrice = item.UnitPrice;
                 myDocuments.Lines.PriceAfterVAT = item.GrossPrice;
                 //单位？？？？(物料自动填写)
                 //梅菲特 定制字段
