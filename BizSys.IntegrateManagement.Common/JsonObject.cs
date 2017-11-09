@@ -11,6 +11,7 @@ namespace BizSys.IntegrateManagement.Common
 {
     public class JsonObject
     {
+        private static readonly object obj = new object(); 
         #region 成功单据的回写
 
         /// <summary>
@@ -22,16 +23,16 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string GetCallBackJsonString(string ObjectCode, string DocEntry, string B1DocEntry, DateTime dateTime)
         {
-            CallBackRootObject callBackRootObject = new CallBackRootObject()
-            {
-                ObjectId = ObjectCode,
-                QueryParameters = new List<QueryParameters>(){
+                CallBackRootObject callBackRootObject = new CallBackRootObject()
+                {
+                    ObjectId = ObjectCode,
+                    QueryParameters = new List<QueryParameters>(){
                                     new QueryParameters(){
                                 Key="DocEntry",
                                 Text=DocEntry
                                     }
                 },
-                Data = new List<Data>(){
+                    Data = new List<Data>(){
                     new Data(){
                         Key="U_SBOSynchronization",
                         Text="Y"
@@ -50,19 +51,18 @@ namespace BizSys.IntegrateManagement.Common
                     }
 
                 }
-            };
-            return JsonConvert.SerializeObject(callBackRootObject);
-            /*
-             * {"ObjectId":"ObjectId",
-                "QueryParameters":[
-                        {"Key":"Key0","Text":"Text0"},
-             *          {"Key":"Key1","Text":"Text1"}],
-             *   "Data":[
-             *          {"Key":"U_SBOSynchronization","Text":"XXXX"},
-             *          {"Key":"U_SBOCallbackDate","Text":"YYYY-MM-DD"},
-             *          {"Key":"U_SBOId","Text":"XXXX"}]}
-            */
-
+                };
+                return JsonConvert.SerializeObject(callBackRootObject);
+                /*
+                 * {"ObjectId":"ObjectId",
+                    "QueryParameters":[
+                            {"Key":"Key0","Text":"Text0"},
+                 *          {"Key":"Key1","Text":"Text1"}],
+                 *   "Data":[
+                 *          {"Key":"U_SBOSynchronization","Text":"XXXX"},
+                 *          {"Key":"U_SBOCallbackDate","Text":"YYYY-MM-DD"},
+                 *          {"Key":"U_SBOId","Text":"XXXX"}]}
+                */
 
 
         }

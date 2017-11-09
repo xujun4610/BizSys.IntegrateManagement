@@ -67,7 +67,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
             }
             catch (Exception ex)
             {
-                Logger.Writer(guid, QueueStatus.Open, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】已处理成功，在回调发生错误：{ex.Message}");
+                Logger.Writer(guid, QueueStatus.Close, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】已处理成功，在回调发生错误：{ex.Message}");
                 throw ex;
             }
             var callBackResult = JsonConvert.DeserializeObject<CallBackResult>(callBackResultStr);
@@ -75,7 +75,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
                 isCallBackSuccessful = true;
             else
                 // Logger.Writer(guid, QueueStatus.Open, "【" + Order.DocEntry + "】回传错误:" + callBackResult.Message + "\r\n 回传内容为：" + callBackJsonString);
-                Logger.Writer(guid, QueueStatus.Open, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】回传错误：{callBackResult.Message},回传内容为{callBackJsonString}");
+                Logger.Writer(guid, QueueStatus.Close, $"{guid.Substring(0, guid.IndexOf('-'))}【{Order.DocEntry}】回传错误：{callBackResult.Message},回传内容为{callBackJsonString}");
             return isCallBackSuccessful;
         }
 

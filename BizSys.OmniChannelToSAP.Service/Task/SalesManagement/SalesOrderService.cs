@@ -22,7 +22,7 @@ namespace BizSys.OmniChannelToSAP.Service.Task.SalesManagement
 {
     public class SalesOrderService : IWindowsService
     {
-        private readonly static object obj = new object();
+        //private readonly static object obj = new object();
         public void Run()
         {
             //销售订单
