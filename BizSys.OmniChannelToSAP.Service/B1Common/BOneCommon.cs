@@ -222,7 +222,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry from {0} where U_IM_DocEntry = '{1}'", tableName, DocEntry);
+                string sql = string.Format(@"select DocEntry from {0} where U_OCMDocEntry = '{1}'", tableName, DocEntry);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {
@@ -256,7 +256,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry,DocStatus from {0} where  U_IM_DocEntry='{1}'", tableName, DocEntry);
+                string sql = string.Format(@"select DocEntry,DocStatus from {0} where  U_OCMDocEntry='{1}'", tableName, DocEntry);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {
@@ -286,7 +286,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select TransId from  OJDT where U_IM_DocEntry = '{0}' and U_DocumentType = '{1}'", DocEntry, DocType);
+                string sql = string.Format(@"select TransId from  OJDT where U_OCMDocEntry = '{0}' and U_DocumentType = '{1}'", DocEntry, DocType);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {
@@ -313,7 +313,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry from {0} where U_IM_DocEntry = '{1}' and U_ChannalDocType = '{2}'", tableName, DocEntry, DocType);
+                string sql = string.Format(@"select DocEntry from {0} where U_OCMDocEntry = '{1}' and U_ChannalDocType = '{2}'", tableName, DocEntry, DocType);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {
@@ -343,7 +343,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry from ODRF where ObjType = '{0}' and U_IM_DocEntry = '{1}'", objType, OMNIDocEntry);
+                string sql = string.Format(@"select DocEntry from ODRF where ObjType = '{0}' and U_OCMDocEntry = '{1}'", objType, OMNIDocEntry);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {
@@ -376,7 +376,7 @@ namespace BizSys.OmniChannelToSAP.Service.B1Common
 
             try
             {
-                string sql = string.Format(@"select DocEntry from OPDF where U_IM_DocEntry = '{0}'", OMNIDocEntry);
+                string sql = string.Format(@"select DocEntry from OPDF where U_OCMDocEntry = '{0}'", OMNIDocEntry);
                 res.DoQuery(sql);
                 if (res.RecordCount >= 1)
                 {

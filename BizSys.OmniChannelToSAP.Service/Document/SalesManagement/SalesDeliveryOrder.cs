@@ -113,18 +113,16 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             string B1DlftWhsCode = "W03";
             string B1DlftSaleCostCode = string.Empty;
             string B1DlftFIAccount = string.Empty;
-            /*
+            Result result = new Result();
             if (B1Common.BOneCommon.IsExistDocument("ODLN", order.DocEntry.ToString(), out B1DocEntry))
             {
                 order.B1DocEntry = B1DocEntry;
-                return new Result()
-                {
-                    ResultValue = ResultType.True,
-                    ResultMessage = "该订单已生成到B1"
-                };
+                result.ResultValue = ResultType.True;
+                result.ResultMessage = "该订单已生成到B1";
+                return result;
             }
-            */
-            Result result = new Result();
+            
+           
 
             //没有物料，就加物料
             //foreach (var item in order.SalesDeliveryItems)
@@ -152,15 +150,21 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate);
             if (B1Common.BOneCommon.GetCurrentPeriodStatus("DocDate",order.DocumentDate).Equals("Y")) //过账期间锁定
             {
-                myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
-            }else
+                myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
+                myDocuments.DocDueDate =  Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
+
+
+            }
+            else
             {
-                //if (order.DeliveryDate.Day >= B1DocDueDate)
-                //{
-                //    //myDocuments.DocDate = Convert.ToDateTime(order.PostingDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
-                //    //myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
-                //    myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
-                //}
+                if (order.DocumentDate.Day >= B1DocDueDate)
+                {
+                    //myDocuments.DocDate = Convert.ToDateTime(order.PostingDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                    //myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
+                    myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
+                    myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
+
+                }
             }
 
             myDocuments.Comments = order.Remarks;

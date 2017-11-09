@@ -33,6 +33,21 @@ namespace BizSys.IntegrateManagement.Common
             }
             set { _Token = value; }
         }
+        //同步token
+        private static string _TokenSync;
+        public static string TokenSync
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_TokenSync))
+                {
+                    var result = GetToken();
+                    _TokenSync = result;
+                }
+                return _TokenSync;
+            }
+            set { _TokenSync = value; }
+        }
 
         #region Token
         /// <summary>
@@ -62,46 +77,12 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string GetToken()
         {
-            //try
-            //{
-            //    string url = $"systemcenter/services/json/userConnect?user={user}&password={password}";
-            //    HttpWebRequest wreq = WebRequest.CreateHttp(new Uri(new Uri(BaseUrl), url));
-            //    wreq.ContentType = "application/json;charset=UTF-8";
-            //    wreq.MediaType = "application/json";
-            //    wreq.Method = HttpMethod.Post.Method;
-            //    wreq.AutomaticDecompression = DecompressionMethods.GZip;
-            //    wreq.Timeout = 60 * 1000; //一分钟
-            //    HttpWebResponse wrsp = wreq.GetResponse() as HttpWebResponse;
-            //    TokenRootObject token = null;
-            //    if (wrsp.StatusCode == HttpStatusCode.OK)
-            //    {
-            //        using (Stream st = wrsp.GetResponseStream())
-            //        {
-            //            StreamReader sr = new StreamReader(st, Encoding.UTF8);
-            //            try
-            //            {
-            //                var str_sr = sr.ReadToEnd();
-            //                token = JsonConvert.DeserializeObject<TokenRootObject>(str_sr);
-            //                return token.UserSign;
-            //            }
-            //            catch (Exception)
-            //            {
-            //                return null;
-            //            }
-            //        }
-            //    }
+            string url = $"systemcenter/services/json/userConnect?user={user}&password={password}";
+            string responseJson = RequestHeaderBuilder(url);
 
-            //}
-            //catch (WebException wex)
-            //{
-            //    throw wex;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex
-            //}
-
-
+            TokenRootObject token = JsonConvert.DeserializeObject<TokenRootObject>(responseJson);
+            return token.UserSign;
+            /*
             HttpContent httpContent = new StringContent("", Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
             string resultJson;
@@ -115,7 +96,8 @@ namespace BizSys.IntegrateManagement.Common
             }
 
             TokenRootObject token = JsonConvert.DeserializeObject<TokenRootObject>(resultJson);
-            return token.UserSign;
+            return token.UserSign;*/
+
         }
         #endregion
 
@@ -154,6 +136,9 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string HttpFetch(DocumentType OrderType, string requestJson)
         {
+            string url = @GetFetchOrderUrl(OrderType) + _TokenSync;
+            return RequestHeaderBuilder(url, requestJson);
+            /*
             HttpContent httpContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
             string resutlJson;
@@ -162,6 +147,7 @@ namespace BizSys.IntegrateManagement.Common
                 http.BaseAddress = new Uri(@BaseUrl);
                 //await异步等待回应
                 string url = @GetFetchOrderUrl(OrderType) + Token;
+                http.PostAsync(url, httpContent).Start();
                 var response = http.PostAsync(url, httpContent).Result;
                 //确保HTTP成功状态值
                 response.EnsureSuccessStatusCode();
@@ -171,6 +157,7 @@ namespace BizSys.IntegrateManagement.Common
             }
 
             return resutlJson;
+            */
         }
         #endregion
 
@@ -258,6 +245,8 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string HttpCallBack(string requestJson)
         {
+            return RequestHeaderBuilder(CallBackUrl + _TokenSync, requestJson);
+            /*
             HttpContent httpContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
             string jsonResult;
@@ -271,7 +260,7 @@ namespace BizSys.IntegrateManagement.Common
             }
             return jsonResult;
             // string requestJson1 = "{\"ObjectId\":\"AVA_BP_CUSTOMER\",\"QueryParameters\":[{\"Key\":\"ObjectKey\",\"Text\":\"6939\"}],\"Data\":[{\"Key\":\"U_SBOSynchronization\",\"Text\":\"Y\"},{\"Key\":\"U_SBOCallbackDate\",\"Text\":\"2017/2/10 9:43:34\"},{\"Key\":\"U_SBOId\",\"Text\":\"6939\"}]}";
-
+            */
         }
 
         #endregion 
@@ -434,5 +423,73 @@ namespace BizSys.IntegrateManagement.Common
             }
             throw new ArgumentNullException(string.Format("can't get url by OrderType [{0}]", OrderType));
         }
+
+        /// <summary>
+        /// 传统的webRequest
+        /// </summary>
+        /// <param name="relativeUrl"></param>
+        /// <param name="requestJsonData"></param>
+        /// <returns></returns>
+        public static string RequestHeaderBuilder(string relativeUrl, string requestJsonData = null)
+        {
+
+            try
+            {
+                //相应数据
+                string responseData = string.Empty;
+
+                byte[] bs = null;
+                Uri absUrl = new Uri(new Uri(BaseUrl), relativeUrl);
+
+                HttpWebRequest wreq = WebRequest.CreateHttp(absUrl);
+                wreq.ContentType = "application/json;charset=UTF-8";
+                wreq.AutomaticDecompression = DecompressionMethods.GZip;
+                wreq.Method = HttpMethod.Post.Method;
+                wreq.Accept = "application/json, text/javascript, */*;";
+                wreq.MediaType = "application/json";
+                wreq.Timeout = 60 * 1000; //(1min)
+                wreq.KeepAlive = true;
+                if (!string.IsNullOrWhiteSpace(requestJsonData))
+                {
+                    bs = Encoding.UTF8.GetBytes(requestJsonData);
+                    using (Stream st = wreq.GetRequestStream())
+                    {
+                        st.Write(bs, 0, bs.Length);
+                        st.Close();
+                    }
+                    //wreq.ContentLength = bs == null ? 0 : bs.Length;
+                }
+                HttpWebResponse response = (HttpWebResponse)wreq.GetResponse();
+
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                    {
+                        responseData = reader.ReadToEnd().ToString();
+                        reader.Close();
+                    }
+                }
+                //else
+                //{
+                //    throw new WebException(response.StatusDescription );
+                //}
+                return responseData;
+            }
+            catch (WebException ex)
+            {
+                string responseMsg = string.Format("[{0}]{1}", ex.Status, ex.Message);
+                throw new Exception(responseMsg);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+
+        }
+
+
     }
 }
