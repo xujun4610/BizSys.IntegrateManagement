@@ -54,6 +54,12 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_AND",
                         CondVal = "R"
                     },
+                    new Conditions {
+                        Alias = "Status",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_AND",
+                        CondVal = "O"
+                    },
                     /*
                         new Conditions ()
                         {
@@ -230,6 +236,12 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Operation = "co_EQUAL",
                         Relationship = "cr_AND",
                         CondVal = "R"
+                    },
+                    new Conditions {
+                        Alias = "Status",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_AND",
+                        CondVal = "O"
                     },
                     /*
                         new Conditions ()
@@ -410,6 +422,13 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_AND",
                         CondVal = "R"
                     },
+                    new Conditions {
+                        Alias = "Status",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_AND",
+                        CondVal = "O"
+                    },
+                    
                     /*
                         new Conditions ()
                         {
