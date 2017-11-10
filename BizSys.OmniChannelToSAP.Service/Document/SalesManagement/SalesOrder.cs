@@ -67,6 +67,23 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 };
                 //线程ID["+Thread.CurrentThread.ManagedThreadId.ToString() +"]
             }
+            string materialsNotInB1 = string.Empty;
+            foreach (var item in order.SalesOrderItems)
+            {
+                SAPbobsCOM.Items oItem = SAPCompanyPool.GetSAPCompany(slpCodeSign).GetBusinessObject(BoObjectTypes.oItems);
+                if (!oItem.GetByKey(item.ItemCode))
+                {
+                    materialsNotInB1 += item.ItemCode + "; ";
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(materialsNotInB1))
+            {
+                return new Result()
+                {
+                    ResultValue = ResultType.False,
+                    ResultMessage = string.Format("OCM销售订单[{0}],销售员[{1}]中，没有找到如下物料[{2}]", order.DocEntry.ToString(), order.Salesperson, materialsNotInB1)
+                };
+            }
 
             //SAPCompanyPool.AllCompany();
             SAPbobsCOM.Documents myDocuments = SAPCompanyPool.GetSAPCompany(slpCodeSign).GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders);
@@ -81,10 +98,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.TaxDate = order.UpdateDate;       //order.DocumentDate;
             myDocuments.Comments = order.Remarks;
             myDocuments.ContactPersonCode = B1Common.BOneCommon.GetBPContractCode4MFT(slpCodeSign, order.BusinessPartnerCode, order.Consignee); //DataConvert.ConvertToIntEx(order.B1CntctCode, 0);
-                                                                                                                                                //地址
-                                                                                                                                                //string[] textArray1 = new string[] { "CN", order.Province, order.City, order.County, order.Town, order.ShipTo };
-                                                                                                                                                //myDocuments.Address2 = string.Concat(textArray1);
-                                                                                                                                                //myDocuments.Address = order.DetailedAddress;
+            //地址
+            //string[] textArray1 = new string[] { "CN", order.Province, order.City, order.County, order.Town, order.ShipTo };
+            //myDocuments.Address2 = string.Concat(textArray1);
+            //myDocuments.Address = order.DetailedAddress;
             myDocuments.DocCurrency = "RMB";
             //梅菲特定制区域
             myDocuments.UserFields.Fields.Item("U_101").Value = order.DocumentType; //11，12 仅限可选值 单据类型

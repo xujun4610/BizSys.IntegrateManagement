@@ -169,7 +169,8 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         }
                         else
                         {
-                            b1ErrorDocs += documentResult.DocEntry + ",";
+                            b1ErrorDocs += item.DocEntry.ToString() + ",";
+
                         }
                         Logger.Writer(guid, QueueStatus.Close, documentResult.ResultMessage);
                     }
@@ -345,7 +346,8 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         }
                         else
                         {
-                            b1ErrorDocs += documentResult.DocEntry + ",";
+                            b1ErrorDocs += item.DocEntry.ToString() + ",";
+
                         }
                         Logger.Writer(guid, QueueStatus.Open, documentResult.ResultMessage);
                     }
@@ -523,7 +525,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                             }
                             else
                             {
-                                b1ErrorDocs += documentResult.DocEntry + ",";
+                                b1ErrorDocs += item.DocEntry.ToString() + ",";
                             }
                             Logger.Writer(guid, QueueStatus.Close, documentResult.ResultMessage);
                         }
