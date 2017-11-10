@@ -203,12 +203,15 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 //myDocuments.Lines.AccountCode  总账科目
                 myDocuments.Lines.COGSCostingCode = "D012";
                 myDocuments.Lines.UserFields.Fields.Item("U_JHLX").Value = "正常";
-
-                //myDocuments.Lines.BaseEntry = res.Fields.Item("DocEntry").Value;
-                //myDocuments.Lines.BaseLine = res.Fields.Item("LineNum").Value;
+                //OCM的玩意
+                myDocuments.Lines.UserFields.Fields.Item("U_OCMDocEntry").Value = order.DocEntry.ToString();
+                myDocuments.Lines.UserFields.Fields.Item("U_OCMLineNum").Value = item.LineId.ToString();
                 myDocuments.Lines.Add();
             }
             myDocuments.DocTotal = Math.Round(order.DocumentTotal, 2);
+            //ocm自定义东西
+            myDocuments.UserFields.Fields.Item("U_OCMDocEntry").Value = order.DocEntry.ToString();
+
             int RntCode = myDocuments.Add();
 
             if (RntCode != 0)

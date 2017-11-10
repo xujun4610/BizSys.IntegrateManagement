@@ -56,14 +56,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_AND",
                         CondVal = "R"
                     },
-                    new Conditions ()
-                    {
-                        Alias="U_SBOSynchronization",
-                            CondVal="Y",
-                        Operation = "co_NOT_EQUAL",
-                        Relationship = "cr_AND",
-                    },
-                    /*
+                    
                     new Conditions {
                         Alias = "U_SBOSynchronization",
                         Operation = "co_IS_NULL",
@@ -77,7 +70,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_OR",
                         BracketCloseNum = 1
                     }
-                    */
+                    
                      // new Conditions()
                      //{
                      //   Alias="DataSource",
@@ -90,7 +83,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                     new Sorts(){
                          __type="Sort",
                          Alias="DocEntry",
-                         SortType="st_Descending"
+                         SortType="st_Asccending"
                     }
                 },
                 ChildCriterias = new List<ChildCriterias>()
@@ -229,6 +222,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_AND",
                         CondVal = "R"
                     },
+                    /*
                     new Conditions ()
                     {
                         Alias="U_SBOSynchronization",
@@ -236,7 +230,8 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Operation = "co_NOT_EQUAL",
                         Relationship = "cr_AND",
                     },
-                    /*
+                    */
+                    
                     new Conditions {
                         Alias = "U_SBOSynchronization",
                         Operation = "co_IS_NULL",
@@ -250,7 +245,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_OR",
                         BracketCloseNum = 1
                     }
-                    */
+                    
                      // new Conditions()
                      //{
                      //   Alias="DataSource",
@@ -263,7 +258,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                     new Sorts(){
                          __type="Sort",
                          Alias="DocEntry",
-                         SortType="st_Descending"
+                         SortType="st_Asccending"
                     }
                 },
                     ChildCriterias = new List<ChildCriterias>()
