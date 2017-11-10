@@ -1,4 +1,24 @@
-﻿
+﻿报表-查询交货，和总收款
+SELECT * FROM (
+select 
+ISNULL(c1.CardCode,c2.ShortName) AS '客户编号',
+(select ISNULL(CardName,'') from SBO_MAN.dbo.OCRD where CardCode = ISNULL(c1.CardCode,c2.ShortName) ) AS '客户名称' ,
+CONVERT(varchar(20), ISNULL (c1.DocDate, c2.RefDate), 23) AS '日期' ,
+Convert(numeric(19,2), ISNULL(c1.交货单据总金额,0)) AS '当日交货金额',  
+Convert(numeric(19,2), ISNULL(c2.[收款总金额-贷方],0)) AS '当日收款金额'   
+from (
+SELECT CardCode,DocDate,SUM(DocTotalSy) as '交货单据总金额' FROM [SBO_MAN].[dbo].ODLN where CANCELED = 'N' and 
+(DocDueDate between  :Date1 and :Date2 )  group by CardCode,DocDate
+) c1
+FULL OUTER JOIN (
+select t2.ShortName,t2.RefDate,SUM(SYSCred) as '收款总金额-贷方',SUM(SYSDeb) as '收款总金额-借方' 
+	from (select t1.* from [SBO_MAN].[dbo].JDT1 t1 inner join [SBO_MAN].[dbo].OJDT t0  on t0.TransId = t1.TransId   
+	where t0.TransType = '24' and ( t1.RefDate between :Date1 and :Date2 ) and 
+	(CHARINDEX('C',t1.ShortName)=1 or CHARINDEX('c',t1.ShortName)=1  )  ) t2
+ group by t2.ShortName,t2.RefDate
+) c2 on c2.ShortName = c1.CardCode and c1.DocDate = c2.RefDate
+) t1 WHERE  t1.客户编号 = :CardCode 
+ORDER BY t1.日期 asc
 
 ---------------------------------------------------------------------------------------------------
 B1存储过程 -- 客户同步

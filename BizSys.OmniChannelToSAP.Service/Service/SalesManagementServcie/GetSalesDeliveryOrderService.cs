@@ -39,7 +39,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                     new Conditions {
                         Alias = "ApprovalStatus",
                         Operation = "co_EQUAL",
-                        Relationship = "",
+                        Relationship = "cr_AND",
                         CondVal = "U",
                         BracketOpenNum = 1
                     },
