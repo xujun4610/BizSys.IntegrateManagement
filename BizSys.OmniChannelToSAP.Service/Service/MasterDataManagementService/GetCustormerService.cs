@@ -32,27 +32,27 @@ namespace BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService
                     BusinessObjectCode = null,
                     Conditions = new List<Conditions>()
                     {
-                        //new Conditions()
-                        // {
-                        //     Alias="U_SBOSynchronization",
-                        //     Operation = "co_IS_NULL",
-                        //     BracketOpenNum = 1
-                        // },
-                        // new Conditions()
-                        // {
-                        //     Alias="U_SBOSynchronization",
-                        //     CondVal="",
-                        //    Operation = "co_EQUAL",
-                        //    Relationship = "cr_OR",
-                        //     BracketCloseNum = 1
-                        // },
-                        new Conditions ()
-                        {
-                            Alias="U_SBOSynchronization",
-                             CondVal="Y",
-                            Operation = "co_NOT_EQUAL",
-                            Relationship = "cr_AND",
-                        }
+                        new Conditions()
+                         {
+                             Alias="U_SBOSynchronization",
+                             Operation = "co_IS_NULL",
+                             BracketOpenNum = 1
+                         },
+                         new Conditions()
+                         {
+                             Alias="U_SBOSynchronization",
+                             CondVal="",
+                            Operation = "co_EQUAL",
+                            Relationship = "cr_OR",
+                             BracketCloseNum = 1
+                         },
+                        //new Conditions ()
+                        //{
+                        //    Alias="U_SBOSynchronization",
+                        //     CondVal="Y",
+                        //    Operation = "co_NOT_EQUAL",
+                        //    Relationship = "cr_AND",
+                        //}
                          
                         // new Conditions(){
                         //     Alias="U_SBOCallbackDate",

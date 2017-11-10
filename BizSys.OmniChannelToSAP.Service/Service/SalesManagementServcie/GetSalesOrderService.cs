@@ -54,6 +54,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_AND",
                         CondVal = "R"
                     },
+                    /*
                         new Conditions ()
                         {
                             Alias="U_SBOSynchronization",
@@ -61,13 +62,22 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                             Operation = "co_NOT_EQUAL",
                             Relationship = "cr_AND",
                         },
-                    //new Conditions {
-                    //    Alias = "U_SBOSynchronization",
-                    //    CondVal = "",
-                    //    Operation = "co_EQUAL",
-                    //    Relationship = "cr_OR",
-                    //    BracketCloseNum = 1
-                    //},
+                        */
+                     new Conditions()
+                     {
+                         Alias="U_SBOSynchronization",
+                         Operation = "co_IS_NULL",
+                         BracketOpenNum = 1,
+                         Relationship = "cr_AND",
+                     },
+                     new Conditions()
+                     {
+                         Alias="U_SBOSynchronization",
+                         CondVal="",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_OR",
+                         BracketCloseNum = 1
+                     },
                     new Conditions {
                         Alias = "SalesPerson",
                         CondVal = "bj",
@@ -220,6 +230,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_AND",
                         CondVal = "R"
                     },
+                    /*
                         new Conditions ()
                         {
                             Alias="U_SBOSynchronization",
@@ -227,13 +238,22 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                             Operation = "co_NOT_EQUAL",
                             Relationship = "cr_AND",
                         },
-                    //new Conditions {
-                    //    Alias = "U_SBOSynchronization",
-                    //    CondVal = "",
-                    //    Operation = "co_EQUAL",
-                    //    Relationship = "cr_OR",
-                    //    BracketCloseNum = 1
-                    //},
+                        */
+                     new Conditions()
+                     {
+                         Alias="U_SBOSynchronization",
+                         Operation = "co_IS_NULL",
+                         BracketOpenNum = 1,
+                         Relationship = "cr_AND",
+                     },
+                     new Conditions()
+                     {
+                         Alias="U_SBOSynchronization",
+                         CondVal="",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_OR",
+                         BracketCloseNum = 1
+                     },
                     new Conditions {
                         Alias = "SalesPerson",
                         CondVal = "bj",
@@ -388,6 +408,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Relationship = "cr_AND",
                         CondVal = "R"
                     },
+                    /*
                         new Conditions ()
                         {
                             Alias="U_SBOSynchronization",
@@ -395,13 +416,22 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                             Operation = "co_NOT_EQUAL",
                             Relationship = "cr_AND",
                         },
-                    //new Conditions {
-                    //    Alias = "U_SBOSynchronization",
-                    //    CondVal = "",
-                    //    Operation = "co_EQUAL",
-                    //    Relationship = "cr_OR",
-                    //    BracketCloseNum = 1
-                    //},
+                        */
+                     new Conditions()
+                     {
+                         Alias="U_SBOSynchronization",
+                         Operation = "co_IS_NULL",
+                         BracketOpenNum = 1,
+                         Relationship = "cr_AND",
+                     },
+                     new Conditions()
+                     {
+                         Alias="U_SBOSynchronization",
+                         CondVal="",
+                        Operation = "co_EQUAL",
+                        Relationship = "cr_OR",
+                         BracketCloseNum = 1
+                     },
                     new Conditions {
                         Alias = "SalesPerson",
                         CondVal = "bj",
