@@ -136,7 +136,7 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string HttpFetch(DocumentType OrderType, string requestJson)
         {
-            string url = @GetFetchOrderUrl(OrderType) + _TokenSync;
+            string url = @GetFetchOrderUrl(OrderType) + TokenSync;
             return RequestHeaderBuilder(url, requestJson);
             /*
             HttpContent httpContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
@@ -245,7 +245,7 @@ namespace BizSys.IntegrateManagement.Common
         /// <returns></returns>
         public static string HttpCallBack(string requestJson)
         {
-            return RequestHeaderBuilder(CallBackUrl + _TokenSync, requestJson);
+            return RequestHeaderBuilder(CallBackUrl + TokenSync, requestJson);
             /*
             HttpContent httpContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };

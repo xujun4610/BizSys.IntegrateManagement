@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
+using System.Text;
 
 namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
 {
@@ -130,14 +131,17 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                 //反序列化
                 SalesDeliveryOrderRootObject salesDeliveryOrder = await JsonConvert.DeserializeObjectAsync<SalesDeliveryOrderRootObject>(resultJson);
                 if (salesDeliveryOrder.ResultObjects.Count == 0)
-                    Logger.Writer("此次同步没有符合条件的交货单据！");
+                {
+                    Logger.Writer(guid, QueueStatus.Close, "此次同步没有符合条件的交货单据！");
+                    return;
+                }
                 DateTime syncDateTime = DateTime.Now;
                 Logger.Writer(guid, QueueStatus.Open, "[" + salesDeliveryOrder.ResultObjects.Count + "]条销售交货订单开始处理。");
                 //Logger.Writer(guid, QueueStatus.Open, "订单信息：\r\n" + resultJson);
                 //生成销售交货
                 int mSuccessCount = 0;
                 //b1错误单号
-                string b1ErrorDocEntry = "";
+                StringBuilder b1ErrorDocEntry = new StringBuilder("");
                 foreach (var item in salesDeliveryOrder.ResultObjects)
                 {
                     try
@@ -159,7 +163,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         else
                         {
                             //记录失败的单据编号
-                            b1ErrorDocEntry += rt.DocEntry + ",";
+                            b1ErrorDocEntry.Append(item.DocEntry + ";");
                         }
                         Logger.Writer(guid, QueueStatus.Close, rt.ResultMessage);
                         //}
@@ -170,7 +174,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                         Logger.Writer(guid, QueueStatus.Close, string.Format("【{0}】销售交货订单处理发生异常：{1}", mSuccessCount, ex.Message));
                     }
                 }
-                Logger.Writer(guid, QueueStatus.Close, string.Format("[{0}]条销售交货订单处理成功，[{1}]条失败单据，失败的单据[{2}]。", mSuccessCount, salesDeliveryOrder.ResultObjects.Count - mSuccessCount, b1ErrorDocEntry));
+                Logger.Writer(guid, QueueStatus.Close, string.Format("[{0}]条销售交货订单处理成功，[{1}]条失败单据，失败的单据[{2}]。", mSuccessCount, salesDeliveryOrder.ResultObjects.Count - mSuccessCount, b1ErrorDocEntry.ToString()));
 
                 #endregion
                 LastResultCount = salesDeliveryOrder.ResultObjects.Count;
@@ -205,7 +209,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                     new Conditions {
                         Alias = "ApprovalStatus",
                         Operation = "co_EQUAL",
-                        Relationship = "",
+                        Relationship = "cr_AND",
                         CondVal = "U",
                         BracketOpenNum = 1
                     },
@@ -305,14 +309,18 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                     //反序列化
                     SalesDeliveryOrderRootObject salesDeliveryOrder = JsonConvert.DeserializeObject<SalesDeliveryOrderRootObject>(resultJson);
                     if (salesDeliveryOrder.ResultObjects.Count == 0)
+                    {
                         Logger.Writer(guid, QueueStatus.Close, "此次同步没有符合条件的交货单据！");
+                        return;
+                    }
                     DateTime syncDateTime = DateTime.Now;
                     Logger.Writer(guid, QueueStatus.Open, "[" + salesDeliveryOrder.ResultObjects.Count + "]条销售交货订单开始处理。");
                     //Logger.Writer(guid, QueueStatus.Open, "订单信息：\r\n" + resultJson);
                     //生成销售交货
                     int mSuccessCount = 0;
                     //b1 错误单据编号
-                    string b1ErrorDocEntry = "";
+                    StringBuilder b1ErrorDocEntry = new StringBuilder("");
+
                     foreach (var item in salesDeliveryOrder.ResultObjects)
                     {
                         try
@@ -334,7 +342,8 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                             else
                             {
                                 //记录失败的单据编号
-                                b1ErrorDocEntry += rt.DocEntry + ",";
+                                b1ErrorDocEntry.Append(item.DocEntry + ";");
+
                             }
                             Logger.Writer(guid, QueueStatus.Close, rt.ResultMessage);
                             //}
@@ -345,7 +354,7 @@ namespace BizSys.OmniChannelToSAP.Service.Service.SalesManagementServcie
                             Logger.Writer(guid, QueueStatus.Close, string.Format("【{0}】销售交货订单处理发生异常：{1}", mSuccessCount, ex.Message));
                         }
                     }
-                    Logger.Writer(guid, QueueStatus.Close, string.Format("[{0}]条销售交货订单处理成功，[{1}]条失败单据，失败的单据[{2}]。", mSuccessCount, salesDeliveryOrder.ResultObjects.Count - mSuccessCount, b1ErrorDocEntry));
+                    Logger.Writer(guid, QueueStatus.Close, string.Format("[{0}]条销售交货订单处理成功，[{1}]条失败单据，失败的单据[{2}]。", mSuccessCount, salesDeliveryOrder.ResultObjects.Count - mSuccessCount, b1ErrorDocEntry.ToString()));
 
                     #endregion
                     LastResultCount = salesDeliveryOrder.ResultObjects.Count;

@@ -121,19 +121,26 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 result.ResultMessage = "该订单已生成到B1";
                 return result;
             }
-            
-           
 
+
+            string materialsNotInB1 = string.Empty;
             //没有物料，就加物料
-            //foreach (var item in order.SalesDeliveryItems)
-            //{
-            //    SAPbobsCOM.Items b1Material = SAP.SAPCompany.GetBusinessObject(BoObjectTypes.oItems);
-            //    if (!b1Material.GetByKey(item.ItemCode))
-            //    {
-            //        //go to sysnc material
-            //        BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService.GetMatarialService.GetMaterial(item.ItemCode);
-            //    }
-            //}
+            foreach (var item in order.SalesDeliveryItems)
+            {
+                SAPbobsCOM.Items b1Material = SAP.SAPCompany.GetBusinessObject(BoObjectTypes.oItems);
+                if (!b1Material.GetByKey(item.ItemCode))
+                {
+                    materialsNotInB1 += item.ItemCode + "; ";
+                    //go to sysnc material
+                    //BizSys.OmniChannelToSAP.Service.Service.MasterDataManagementService.GetMatarialService.GetMaterial(item.ItemCode);
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(materialsNotInB1))
+            {
+                result.ResultValue = ResultType.False;
+                result.ResultMessage = string.Format("OCM交货单[{0}]中的物料[{1}]没有在SAPB1账套中添加！", order.DocEntry, materialsNotInB1);
+                return result;
+            }
 
             SAPbobsCOM.Documents myDocuments = SAP.SAPCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes);
 
@@ -148,10 +155,10 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate);
             myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
             myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate);
-            if (B1Common.BOneCommon.GetCurrentPeriodStatus("DocDate",order.DocumentDate).Equals("Y")) //过账期间锁定
+            if (B1Common.BOneCommon.GetCurrentPeriodStatus("DocDate", order.DocumentDate).Equals("Y")) //过账期间锁定
             {
                 myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
-                myDocuments.DocDueDate =  Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
+                myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
 
 
             }
@@ -173,7 +180,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             myDocuments.ContactPersonCode = B1Common.BOneCommon.GetBPContractCode(order.BusinessPartnerCode, order.ContactPerson);
             myDocuments.SalesPersonCode = B1Common.BOneCommon.GetSalesPersonCodeByCardCode(order.BusinessPartnerCode);
             //收货地址
-            string[] textArray1 = new string[] {order.Consignee, order.ContactNumber, "\n", "CN", order.Province, order.City, order.County, order.Town, order.DetailedAddress };
+            string[] textArray1 = new string[] { order.Consignee, order.ContactNumber, "\n", "CN", order.Province, order.City, order.County, order.Town, order.DetailedAddress };
             myDocuments.Address2 = string.Concat(textArray1);
             //myDocuments.BPL_IDAssignedToInvoice = BOneCommon.GetBranchCodeByWhsCode(order.SalesDeliveryItems.FirstOrDefault().Warehouse);
             //if (string.IsNullOrEmpty(order.BillType))
@@ -195,7 +202,7 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
                 myDocuments.Lines.WarehouseCode = B1Common.BOneCommon.IsExistWarehouse(item.Warehouse) == true ? item.Warehouse : B1DlftWhsCode;
                 myDocuments.Lines.Quantity = Convert.ToDouble(item.Quantity);
                 myDocuments.Lines.DiscountPercent = item.DiscountPerLine;
-                myDocuments.Lines.PriceAfterVAT = item.GrossPrice;                                                           
+                myDocuments.Lines.PriceAfterVAT = item.GrossPrice;
                 myDocuments.Lines.VatGroup = B1Common.BOneCommon.GetTaxByRate(item.TaxRatePerLine, "O");
                 //myDocuments.Lines.UnitPrice = item.UnitPrice;
                 //myDocuments.Lines.COGSAccountCode 销货成本科目

@@ -61,6 +61,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.btnPurcaseOrder = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button49 = new System.Windows.Forms.Button();
             this.button42 = new System.Windows.Forms.Button();
             this.button25 = new System.Windows.Forms.Button();
             this.button23 = new System.Windows.Forms.Button();
@@ -96,7 +97,7 @@
             this.button19 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.buttonTestConnect = new System.Windows.Forms.Button();
-            this.button49 = new System.Windows.Forms.Button();
+            this.button50 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -496,6 +497,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button50);
             this.groupBox2.Controls.Add(this.button49);
             this.groupBox2.Controls.Add(this.button42);
             this.groupBox2.Controls.Add(this.button25);
@@ -512,6 +514,17 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "销售";
+            // 
+            // button49
+            // 
+            this.button49.Location = new System.Drawing.Point(274, 19);
+            this.button49.Margin = new System.Windows.Forms.Padding(2);
+            this.button49.Name = "button49";
+            this.button49.Size = new System.Drawing.Size(97, 29);
+            this.button49.TabIndex = 7;
+            this.button49.Text = "取消销售订单";
+            this.button49.UseVisualStyleBackColor = true;
+            this.button49.Click += new System.EventHandler(this.button49_Click);
             // 
             // button42
             // 
@@ -914,16 +927,15 @@
             this.buttonTestConnect.UseVisualStyleBackColor = true;
             this.buttonTestConnect.Click += new System.EventHandler(this.buttonTestConnect_Click);
             // 
-            // button49
+            // button50
             // 
-            this.button49.Location = new System.Drawing.Point(274, 19);
-            this.button49.Margin = new System.Windows.Forms.Padding(2);
-            this.button49.Name = "button49";
-            this.button49.Size = new System.Drawing.Size(97, 29);
-            this.button49.TabIndex = 7;
-            this.button49.Text = "取消销售订单";
-            this.button49.UseVisualStyleBackColor = true;
-            this.button49.Click += new System.EventHandler(this.button49_Click);
+            this.button50.Location = new System.Drawing.Point(284, 48);
+            this.button50.Name = "button50";
+            this.button50.Size = new System.Drawing.Size(101, 29);
+            this.button50.TabIndex = 8;
+            this.button50.Text = "销售交货-同步";
+            this.button50.UseVisualStyleBackColor = true;
+            this.button50.Click += new System.EventHandler(this.button50_Click);
             // 
             // Form1
             // 
@@ -1024,6 +1036,7 @@
         private System.Windows.Forms.Button button48;
         private System.Windows.Forms.Button button47;
         private System.Windows.Forms.Button button49;
+        private System.Windows.Forms.Button button50;
     }
 }
 
