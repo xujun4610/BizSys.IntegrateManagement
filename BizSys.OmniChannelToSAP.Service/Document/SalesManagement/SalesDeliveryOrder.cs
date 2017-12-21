@@ -153,24 +153,21 @@ namespace BizSys.OmniChannelToSAP.Service.Document.SalesManagement
             //myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
             //myDocuments.DocDueDate = Convert.ToDateTime(order.DeliveryDate);
             myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate);
-            myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
             myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate);
+            myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate);
             if (B1Common.BOneCommon.GetCurrentPeriodStatus("DocDate", order.DocumentDate).Equals("Y")) //过账期间锁定
             {
                 myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
                 myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
-
-
+                myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
             }
             else
             {
                 if (order.DocumentDate.Day >= B1DocDueDate)
                 {
-                    //myDocuments.DocDate = Convert.ToDateTime(order.PostingDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
-                    //myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
                     myDocuments.DocDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
                     myDocuments.DocDueDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DocumentDate.Day).AddMonths(1);
-
+                    myDocuments.TaxDate = Convert.ToDateTime(order.DocumentDate).AddDays(1 - order.DeliveryDate.Day).AddMonths(1);
                 }
             }
 
